@@ -1,6 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'config/firebase_options.dart';
 
-void main() {
+void main(List<String> args) async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  String enviroment = 'dev'; //default to dev enviroment
+  if (args.isNotEmpty && args[0] == '--prod') {
+    enviroment = 'prod';
+  }
+
+  await dotenv.load(fileName: enviroment == 'dev' ? 'variables_dev.env' : "variables_prod.env");
+
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const MyApp());
 }
 
@@ -26,6 +41,10 @@ class InitialPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold();
+    return const Scaffold(
+      body: Center(
+        child: Text('Hello'),
+      ),
+    );
   }
 }
