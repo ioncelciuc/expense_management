@@ -1,0 +1,2 @@
+C:/Users/Tiberiu/Documents/Disertatie/expense_management/android/app/.cxx/Debug/3f67241m/arm64-v8a/CMakeFiles/edit_cache.dir
+C:/Users/Tiberiu/Documents/Disertatie/expense_management/android/app/.cxx/Debug/3f67241m/arm64-v8a/CMakeFiles/rebuild_cache.dir

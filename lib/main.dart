@@ -1,3 +1,5 @@
+import 'package:expense_management/screens/auth/auth_screen.dart';
+import 'package:expense_management/screens/capture_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -28,23 +30,9 @@ class MyApp extends StatelessWidget {
       title: 'Expense Management',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const InitialPage(),
-    );
-  }
-}
-
-class InitialPage extends StatelessWidget {
-  const InitialPage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(
-        child: Text('Hello'),
-      ),
+      home: const AuthScreen(),
     );
   }
 }
