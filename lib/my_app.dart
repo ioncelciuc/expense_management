@@ -41,6 +41,7 @@ class MyAppState extends State<MyApp> {
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           useMaterial3: true,
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.cyan),
         ),
         supportedLocales: L10n.all,
         localizationsDelegates: const [
