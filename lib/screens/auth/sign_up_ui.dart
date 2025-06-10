@@ -112,7 +112,6 @@ class _SignUpUiState extends State<SignUpUi> {
               if (isDataValidMessage.isNotEmpty) {
                 SnackbarHandler(
                   context: context,
-                  isError: true,
                   message: isDataValidMessage,
                   durationSeconds: 8,
                 );

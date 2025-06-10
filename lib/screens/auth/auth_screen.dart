@@ -19,14 +19,12 @@ class AuthScreen extends StatelessWidget {
           SnackbarHandler(
             message: state.response.message ?? 'An error was encountered',
             context: context,
-            isError: true,
           );
         }
         if (state is AuthShowSignUpScreenError) {
           SnackbarHandler(
             message: state.response.message ?? 'An error was encountered',
             context: context,
-            isError: true,
           );
         }
       },

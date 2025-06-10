@@ -9,7 +9,7 @@ class SnackbarHandler {
   SnackbarHandler({
     required this.message,
     required this.context,
-    required this.isError,
+    this.isError = true,
     this.durationSeconds = 4,
   }) {
     ScaffoldMessenger.of(context).showSnackBar(
