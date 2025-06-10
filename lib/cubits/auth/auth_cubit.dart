@@ -1,5 +1,7 @@
 import 'package:expense_management/cubits/auth/auth_state.dart';
+import 'package:expense_management/helpers/firebase_helper.dart';
 import 'package:expense_management/models/response.dart';
+import 'package:expense_management/models/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -31,7 +33,13 @@ class AuthCubit extends Cubit<AuthState> {
         email: email,
         password: password,
       );
-      if (FirebaseAuth.instance.currentUser != null) {
+      User? firebaseUser = FirebaseAuth.instance.currentUser;
+      if (firebaseUser != null) {
+        UserModel userModel = UserModel(
+          id: firebaseUser.uid,
+          email: firebaseUser.email!,
+        );
+        await FirebaseHelper.addUser(userModel);
         emit(AuthShowHomeScreen());
         return;
       }
