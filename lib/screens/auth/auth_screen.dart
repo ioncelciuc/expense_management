@@ -2,7 +2,7 @@ import 'package:expense_management/cubits/auth/auth_cubit.dart';
 import 'package:expense_management/cubits/auth/auth_state.dart';
 import 'package:expense_management/screens/auth/sign_in_ui.dart';
 import 'package:expense_management/screens/auth/sign_up_ui.dart';
-import 'package:expense_management/screens/home_screen.dart';
+import 'package:expense_management/screens/home/home_screen.dart';
 import 'package:expense_management/widgets/snackbar_handler.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

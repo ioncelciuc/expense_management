@@ -18,5 +18,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get romanian => 'Romanian';
 
   @override
+  String get app_name => 'Expense Management';
+
+  @override
   String get settings => 'Settings';
+
+  @override
+  String get sign_out => 'Sign Out';
 }

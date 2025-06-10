@@ -116,11 +116,23 @@ abstract class AppLocalizations {
   /// **'Romanian'**
   String get romanian;
 
+  /// No description provided for @app_name.
+  ///
+  /// In en, this message translates to:
+  /// **'Expense Management'**
+  String get app_name;
+
   /// No description provided for @settings.
   ///
   /// In en, this message translates to:
   /// **'Settings'**
   String get settings;
+
+  /// No description provided for @sign_out.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign Out'**
+  String get sign_out;
 }
 
 class _AppLocalizationsDelegate

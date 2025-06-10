@@ -46,9 +46,11 @@ class MyAppState extends State<MyApp> {
         supportedLocales: L10n.all,
         localizationsDelegates: const [
           AppLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate,
           GlobalCupertinoLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,
         ],
+        locale: locale,
         home: const AuthScreen(),
       ),
     );

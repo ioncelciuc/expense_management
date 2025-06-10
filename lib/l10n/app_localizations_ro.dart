@@ -18,5 +18,11 @@ class AppLocalizationsRo extends AppLocalizations {
   String get romanian => 'Română';
 
   @override
+  String get app_name => 'Expense Management';
+
+  @override
   String get settings => 'Setări';
+
+  @override
+  String get sign_out => 'Delogare';
 }

@@ -2,5 +2,7 @@
     "language": "Limbă",
     "english": "Engleză",
     "romanian": "Română",
-    "settings": "Setări"
+    "app_name": "Expense Management",
+    "settings": "Setări",
+    "sign_out": "Delogare"
 }

@@ -2,5 +2,7 @@
     "language": "Language",
     "english": "English",
     "romanian": "Romanian",
-    "settings": "Settings"
+    "app_name": "Expense Management",
+    "settings": "Settings",
+    "sign_out": "Sign Out"
 }
