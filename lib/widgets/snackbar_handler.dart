@@ -15,9 +15,7 @@ class SnackbarHandler {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         duration: Duration(seconds: durationSeconds),
-        behavior: SnackBarBehavior.floating,
-        margin: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
-        backgroundColor: isError ? Colors.red : Colors.green,
+        backgroundColor: isError ? Theme.of(context).colorScheme.error : Colors.green,
         content: Row(
           children: [
             Icon(

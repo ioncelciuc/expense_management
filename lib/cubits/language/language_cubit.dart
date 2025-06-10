@@ -26,4 +26,12 @@ class LanguageCubit extends Cubit<LanguageState> {
         return '???';
     }
   }
+
+  String getLanguageLocaleFromString(String language, BuildContext context) {
+    if (language == AppLocalizations.of(context)!.english) {
+      return 'en';
+    } else {
+      return 'ro';
+    }
+  }
 }

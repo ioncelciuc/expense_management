@@ -1,3 +1,4 @@
+import 'package:expense_management/core/constants.dart';
 import 'package:expense_management/cubits/language/language_cubit.dart';
 import 'package:expense_management/l10n/app_localizations.dart';
 import 'package:expense_management/my_app.dart';
@@ -12,29 +13,30 @@ class LanguageScreen extends StatefulWidget {
 }
 
 class _LanguageScreenState extends State<LanguageScreen> {
-  late String _selectedLanguageCode;
+  late String selectedLanguage;
+  List<String> languages = [];
 
-  void changeLanguage(String localeCode) async {
+  void setLanguage(String language) async {
+    String languageLocale = BlocProvider.of<LanguageCubit>(context).getLanguageLocaleFromString(language, context);
     var state = context.findAncestorStateOfType<MyAppState>();
-    await BlocProvider.of<LanguageCubit>(context).setLanguageLocale(localeCode);
+    await BlocProvider.of<LanguageCubit>(context).setLanguageLocale(languageLocale);
     state?.setLocale();
     setState(() {});
   }
 
   @override
-  void initState() {
-    _selectedLanguageCode = BlocProvider.of<LanguageCubit>(context).language.languageCode;
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    selectedLanguage = BlocProvider.of<LanguageCubit>(context).getLanguageString(context);
+    languages = [
+      AppLocalizations.of(context)!.english,
+      AppLocalizations.of(context)!.romanian,
+    ];
     return Scaffold(
       appBar: AppBar(
         title: Text(AppLocalizations.of(context)!.language),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: kPagePadding,
         child: Column(
           children: [
             Text(
@@ -42,24 +44,22 @@ class _LanguageScreenState extends State<LanguageScreen> {
               style: Theme.of(context).textTheme.bodyLarge,
             ),
             const SizedBox(height: 16),
-            RadioListTile<String>(
-              title: Text(AppLocalizations.of(context)!.english),
-              value: 'en',
-              groupValue: _selectedLanguageCode,
+            DropdownButtonFormField<String>(
+              decoration: InputDecoration(
+                label: Text(AppLocalizations.of(context)!.language),
+              ),
+              value: selectedLanguage,
+              items: languages.map((e) {
+                return DropdownMenuItem(
+                  value: e,
+                  child: Text(e),
+                );
+              }).toList(),
               onChanged: (value) {
-                if (value == null) return;
-                setState(() => _selectedLanguageCode = value);
-                changeLanguage(value);
-              },
-            ),
-            RadioListTile<String>(
-              title: Text(AppLocalizations.of(context)!.romanian),
-              value: 'ro',
-              groupValue: _selectedLanguageCode,
-              onChanged: (value) {
-                if (value == null) return;
-                setState(() => _selectedLanguageCode = value);
-                changeLanguage(value);
+                if (value != null) {
+                  setState(() => selectedLanguage = value);
+                  setLanguage(selectedLanguage);
+                }
               },
             ),
           ],

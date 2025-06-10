@@ -25,4 +25,46 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get sign_out => 'Sign Out';
+
+  @override
+  String get theme => 'Theme';
+
+  @override
+  String get brightness => 'Brightness';
+
+  @override
+  String get light => 'Light';
+
+  @override
+  String get dark => 'Dark';
+
+  @override
+  String get color => 'Color';
+
+  @override
+  String get red => 'Red';
+
+  @override
+  String get orange => 'Orange';
+
+  @override
+  String get yellow => 'Yellow';
+
+  @override
+  String get green => 'Green';
+
+  @override
+  String get blue => 'Blue';
+
+  @override
+  String get indigo => 'Indigo';
+
+  @override
+  String get purple => 'Purple';
+
+  @override
+  String get teal => 'Teal';
+
+  @override
+  String get amber => 'Amber';
 }

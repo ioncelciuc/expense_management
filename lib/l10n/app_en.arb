@@ -4,5 +4,19 @@
     "romanian": "Romanian",
     "app_name": "Expense Management",
     "settings": "Settings",
-    "sign_out": "Sign Out"
+    "sign_out": "Sign Out",
+    "theme": "Theme",
+    "brightness": "Brightness",
+    "light": "Light",
+    "dark": "Dark",
+    "color": "Color",
+    "red": "Red",
+    "orange": "Orange",
+    "yellow": "Yellow",
+    "green": "Green",
+    "blue": "Blue",
+    "indigo": "Indigo",
+    "purple": "Purple",
+    "teal": "Teal",
+    "amber": "Amber"
 }

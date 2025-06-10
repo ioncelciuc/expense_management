@@ -4,5 +4,19 @@
     "romanian": "Română",
     "app_name": "Expense Management",
     "settings": "Setări",
-    "sign_out": "Delogare"
+    "sign_out": "Delogare",
+    "theme": "Temă",
+    "brightness": "Luminozitate",
+    "light": "Luminos",
+    "dark": "Întunecat",
+    "color": "Culoare",
+    "red": "Roșu",
+    "orange": "Oranj",
+    "yellow": "Galben",
+    "green": "Verde",
+    "blue": "Albastru",
+    "indigo": "Indigo",
+    "purple": "Mov",
+    "teal": "Azuriu",
+    "amber": "Chihlimbar"
 }

@@ -1,5 +1,5 @@
+import 'package:expense_management/core/constants.dart';
 import 'package:expense_management/cubits/auth/auth_cubit.dart';
-import 'package:expense_management/widgets/custom_button.dart';
 import 'package:expense_management/widgets/custom_text_field.dart';
 import 'package:expense_management/widgets/snackbar_handler.dart';
 import 'package:flutter/material.dart';
@@ -56,81 +56,83 @@ class _SignUpUiState extends State<SignUpUi> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ListView(
-        padding: const EdgeInsets.all(32),
-        children: [
-          const SizedBox(height: 32),
-          Text(
-            'Create an account',
-            style: Theme.of(context).textTheme.headlineMedium,
-          ),
-          const SizedBox(height: 32),
-          CustomTextField(
-            textEditingController: userController,
-            hintText: 'email',
-            prefixIcon: const Icon(Icons.mail),
-          ),
-          const SizedBox(height: 32),
-          CustomTextField(
-            textEditingController: passwordController,
-            hintText: 'password',
-            prefixIcon: const Icon(Icons.password),
-            obscureText: obscureText,
-            suffixIcon: IconButton(
-              onPressed: () {
-                setState(() {
-                  obscureText = !obscureText;
-                });
-              },
-              icon: Icon(
-                obscureText ? Icons.visibility_off : Icons.visibility,
+      body: SafeArea(
+        child: ListView(
+          padding: kPagePadding,
+          children: [
+            const SizedBox(height: 32),
+            Text(
+              'Create an account',
+              style: Theme.of(context).textTheme.headlineMedium,
+            ),
+            const SizedBox(height: 64),
+            CustomTextField(
+              textEditingController: userController,
+              hintText: 'Email',
+              prefixIcon: const Icon(Icons.mail),
+            ),
+            const SizedBox(height: 32),
+            CustomTextField(
+              textEditingController: passwordController,
+              hintText: 'Password',
+              prefixIcon: const Icon(Icons.password),
+              obscureText: obscureText,
+              suffixIcon: IconButton(
+                onPressed: () {
+                  setState(() {
+                    obscureText = !obscureText;
+                  });
+                },
+                icon: Icon(
+                  obscureText ? Icons.visibility_off : Icons.visibility,
+                ),
               ),
             ),
-          ),
-          const SizedBox(height: 32),
-          CustomTextField(
-            textEditingController: passwordRepeatController,
-            hintText: 'repeat password',
-            prefixIcon: const Icon(Icons.password),
-            obscureText: obscureTextRepeatPass,
-            suffixIcon: IconButton(
-              onPressed: () {
-                setState(() {
-                  obscureTextRepeatPass = !obscureTextRepeatPass;
-                });
-              },
-              icon: Icon(
-                obscureTextRepeatPass ? Icons.visibility_off : Icons.visibility,
+            const SizedBox(height: 32),
+            CustomTextField(
+              textEditingController: passwordRepeatController,
+              hintText: 'Repeat password',
+              prefixIcon: const Icon(Icons.password),
+              obscureText: obscureTextRepeatPass,
+              suffixIcon: IconButton(
+                onPressed: () {
+                  setState(() {
+                    obscureTextRepeatPass = !obscureTextRepeatPass;
+                  });
+                },
+                icon: Icon(
+                  obscureTextRepeatPass ? Icons.visibility_off : Icons.visibility,
+                ),
               ),
             ),
-          ),
-          const SizedBox(height: 32),
-          CustomButton(
-            title: 'Sign Up',
-            onPressed: () {
-              String isDataValidMessage = isDataValid();
-              if (isDataValidMessage.isNotEmpty) {
-                SnackbarHandler(
-                  context: context,
-                  message: isDataValidMessage,
-                  durationSeconds: 8,
-                );
-              } else {
-                BlocProvider.of<AuthCubit>(context).signUp(
-                  userController.text,
-                  passwordController.text,
-                );
-              }
-            },
-          ),
-          const SizedBox(height: 32),
-          TextButton(
-            onPressed: () {
-              BlocProvider.of<AuthCubit>(context).showSignInScreen();
-            },
-            child: Text('Alreadt have an account? Sign In!'),
-          ),
-        ],
+            const SizedBox(height: 48),
+            ElevatedButton(
+              child: Text('Sign Up'),
+              onPressed: () {
+                String isDataValidMessage = isDataValid();
+                if (isDataValidMessage.isNotEmpty) {
+                  SnackbarHandler(
+                    context: context,
+                    message: isDataValidMessage,
+                    durationSeconds: 8,
+                  );
+                } else {
+                  BlocProvider.of<AuthCubit>(context).signUp(
+                    userController.text,
+                    passwordController.text,
+                  );
+                }
+              },
+            ),
+            const SizedBox(height: 16),
+            TextButton(
+              onPressed: () {
+                BlocProvider.of<AuthCubit>(context).showSignInScreen();
+              },
+              child: Text('Alreadt have an account? Sign In!'),
+            ),
+          ],
+        ),
       ),
     );
   }

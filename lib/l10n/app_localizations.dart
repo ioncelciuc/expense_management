@@ -133,6 +133,90 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Sign Out'**
   String get sign_out;
+
+  /// No description provided for @theme.
+  ///
+  /// In en, this message translates to:
+  /// **'Theme'**
+  String get theme;
+
+  /// No description provided for @brightness.
+  ///
+  /// In en, this message translates to:
+  /// **'Brightness'**
+  String get brightness;
+
+  /// No description provided for @light.
+  ///
+  /// In en, this message translates to:
+  /// **'Light'**
+  String get light;
+
+  /// No description provided for @dark.
+  ///
+  /// In en, this message translates to:
+  /// **'Dark'**
+  String get dark;
+
+  /// No description provided for @color.
+  ///
+  /// In en, this message translates to:
+  /// **'Color'**
+  String get color;
+
+  /// No description provided for @red.
+  ///
+  /// In en, this message translates to:
+  /// **'Red'**
+  String get red;
+
+  /// No description provided for @orange.
+  ///
+  /// In en, this message translates to:
+  /// **'Orange'**
+  String get orange;
+
+  /// No description provided for @yellow.
+  ///
+  /// In en, this message translates to:
+  /// **'Yellow'**
+  String get yellow;
+
+  /// No description provided for @green.
+  ///
+  /// In en, this message translates to:
+  /// **'Green'**
+  String get green;
+
+  /// No description provided for @blue.
+  ///
+  /// In en, this message translates to:
+  /// **'Blue'**
+  String get blue;
+
+  /// No description provided for @indigo.
+  ///
+  /// In en, this message translates to:
+  /// **'Indigo'**
+  String get indigo;
+
+  /// No description provided for @purple.
+  ///
+  /// In en, this message translates to:
+  /// **'Purple'**
+  String get purple;
+
+  /// No description provided for @teal.
+  ///
+  /// In en, this message translates to:
+  /// **'Teal'**
+  String get teal;
+
+  /// No description provided for @amber.
+  ///
+  /// In en, this message translates to:
+  /// **'Amber'**
+  String get amber;
 }
 
 class _AppLocalizationsDelegate
