@@ -34,7 +34,7 @@ class _LanguageScreenState extends State<LanguageScreen> {
         title: Text(AppLocalizations.of(context)!.language),
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 32),
+        padding: const EdgeInsets.all(16),
         child: Column(
           children: [
             Text(
@@ -52,8 +52,6 @@ class _LanguageScreenState extends State<LanguageScreen> {
                 changeLanguage(value);
               },
             ),
-
-            // Romanian option
             RadioListTile<String>(
               title: Text(AppLocalizations.of(context)!.romanian),
               value: 'ro',
