@@ -77,20 +77,9 @@ class _ExpandableFabState extends State<ExpandableFab> with SingleTickerProvider
       width: 56,
       height: 56,
       child: Center(
-        child: Material(
-          shape: const CircleBorder(),
-          clipBehavior: Clip.antiAlias,
-          color: Theme.of(context).colorScheme.primaryContainer,
-          elevation: 4,
-          child: InkWell(
-            onTap: _toggle,
-            child: const Padding(
-              padding: EdgeInsets.all(12),
-              child: Icon(
-                Icons.close,
-              ),
-            ),
-          ),
+        child: ActionButton(
+          icon: const Icon(Icons.close),
+          onPressed: _toggle,
         ),
       ),
     );
@@ -194,12 +183,15 @@ class ActionButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       shape: const CircleBorder(),
-      color: Theme.of(context).colorScheme.primaryContainer,
       clipBehavior: Clip.antiAlias,
-      elevation: 2,
-      child: IconButton(
-        onPressed: onPressed,
-        icon: icon,
+      color: Theme.of(context).colorScheme.primaryContainer,
+      elevation: 4,
+      child: InkWell(
+        onTap: onPressed,
+        child: Padding(
+          padding: const EdgeInsets.all(12),
+          child: icon,
+        ),
       ),
     );
   }
