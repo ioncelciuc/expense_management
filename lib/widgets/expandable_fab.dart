@@ -5,7 +5,7 @@ class ExpandableFab extends StatefulWidget {
   const ExpandableFab({
     super.key,
     this.initialOpen,
-    this.distance = 64,
+    this.distance = 64 + 12,
     this.icon = Icons.add,
     required this.children,
   });
@@ -80,14 +80,14 @@ class _ExpandableFabState extends State<ExpandableFab> with SingleTickerProvider
         child: Material(
           shape: const CircleBorder(),
           clipBehavior: Clip.antiAlias,
+          color: Theme.of(context).colorScheme.primaryContainer,
           elevation: 4,
           child: InkWell(
             onTap: _toggle,
-            child: Padding(
-              padding: const EdgeInsets.all(8),
+            child: const Padding(
+              padding: EdgeInsets.all(12),
               child: Icon(
                 Icons.close,
-                color: Theme.of(context).primaryColor,
               ),
             ),
           ),
@@ -192,38 +192,14 @@ class ActionButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     return Material(
       shape: const CircleBorder(),
+      color: Theme.of(context).colorScheme.primaryContainer,
       clipBehavior: Clip.antiAlias,
-      color: theme.colorScheme.secondary,
-      elevation: 4,
+      elevation: 2,
       child: IconButton(
         onPressed: onPressed,
         icon: icon,
-        color: theme.colorScheme.onSecondary,
-      ),
-    );
-  }
-}
-
-@immutable
-class FakeItem extends StatelessWidget {
-  const FakeItem({
-    super.key,
-    required this.isBig,
-  });
-
-  final bool isBig;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 24),
-      height: isBig ? 128 : 36,
-      decoration: BoxDecoration(
-        borderRadius: const BorderRadius.all(Radius.circular(8)),
-        color: Colors.grey.shade300,
       ),
     );
   }

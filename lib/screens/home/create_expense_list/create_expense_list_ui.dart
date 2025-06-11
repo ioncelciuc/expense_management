@@ -1,9 +1,12 @@
 import 'package:expense_management/core/constants.dart';
+import 'package:expense_management/cubits/create_list/create_list_cubit.dart';
 import 'package:expense_management/helpers/firebase_helper.dart';
+import 'package:expense_management/models/expense_list.dart';
 import 'package:expense_management/widgets/custom_text_field.dart';
 import 'package:expense_management/widgets/snackbar_handler.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CreateExpenseListUi extends StatefulWidget {
   const CreateExpenseListUi({super.key});
@@ -49,13 +52,19 @@ class _CreateExpenseListUiState extends State<CreateExpenseListUi> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Create Expense List'),
+        actions: [
+          IconButton(
+            onPressed: saveData,
+            icon: const Icon(Icons.save),
+          ),
+        ],
       ),
       body: ListView(
         padding: kPagePadding,
         children: [
           CustomTextField(
             textEditingController: titleController,
-            hintText: 'Title',
+            hintText: 'Name',
           ),
           const SizedBox(height: 16),
           CustomTextField(
@@ -179,5 +188,35 @@ class _CreateExpenseListUiState extends State<CreateExpenseListUi> {
         curve: Curves.easeOut,
       );
     });
+  }
+
+  String isDataValid() {
+    if (titleController.text.trim().isEmpty || descriptionController.text.trim().isEmpty || chips.isEmpty || selectedCurrency.isEmpty) {
+      return 'Complete all fields to create an expense list';
+    }
+    return '';
+  }
+
+  void saveData() {
+    String isDataValidMessage = isDataValid();
+    if (isDataValidMessage.isNotEmpty) {
+      SnackbarHandler(
+        context: context,
+        message: isDataValidMessage,
+        durationSeconds: 8,
+      );
+      return;
+    }
+
+    List<String> users = chips;
+    users[0] = FirebaseAuth.instance.currentUser!.email!;
+    ExpenseList expenseList = ExpenseList(
+      id: FirebaseHelper.generateDocId(FirebaseHelper.expenseListsCollection),
+      name: titleController.text,
+      description: descriptionController.text,
+      allowedUsers: chips,
+      currency: selectedCurrency,
+    );
+    BlocProvider.of<CreateListCubit>(context).createList(expenseList);
   }
 }

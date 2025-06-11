@@ -1,4 +1,5 @@
 import 'package:expense_management/cubits/auth/auth_cubit.dart';
+import 'package:expense_management/cubits/create_list/create_list_cubit.dart';
 import 'package:expense_management/cubits/language/language_cubit.dart';
 import 'package:expense_management/cubits/theme/theme_cubit.dart';
 //import this for translations
@@ -41,16 +42,13 @@ class MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    // final colorScheme = ColorScheme.fromSeed(
-    //   seedColor: Colors.cyan,
-    //   brightness: Brightness.light,
-    // );
     const borderRadius = BorderRadius.all(Radius.circular(8));
     const outline = BorderSide(color: Colors.grey, width: 2);
 
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => AuthCubit()),
+        BlocProvider(create: (context) => CreateListCubit()),
       ],
       child: MaterialApp(
         title: 'Expense Management',
