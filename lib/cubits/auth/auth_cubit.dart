@@ -4,8 +4,11 @@ import 'package:expense_management/models/response.dart';
 import 'package:expense_management/models/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:logging/logging.dart';
 
 class AuthCubit extends Cubit<AuthState> {
+  final logger = Logger('AuthCubit');
+
   AuthCubit() : super(AuthInitial()) {
     checkIfUserIsSignedIn();
   }
@@ -57,12 +60,12 @@ class AuthCubit extends Cubit<AuthState> {
       await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password);
       emit(AuthShowHomeScreen());
     } on FirebaseAuthException catch (e) {
-      print('CAUGHT A FIREBASE LOGIN ERROR!');
+      logger.warning('CAUGHT A FIREBASE LOGIN ERROR!');
       emit(AuthShowSignInScreenError(Response(success: false, message: e.message)));
     } catch (e) {
-      print('CAUGHT A GENERAL LOGIN ERROR!');
+      logger.warning('CAUGHT A GENERAL LOGIN ERROR!');
       emit(AuthShowSignInScreenError(Response(success: false, message: e.toString())));
-      print(e);
+      logger.warning(e);
     }
   }
 

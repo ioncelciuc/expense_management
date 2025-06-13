@@ -9,11 +9,19 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:logging/logging.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'config/firebase_options.dart';
 
 void main(List<String> args) async {
   WidgetsFlutterBinding.ensureInitialized();
+  Logger.root.level = Level.ALL;
+  Logger.root.onRecord.listen((record) {
+    // Print to console however you like:
+    // you could pipe to a file or remote service instead
+    print('${record.level.name}: ${record.time}: ${record.message}');
+  });
+  final logger = Logger('main');
 
   String enviroment = 'dev'; //default to dev enviroment
   if (args.isNotEmpty && args[0] == '--prod') {
@@ -48,6 +56,8 @@ void main(List<String> args) async {
     sharedPrefsColor = SharedPrefsKeys.colorTeal;
     await sharedPrefs.setString(SharedPrefsKeys.color, sharedPrefsColor);
   }
+
+  logger.info('Running on $enviroment enviroment, in language $sharedPrefsLocale, using color $sharedPrefsColor. Is lightTheme? $sharedPrefsIsLightTheme');
 
   runApp(
     MultiBlocProvider(
