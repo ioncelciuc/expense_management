@@ -1,5 +1,6 @@
 import 'package:expense_management/core/constants.dart';
 import 'package:expense_management/cubits/auth/auth_cubit.dart';
+import 'package:expense_management/l10n/app_localizations.dart';
 import 'package:expense_management/widgets/custom_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -25,19 +26,19 @@ class _SignInUiState extends State<SignInUi> {
           children: [
             const SizedBox(height: 32),
             Text(
-              'Welcome to\nExpense Management!',
+              '${AppLocalizations.of(context)!.welcome_to}\n${AppLocalizations.of(context)!.app_name}!',
               style: Theme.of(context).textTheme.headlineMedium,
             ),
             const SizedBox(height: 64),
             CustomTextField(
               textEditingController: userController,
-              hintText: 'Email',
+              hintText: AppLocalizations.of(context)!.email,
               prefixIcon: const Icon(Icons.mail),
             ),
             const SizedBox(height: 32),
             CustomTextField(
               textEditingController: passwordController,
-              hintText: 'Password',
+              hintText: AppLocalizations.of(context)!.password,
               prefixIcon: const Icon(Icons.password),
               obscureText: obscureText,
               suffixIcon: IconButton(
@@ -59,7 +60,7 @@ class _SignInUiState extends State<SignInUi> {
                     //
                   },
                   child: Text(
-                    'Forgot password?',
+                    AppLocalizations.of(context)!.forgot_password,
                     style: Theme.of(context).textTheme.bodyLarge!.copyWith(decoration: TextDecoration.underline),
                   ),
                 ),
@@ -67,7 +68,7 @@ class _SignInUiState extends State<SignInUi> {
             ),
             const SizedBox(height: 16),
             ElevatedButton(
-              child: Text('Sign In'),
+              child: Text(AppLocalizations.of(context)!.sign_in),
               onPressed: () {
                 BlocProvider.of<AuthCubit>(context).signIn(
                   userController.text,
@@ -80,7 +81,7 @@ class _SignInUiState extends State<SignInUi> {
               onPressed: () {
                 BlocProvider.of<AuthCubit>(context).showSignUpScreen();
               },
-              child: Text('Don\'t have an account? Create one here!'),
+              child: Text(AppLocalizations.of(context)!.dont_have_an_account),
             ),
           ],
         ),

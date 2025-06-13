@@ -64,6 +64,7 @@ class MyAppState extends State<MyApp> {
             centerTitle: true,
           ),
           inputDecorationTheme: InputDecorationTheme(
+            isDense: true,
             border: const OutlineInputBorder(
               borderRadius: borderRadius,
               borderSide: outline,
@@ -80,11 +81,10 @@ class MyAppState extends State<MyApp> {
           ),
           chipTheme: ChipThemeData(
             labelStyle: TextStyle(color: colorScheme.onSurface),
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-            shape: const RoundedRectangleBorder(
-              borderRadius: borderRadius,
-              side: outline,
-            ),
+            backgroundColor: colorScheme.primaryContainer,
+            padding: EdgeInsets.zero,
+            shape: const StadiumBorder(),
+            side: BorderSide.none,
           ),
           elevatedButtonTheme: ElevatedButtonThemeData(
             style: ElevatedButton.styleFrom(
@@ -93,7 +93,7 @@ class MyAppState extends State<MyApp> {
               shape: const RoundedRectangleBorder(
                 borderRadius: borderRadius,
               ),
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
               elevation: 0,
             ),
           ),
@@ -104,7 +104,7 @@ class MyAppState extends State<MyApp> {
               shape: const RoundedRectangleBorder(
                 borderRadius: borderRadius,
               ),
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
             ),
           ),
           textButtonTheme: TextButtonThemeData(
@@ -113,7 +113,7 @@ class MyAppState extends State<MyApp> {
               shape: const RoundedRectangleBorder(
                 borderRadius: borderRadius,
               ),
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
             ),
           ),
           cardTheme: CardThemeData(

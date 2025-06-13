@@ -217,6 +217,162 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Amber'**
   String get amber;
+
+  /// No description provided for @email_validation_empty.
+  ///
+  /// In en, this message translates to:
+  /// **'Email can\'t be empty'**
+  String get email_validation_empty;
+
+  /// No description provided for @email_validation_invalid_email.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a valid email address'**
+  String get email_validation_invalid_email;
+
+  /// No description provided for @password_validation_no_password.
+  ///
+  /// In en, this message translates to:
+  /// **'You must choose a password'**
+  String get password_validation_no_password;
+
+  /// No description provided for @password_validation_password_pattern.
+  ///
+  /// In en, this message translates to:
+  /// **'Password must be at least 8 characters long and contain at least:\nAn uppercase character\nA lowercase character\nA number\nA special character'**
+  String get password_validation_password_pattern;
+
+  /// No description provided for @password_validation_no_match.
+  ///
+  /// In en, this message translates to:
+  /// **'Passwords don\'t match'**
+  String get password_validation_no_match;
+
+  /// No description provided for @create_an_account.
+  ///
+  /// In en, this message translates to:
+  /// **'Create an account'**
+  String get create_an_account;
+
+  /// No description provided for @email.
+  ///
+  /// In en, this message translates to:
+  /// **'Email'**
+  String get email;
+
+  /// No description provided for @password.
+  ///
+  /// In en, this message translates to:
+  /// **'Password'**
+  String get password;
+
+  /// No description provided for @repeat_password.
+  ///
+  /// In en, this message translates to:
+  /// **'Repeat password'**
+  String get repeat_password;
+
+  /// No description provided for @sign_up.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign Up'**
+  String get sign_up;
+
+  /// No description provided for @already_have_an_account.
+  ///
+  /// In en, this message translates to:
+  /// **'Already have an account? Sign In!'**
+  String get already_have_an_account;
+
+  /// No description provided for @welcome_to.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome to'**
+  String get welcome_to;
+
+  /// No description provided for @forgot_password.
+  ///
+  /// In en, this message translates to:
+  /// **'Forgot password?'**
+  String get forgot_password;
+
+  /// No description provided for @sign_in.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign In'**
+  String get sign_in;
+
+  /// No description provided for @dont_have_an_account.
+  ///
+  /// In en, this message translates to:
+  /// **'Don\'t have an account? Create one here'**
+  String get dont_have_an_account;
+
+  /// No description provided for @themes.
+  ///
+  /// In en, this message translates to:
+  /// **'Themes'**
+  String get themes;
+
+  /// No description provided for @no_expense_list_found.
+  ///
+  /// In en, this message translates to:
+  /// **'No expense list was found. You can add one using the PLUS button'**
+  String get no_expense_list_found;
+
+  /// No description provided for @error_loading_expense_list.
+  ///
+  /// In en, this message translates to:
+  /// **'Error loading expense list'**
+  String get error_loading_expense_list;
+
+  /// No description provided for @create_expense_list.
+  ///
+  /// In en, this message translates to:
+  /// **'Create expense list'**
+  String get create_expense_list;
+
+  /// No description provided for @expense_list_name.
+  ///
+  /// In en, this message translates to:
+  /// **'Name of the list'**
+  String get expense_list_name;
+
+  /// No description provided for @expense_list_description.
+  ///
+  /// In en, this message translates to:
+  /// **'Details regarding this list'**
+  String get expense_list_description;
+
+  /// No description provided for @expense_list_add_person_by_email.
+  ///
+  /// In en, this message translates to:
+  /// **'Add person by email'**
+  String get expense_list_add_person_by_email;
+
+  /// No description provided for @email_validation_email_taken.
+  ///
+  /// In en, this message translates to:
+  /// **'That email is already added'**
+  String get email_validation_email_taken;
+
+  /// No description provided for @currency.
+  ///
+  /// In en, this message translates to:
+  /// **'Currency'**
+  String get currency;
+
+  /// No description provided for @no_user_with_that_email.
+  ///
+  /// In en, this message translates to:
+  /// **'There is no user with that email'**
+  String get no_user_with_that_email;
+
+  /// No description provided for @expense_list_complete_all_fields_to_create.
+  ///
+  /// In en, this message translates to:
+  /// **'Complete all fields to create an expense list'**
+  String get expense_list_complete_all_fields_to_create;
 }
 
 class _AppLocalizationsDelegate

@@ -1,4 +1,3 @@
-import 'package:expense_management/core/constants.dart';
 import 'package:expense_management/cubits/auth/auth_cubit.dart';
 import 'package:expense_management/l10n/app_localizations.dart';
 import 'package:expense_management/screens/settings/language/language_screen.dart';
@@ -36,7 +35,7 @@ class _SettingsUiState extends State<SettingsUi> {
           ),
           ListTile(
             leading: const Icon(Icons.palette),
-            title: Text('Themes'),
+            title: Text(AppLocalizations.of(context)!.themes),
             trailing: const Icon(Icons.arrow_forward),
             onTap: () {
               Navigator.of(context).push(

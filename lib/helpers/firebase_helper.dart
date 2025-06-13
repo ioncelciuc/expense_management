@@ -11,9 +11,17 @@ class FirebaseHelper {
     await FirebaseFirestore.instance.collection(userCollection).doc(user.id).set(user.toMap());
   }
 
-  static Future<bool> checkIfUserExists(String email) async {
-    final querySnap = await FirebaseFirestore.instance.collection(userCollection).where('email', isEqualTo: email).limit(1).get();
-    return querySnap.docs.isNotEmpty;
+  static Future<UserModel?> getUserByEmail(String email) async {
+    try {
+      final querySnap = await FirebaseFirestore.instance.collection(userCollection).where('email', isEqualTo: email).limit(1).get();
+      final querySnapDocs = querySnap.docs;
+      if (querySnapDocs.isEmpty) {
+        return null;
+      }
+      return UserModel.fromMap(querySnapDocs[0].data());
+    } on FirebaseException catch (e) {
+      print(e);
+    }
   }
 
   static String generateDocId(String collectionPath) {

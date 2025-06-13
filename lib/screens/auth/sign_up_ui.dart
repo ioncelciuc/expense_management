@@ -1,5 +1,6 @@
 import 'package:expense_management/core/constants.dart';
 import 'package:expense_management/cubits/auth/auth_cubit.dart';
+import 'package:expense_management/l10n/app_localizations.dart';
 import 'package:expense_management/widgets/custom_text_field.dart';
 import 'package:expense_management/widgets/snackbar_handler.dart';
 import 'package:flutter/material.dart';
@@ -22,32 +23,30 @@ class _SignUpUiState extends State<SignUpUi> {
   String isDataValid() {
     final String email = userController.text.trim();
     if (email.isEmpty) {
-      return 'Email can\'t be empty';
+      return AppLocalizations.of(context)!.email_validation_empty;
     }
     // Simple email pattern: something@something.something
     final RegExp emailRegex = RegExp(
       r'^[^@\s]+@[^@\s]+\.[^@\s]+$',
     );
     if (!emailRegex.hasMatch(email)) {
-      return 'Please enter a valid email address';
+      return AppLocalizations.of(context)!.email_validation_invalid_email;
     }
 
     final String password = passwordController.text;
     final String repeatPassword = passwordRepeatController.text;
     if (password.isEmpty) {
-      return 'You must choose a password';
+      return AppLocalizations.of(context)!.password_validation_no_password;
     }
-    final RegExp passwordRegex = RegExp(
-      r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$',
-    );
+    // final RegExp passwordRegex = RegExp(
+    //   r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$',
+    // );
+    final RegExp passwordRegex = RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^\w\s]).{8,}$');
     if (!passwordRegex.hasMatch(password)) {
-      return 'Password must be at least 8 characters long and contain:\n'
-          'An uppercase character\n'
-          'A lowercase character\n'
-          'A number';
+      return AppLocalizations.of(context)!.password_validation_password_pattern;
     }
     if (password != repeatPassword) {
-      return 'Passwords don\'t match';
+      return AppLocalizations.of(context)!.password_validation_no_match;
     }
 
     return '';
@@ -62,19 +61,19 @@ class _SignUpUiState extends State<SignUpUi> {
           children: [
             const SizedBox(height: 32),
             Text(
-              'Create an account',
+              AppLocalizations.of(context)!.create_an_account,
               style: Theme.of(context).textTheme.headlineMedium,
             ),
             const SizedBox(height: 64),
             CustomTextField(
               textEditingController: userController,
-              hintText: 'Email',
+              hintText: AppLocalizations.of(context)!.email,
               prefixIcon: const Icon(Icons.mail),
             ),
             const SizedBox(height: 32),
             CustomTextField(
               textEditingController: passwordController,
-              hintText: 'Password',
+              hintText: AppLocalizations.of(context)!.password,
               prefixIcon: const Icon(Icons.password),
               obscureText: obscureText,
               suffixIcon: IconButton(
@@ -91,7 +90,7 @@ class _SignUpUiState extends State<SignUpUi> {
             const SizedBox(height: 32),
             CustomTextField(
               textEditingController: passwordRepeatController,
-              hintText: 'Repeat password',
+              hintText: AppLocalizations.of(context)!.repeat_password,
               prefixIcon: const Icon(Icons.password),
               obscureText: obscureTextRepeatPass,
               suffixIcon: IconButton(
@@ -107,7 +106,7 @@ class _SignUpUiState extends State<SignUpUi> {
             ),
             const SizedBox(height: 48),
             ElevatedButton(
-              child: Text('Sign Up'),
+              child: Text(AppLocalizations.of(context)!.sign_up),
               onPressed: () {
                 String isDataValidMessage = isDataValid();
                 if (isDataValidMessage.isNotEmpty) {
@@ -129,7 +128,7 @@ class _SignUpUiState extends State<SignUpUi> {
               onPressed: () {
                 BlocProvider.of<AuthCubit>(context).showSignInScreen();
               },
-              child: Text('Alreadt have an account? Sign In!'),
+              child: Text(AppLocalizations.of(context)!.already_have_an_account),
             ),
           ],
         ),

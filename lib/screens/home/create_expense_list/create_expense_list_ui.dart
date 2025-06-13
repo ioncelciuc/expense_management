@@ -1,7 +1,9 @@
 import 'package:expense_management/core/constants.dart';
 import 'package:expense_management/cubits/create_list/create_list_cubit.dart';
 import 'package:expense_management/helpers/firebase_helper.dart';
+import 'package:expense_management/l10n/app_localizations.dart';
 import 'package:expense_management/models/expense_list.dart';
+import 'package:expense_management/models/user_model.dart';
 import 'package:expense_management/widgets/custom_text_field.dart';
 import 'package:expense_management/widgets/snackbar_handler.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -18,9 +20,10 @@ class CreateExpenseListUi extends StatefulWidget {
 class _CreateExpenseListUiState extends State<CreateExpenseListUi> {
   TextEditingController titleController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
+  TextEditingController budgetController = TextEditingController();
 
   TextEditingController chipController = TextEditingController();
-  final List<String> chips = [];
+  final List<UserModel> chips = [];
   final ScrollController chipScrollController = ScrollController();
 
   final List<String> currencies = [
@@ -34,7 +37,12 @@ class _CreateExpenseListUiState extends State<CreateExpenseListUi> {
 
   @override
   void initState() {
-    chips.add('You - ${FirebaseAuth.instance.currentUser!.email}');
+    chips.add(
+      UserModel(
+        id: FirebaseAuth.instance.currentUser!.uid,
+        email: FirebaseAuth.instance.currentUser!.email!,
+      ),
+    );
     super.initState();
   }
 
@@ -51,7 +59,7 @@ class _CreateExpenseListUiState extends State<CreateExpenseListUi> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Create Expense List'),
+        title: Text(AppLocalizations.of(context)!.create_expense_list),
         actions: [
           IconButton(
             onPressed: saveData,
@@ -64,14 +72,18 @@ class _CreateExpenseListUiState extends State<CreateExpenseListUi> {
         children: [
           CustomTextField(
             textEditingController: titleController,
-            hintText: 'Name',
+            hintText: AppLocalizations.of(context)!.expense_list_name,
+            textInputAction: TextInputAction.next,
           ),
           const SizedBox(height: 16),
           CustomTextField(
             textEditingController: descriptionController,
-            hintText: 'Description',
+            hintText: AppLocalizations.of(context)!.expense_list_description,
+            textInputAction: TextInputAction.next,
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: 8),
+          const Divider(),
+          const SizedBox(height: 8),
           //EMAILS THAT CAN ACCESS THIS LIST
           Text(
             'People\'s email who can access this list:',
@@ -84,7 +96,7 @@ class _CreateExpenseListUiState extends State<CreateExpenseListUi> {
             child: Row(
               children: chips.asMap().entries.map((entry) {
                 final idx = entry.key;
-                final name = entry.value;
+                final name = entry.value.email;
                 return Padding(
                   padding: const EdgeInsets.only(right: 8),
                   child: idx == 0
@@ -113,36 +125,66 @@ class _CreateExpenseListUiState extends State<CreateExpenseListUi> {
               Expanded(
                 child: CustomTextField(
                   textEditingController: chipController,
-                  hintText: 'Add person by Email',
+                  hintText: AppLocalizations.of(context)!.expense_list_add_person_by_email,
+                  textInputAction: TextInputAction.search,
                   onSubmitted: (value) => addChip(),
                 ),
               ),
               const SizedBox(width: 8),
-              IconButton(
-                icon: const Icon(Icons.add_circle_outline),
-                onPressed: addChip,
+              SizedBox(
+                width: 100,
+                child: ElevatedButton(
+                  onPressed: addChip,
+                  child: Text('Add'),
+                ),
+              ),
+              // IconButton(
+              //   icon: const Icon(Icons.add_circle_outline),
+              //   onPressed: addChip,
+              // ),
+            ],
+          ),
+          const SizedBox(height: 8),
+          const Divider(),
+          const SizedBox(height: 8),
+          //BUDGET SELECTOR
+          Row(
+            children: [
+              Expanded(
+                child: CustomTextField(
+                  textEditingController: budgetController,
+                  hintText: 'Monthly budget',
+                  textInputType: const TextInputType.numberWithOptions(
+                    signed: true,
+                    decimal: false,
+                  ),
+                  textInputAction: TextInputAction.done,
+                ),
+              ),
+              const SizedBox(width: 8),
+              SizedBox(
+                width: 100,
+                child: DropdownButtonFormField<String>(
+                  decoration: InputDecoration(
+                    label: Text(AppLocalizations.of(context)!.currency),
+                  ),
+                  value: selectedCurrency,
+                  items: currencies.map((e) {
+                    return DropdownMenuItem(
+                      value: e,
+                      child: Text(e),
+                    );
+                  }).toList(),
+                  onChanged: (value) {
+                    if (value != null) {
+                      setState(() => selectedCurrency = value);
+                    }
+                  },
+                ),
               ),
             ],
           ),
           const SizedBox(height: 16),
-          //CURRENCY SELECTOR
-          DropdownButtonFormField<String>(
-            decoration: InputDecoration(
-              label: Text('Currency'),
-            ),
-            value: selectedCurrency,
-            items: currencies.map((e) {
-              return DropdownMenuItem(
-                value: e,
-                child: Text(e),
-              );
-            }).toList(),
-            onChanged: (value) {
-              if (value != null) {
-                setState(() => selectedCurrency = value);
-              }
-            },
-          ),
         ],
       ),
     );
@@ -152,34 +194,40 @@ class _CreateExpenseListUiState extends State<CreateExpenseListUi> {
     final email = chipController.text.trim();
     chipController.clear();
 
-    // basic email validation
     final emailRegex = RegExp(r'^[^@\s]+@[^@\s]+\.[^@\s]+$');
     if (email.isEmpty || !emailRegex.hasMatch(email)) {
       SnackbarHandler(
         context: context,
-        message: 'Please enter a valid email address.',
+        message: AppLocalizations.of(context)!.email_validation_invalid_email,
       );
       return;
     }
-    if (chips.contains(email)) {
+    bool emailAlreadyAdded = false;
+    for (UserModel userModel in chips) {
+      if (userModel.email == email) {
+        emailAlreadyAdded = true;
+      }
+    }
+    if (emailAlreadyAdded) {
       SnackbarHandler(
         context: context,
-        message: 'That email is already added.',
+        message: AppLocalizations.of(context)!.email_validation_email_taken,
       );
       return;
     }
-    bool emailExists = await FirebaseHelper.checkIfUserExists(email);
+    UserModel? userToAdd = await FirebaseHelper.getUserByEmail(email);
 
-    if (!emailExists) {
+    if (userToAdd == null) {
+      if (!mounted) return;
       SnackbarHandler(
         context: context,
-        message: 'There is no user with that email.',
+        message: '${AppLocalizations.of(context)!.no_user_with_that_email}: $email',
       );
       return;
     }
 
     setState(() {
-      chips.add(email);
+      chips.add(userToAdd);
     });
     WidgetsBinding.instance.addPostFrameCallback((_) {
       chipScrollController.animateTo(
@@ -192,7 +240,7 @@ class _CreateExpenseListUiState extends State<CreateExpenseListUi> {
 
   String isDataValid() {
     if (titleController.text.trim().isEmpty || descriptionController.text.trim().isEmpty || chips.isEmpty || selectedCurrency.isEmpty) {
-      return 'Complete all fields to create an expense list';
+      return AppLocalizations.of(context)!.expense_list_complete_all_fields_to_create;
     }
     return '';
   }
@@ -208,8 +256,6 @@ class _CreateExpenseListUiState extends State<CreateExpenseListUi> {
       return;
     }
 
-    List<String> users = chips;
-    users[0] = FirebaseAuth.instance.currentUser!.email!;
     ExpenseList expenseList = ExpenseList(
       id: FirebaseHelper.generateDocId(FirebaseHelper.expenseListsCollection),
       name: titleController.text,

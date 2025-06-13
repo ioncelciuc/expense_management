@@ -1,10 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:expense_management/models/user_model.dart';
 
 class ExpenseList {
   String id;
   String name;
   String description;
-  List allowedUsers;
+  List<UserModel> allowedUsers;
   String currency;
   DateTime createdAt;
   DateTime modifiedAt;
@@ -25,7 +26,7 @@ class ExpenseList {
       id: map['id'],
       name: map['name'],
       description: map['description'],
-      allowedUsers: map['allowedUsers'],
+      allowedUsers: (map['allowedUsers'] as List).map((um) => UserModel.fromMap(um)).toList(),
       currency: map['currency'],
       createdAt: (map['createdAt'] as Timestamp).toDate(),
       modifiedAt: (map['modifiedAt'] as Timestamp).toDate(),
@@ -37,7 +38,7 @@ class ExpenseList {
       'id': id,
       'name': name,
       'description': description,
-      'allowedUsers': allowedUsers,
+      'allowedUsers': allowedUsers.map((user) => user.toMap()).toList(),
       'currency': currency,
       'createdAt': Timestamp.fromDate(createdAt),
       'modifiedAt': Timestamp.fromDate(modifiedAt),
