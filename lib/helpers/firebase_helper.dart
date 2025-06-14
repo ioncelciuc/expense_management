@@ -6,8 +6,10 @@ import 'package:logging/logging.dart';
 
 class FirebaseHelper {
   static final logger = Logger('FirebaseHelper');
+
   static String userCollection = 'users';
   static String expenseListsCollection = 'expense_lists';
+  static String expenseItemsSubcollection = 'expense_items';
 
   static Future<void> addUser(UserModel user) async {
     try {

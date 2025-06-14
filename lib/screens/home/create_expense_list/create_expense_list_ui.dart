@@ -3,12 +3,17 @@ import 'package:expense_management/cubits/create_list/create_list_cubit.dart';
 import 'package:expense_management/helpers/firebase_helper.dart';
 import 'package:expense_management/l10n/app_localizations.dart';
 import 'package:expense_management/models/expense_list.dart';
+import 'package:expense_management/models/purchase_type.dart';
+import 'package:expense_management/models/reocurring_payment.dart';
 import 'package:expense_management/models/user_model.dart';
+import 'package:expense_management/screens/home/create_expense_list/purchase_type_widget.dart';
+import 'package:expense_management/screens/home/create_expense_list/reocurring_payment_widget.dart';
 import 'package:expense_management/widgets/custom_text_field.dart';
 import 'package:expense_management/widgets/snackbar_handler.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:logging/logging.dart';
 
 class CreateExpenseListUi extends StatefulWidget {
   const CreateExpenseListUi({super.key});
@@ -18,14 +23,18 @@ class CreateExpenseListUi extends StatefulWidget {
 }
 
 class _CreateExpenseListUiState extends State<CreateExpenseListUi> {
+  final logger = Logger('CreateExpenseListUi');
+
+  final ScrollController pageScrollController = ScrollController();
+
   TextEditingController titleController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
-  TextEditingController budgetController = TextEditingController();
 
   TextEditingController chipController = TextEditingController();
   final List<UserModel> chips = [];
   final ScrollController chipScrollController = ScrollController();
 
+  TextEditingController budgetController = TextEditingController();
   final List<String> currencies = [
     'RON',
     'EUR',
@@ -34,6 +43,12 @@ class _CreateExpenseListUiState extends State<CreateExpenseListUi> {
     'CHF',
   ];
   String selectedCurrency = 'RON';
+  List<TextEditingController> rpNameControllers = [];
+  List<TextEditingController> rpAmountControllers = [];
+  List<int> rpDays = [];
+
+  List<TextEditingController> ptControllers = [];
+  List<String> ptIcons = [];
 
   @override
   void initState() {
@@ -43,6 +58,13 @@ class _CreateExpenseListUiState extends State<CreateExpenseListUi> {
         email: FirebaseAuth.instance.currentUser!.email!,
       ),
     );
+    ptControllers.add(TextEditingController(text: 'Factura curent'));
+    ptControllers.add(TextEditingController(text: 'Carburant'));
+    ptControllers.add(TextEditingController(text: 'Haine'));
+    ptIcons.add('electricity');
+    ptIcons.add('gas');
+    ptIcons.add('clothing');
+    setState(() {});
     super.initState();
   }
 
@@ -69,6 +91,7 @@ class _CreateExpenseListUiState extends State<CreateExpenseListUi> {
       ),
       body: ListView(
         padding: kPagePadding,
+        controller: pageScrollController,
         children: [
           CustomTextField(
             textEditingController: titleController,
@@ -86,7 +109,7 @@ class _CreateExpenseListUiState extends State<CreateExpenseListUi> {
           const SizedBox(height: 8),
           //EMAILS THAT CAN ACCESS THIS LIST
           Text(
-            'People\'s email who can access this list:',
+            'Add people\'s email who can access this expense list:',
             style: Theme.of(context).textTheme.bodyLarge,
           ),
           // const SizedBox(height: 8),
@@ -132,7 +155,7 @@ class _CreateExpenseListUiState extends State<CreateExpenseListUi> {
               ),
               const SizedBox(width: 8),
               SizedBox(
-                width: 100,
+                width: 90,
                 child: ElevatedButton(
                   onPressed: addChip,
                   child: Text('Add'),
@@ -148,6 +171,11 @@ class _CreateExpenseListUiState extends State<CreateExpenseListUi> {
           const Divider(),
           const SizedBox(height: 8),
           //BUDGET SELECTOR
+          Text(
+            'Add an estimated monthly budget for this list and your preffered currency. You can also add some reocurring monthly payments!',
+            style: Theme.of(context).textTheme.bodyLarge,
+          ),
+          const SizedBox(height: 8),
           Row(
             children: [
               Expanded(
@@ -163,7 +191,7 @@ class _CreateExpenseListUiState extends State<CreateExpenseListUi> {
               ),
               const SizedBox(width: 8),
               SizedBox(
-                width: 100,
+                width: 90,
                 child: DropdownButtonFormField<String>(
                   decoration: InputDecoration(
                     label: Text(AppLocalizations.of(context)!.currency),
@@ -185,6 +213,108 @@ class _CreateExpenseListUiState extends State<CreateExpenseListUi> {
             ],
           ),
           const SizedBox(height: 16),
+          //REOCURRING PAYMENTS
+          ListView.separated(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: rpNameControllers.length,
+            separatorBuilder: (context, index) {
+              return const SizedBox(height: 16);
+            },
+            itemBuilder: (context, index) => ReocurringPaymentWidget(
+              nameController: rpNameControllers[index],
+              amountController: rpAmountControllers[index],
+              dayOfMonth: rpDays[index],
+              onSelectDayOfMonth: (selectedValue) {
+                if (selectedValue != null) {
+                  rpDays[index] = selectedValue;
+                  setState(() {});
+                }
+              },
+              onDismissed: (dir) {
+                rpNameControllers.removeAt(index);
+                rpAmountControllers.removeAt(index);
+                rpDays.removeAt(index);
+              },
+            ),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              if (rpNameControllers.isNotEmpty) {
+                String reocurringPaymentLastAmountError = isReocurringPaymentSumValid(rpAmountControllers.last);
+                if (reocurringPaymentLastAmountError.isNotEmpty) {
+                  SnackbarHandler(context: context, message: reocurringPaymentLastAmountError);
+                  return;
+                }
+              }
+              if (rpNameControllers.isEmpty || rpNameControllers.last.text.trim().isNotEmpty) {
+                rpNameControllers.add(TextEditingController());
+                rpAmountControllers.add(TextEditingController());
+                rpDays.add(1);
+              }
+
+              setState(() {});
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                pageScrollController.animateTo(
+                  pageScrollController.position.maxScrollExtent,
+                  duration: const Duration(milliseconds: 300),
+                  curve: Curves.easeOut,
+                );
+              });
+            },
+            child: Text(
+              'Add monthly reocurring payment',
+            ),
+          ),
+          const SizedBox(height: 8),
+          const Divider(),
+          const SizedBox(height: 8),
+          //PURCHASE TYPES
+          Text(
+            'Create some custom types of expenses. You have some expamples down below. Also, you can add more later or edit the current ones:',
+            style: Theme.of(context).textTheme.bodyLarge,
+          ),
+          const SizedBox(height: 8),
+          ListView.separated(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: ptControllers.length,
+            separatorBuilder: (context, index) {
+              return const SizedBox(height: 16);
+            },
+            itemBuilder: (context, index) {
+              return PurchaseTypeWidget(
+                nameController: ptControllers[index],
+                selectedIconKey: ptIcons[index],
+                onSelectIcon: (newIconKey) {
+                  if (newIconKey != null) {
+                    ptIcons[index] = newIconKey;
+                  }
+                  setState(() {});
+                },
+                onDismissed: (dir) {
+                  ptControllers.removeAt(index);
+                  ptIcons.removeAt(index);
+                  setState(() {});
+                },
+              );
+            },
+          ),
+          ElevatedButton(
+            onPressed: () {
+              if (ptControllers.isNotEmpty && ptControllers.last.text.isEmpty) {
+                SnackbarHandler(
+                  context: context,
+                  message: 'A type of purchase can\'t have an empty name',
+                );
+                return;
+              }
+              ptControllers.add(TextEditingController());
+              ptIcons.add('question');
+              setState(() {});
+            },
+            child: Text('Add another purchase type'),
+          ),
         ],
       ),
     );
@@ -242,6 +372,22 @@ class _CreateExpenseListUiState extends State<CreateExpenseListUi> {
     if (titleController.text.trim().isEmpty || descriptionController.text.trim().isEmpty || chips.isEmpty || selectedCurrency.isEmpty) {
       return AppLocalizations.of(context)!.expense_list_complete_all_fields_to_create;
     }
+
+    String monthlyBudgetError = isMonthlyBudgetValid();
+    if (monthlyBudgetError.isNotEmpty) {
+      return monthlyBudgetError;
+    }
+
+    for (int i = 0; i < rpNameControllers.length; i++) {
+      String rpSumError = isReocurringPaymentSumValid(rpAmountControllers[i]);
+      if (rpSumError.isNotEmpty) {
+        return rpSumError;
+      }
+      if (rpNameControllers[i].text.trim().isEmpty) {
+        return 'A reocurring payment can\'t have an empty name';
+      }
+    }
+
     return '';
   }
 
@@ -256,13 +402,52 @@ class _CreateExpenseListUiState extends State<CreateExpenseListUi> {
       return;
     }
 
+    List<ReocurringPayment> reocurringPayments = [];
+    for (int i = 0; i < rpNameControllers.length; i++) {
+      reocurringPayments.add(
+        ReocurringPayment(
+          name: rpNameControllers[i].text.trim(),
+          sum: double.parse(rpAmountControllers[i].text.trim()),
+          dayOfMonth: rpDays[i],
+        ),
+      );
+    }
+
+    List<PurchaseType> purchaseTypes = [];
+    for (int i = 0; i < ptControllers.length; i++) {
+      purchaseTypes.add(
+        PurchaseType(
+          name: ptControllers[i].text.trim(),
+          iconKey: ptIcons[i],
+        ),
+      );
+    }
     ExpenseList expenseList = ExpenseList(
       id: FirebaseHelper.generateDocId(FirebaseHelper.expenseListsCollection),
       name: titleController.text,
       description: descriptionController.text,
       allowedUsers: chips,
+      maxBudgetPerMonth: int.parse(budgetController.text.trim()),
       currency: selectedCurrency,
+      reocurringPayments: reocurringPayments,
+      purchaseTypes: purchaseTypes,
     );
     BlocProvider.of<CreateListCubit>(context).createList(expenseList);
+  }
+
+  String isMonthlyBudgetValid() {
+    int? monthlyBudget = int.tryParse(budgetController.text.trim());
+    if (monthlyBudget == null || monthlyBudget <= 0 || monthlyBudget > 900_000_000_000) {
+      return 'This field should contain only positive numbers';
+    }
+    return '';
+  }
+
+  String isReocurringPaymentSumValid(TextEditingController controller) {
+    double? sum = double.tryParse(controller.text.trim());
+    if (sum == null || sum <= 0) {
+      return 'Last monthly payment has a mistake regarding the sum';
+    }
+    return '';
   }
 }
