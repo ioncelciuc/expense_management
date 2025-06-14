@@ -50,6 +50,7 @@ class ExpenseListsCubit extends Cubit<ExpenseListsState> {
   Future<void> updateExpenseList(ExpenseList updatedList) async {
     try {
       await FirebaseFirestore.instance.collection(FirebaseHelper.expenseListsCollection).doc(updatedList.id).update(updatedList.toMap());
+      _updateExpenseListLastModified(updatedList.id);
     } catch (e) {
       emit(ExpenseListsError(e.toString()));
     }
@@ -63,11 +64,24 @@ class ExpenseListsCubit extends Cubit<ExpenseListsState> {
     }
   }
 
+  Future<void> _updateExpenseListLastModified(String listId) async {
+    try {
+      await FirebaseFirestore.instance.collection(FirebaseHelper.expenseListsCollection).doc(listId).update({
+        'modifiedAt': FieldValue.serverTimestamp(),
+      });
+    } on FirebaseException catch (e) {
+      emit(ExpenseListsError(e.message ?? 'Failed to update modifiedAt'));
+    } catch (e) {
+      emit(ExpenseListsError(e.toString()));
+    }
+  }
+
   Future<void> addReciept(String expenseListId, Reciept reciept) async {
     try {
       await FirebaseFirestore.instance.collection(FirebaseHelper.expenseListsCollection).doc(expenseListId).update({
         'reciepts': FieldValue.arrayUnion([reciept.toMap()])
       });
+      _updateExpenseListLastModified(expenseListId);
     } on FirebaseException catch (e) {
       emit(ExpenseListsError(e.message ?? 'Failed to add receipt'));
     } catch (e) {
@@ -90,6 +104,8 @@ class ExpenseListsCubit extends Cubit<ExpenseListsState> {
       }).toList();
 
       await docRef.update({'reciepts': updatedList});
+
+      _updateExpenseListLastModified(expenseListId);
     } on FirebaseException catch (e) {
       emit(ExpenseListsError(e.message ?? 'Failed to update receipt'));
     } catch (e) {
@@ -112,6 +128,8 @@ class ExpenseListsCubit extends Cubit<ExpenseListsState> {
       }).toList();
 
       await docRef.update({'reciepts': updatedList});
+
+      _updateExpenseListLastModified(expenseListId);
     } on FirebaseException catch (e) {
       emit(ExpenseListsError(e.message ?? 'Failed to delete receipt'));
     } catch (e) {
