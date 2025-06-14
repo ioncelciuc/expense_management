@@ -159,13 +159,9 @@ class _CreateExpenseListUiState extends State<CreateExpenseListUi> {
                 width: 90,
                 child: ElevatedButton(
                   onPressed: addChip,
-                  child: Text('Add'),
+                  child: Text(AppLocalizations.of(context)!.add),
                 ),
               ),
-              // IconButton(
-              //   icon: const Icon(Icons.add_circle_outline),
-              //   onPressed: addChip,
-              // ),
             ],
           ),
           const SizedBox(height: 8),
@@ -173,7 +169,7 @@ class _CreateExpenseListUiState extends State<CreateExpenseListUi> {
           const SizedBox(height: 8),
           //BUDGET SELECTOR
           Text(
-            'Add an estimated monthly budget for this list and your preffered currency. You can also add some reocurring monthly payments!',
+            AppLocalizations.of(context)!.expense_list_budget_explanation,
             style: Theme.of(context).textTheme.bodyLarge,
           ),
           const SizedBox(height: 8),
@@ -182,7 +178,7 @@ class _CreateExpenseListUiState extends State<CreateExpenseListUi> {
               Expanded(
                 child: CustomTextField(
                   textEditingController: budgetController,
-                  hintText: 'Monthly budget',
+                  hintText: AppLocalizations.of(context)!.monthly_budget,
                   textInputType: const TextInputType.numberWithOptions(
                     signed: true,
                     decimal: false,
@@ -264,7 +260,7 @@ class _CreateExpenseListUiState extends State<CreateExpenseListUi> {
               });
             },
             child: Text(
-              'Add monthly reocurring payment',
+              AppLocalizations.of(context)!.add_monthly_reocurring_payment,
             ),
           ),
           const SizedBox(height: 8),
@@ -272,7 +268,7 @@ class _CreateExpenseListUiState extends State<CreateExpenseListUi> {
           const SizedBox(height: 8),
           //PURCHASE TYPES
           Text(
-            'Create some custom types of expenses. You have some expamples down below. Also, you can add more later or edit the current ones:',
+            AppLocalizations.of(context)!.expense_list_purchase_type_explanation,
             style: Theme.of(context).textTheme.bodyLarge,
           ),
           const SizedBox(height: 8),
@@ -306,7 +302,7 @@ class _CreateExpenseListUiState extends State<CreateExpenseListUi> {
               if (ptControllers.isNotEmpty && ptControllers.last.text.isEmpty) {
                 SnackbarHandler(
                   context: context,
-                  message: 'A type of purchase can\'t have an empty name',
+                  message: AppLocalizations.of(context)!.error_purchase_type_empty_name,
                 );
                 return;
               }
@@ -314,7 +310,7 @@ class _CreateExpenseListUiState extends State<CreateExpenseListUi> {
               ptIcons.add('question');
               setState(() {});
             },
-            child: Text('Add another purchase type'),
+            child: Text(AppLocalizations.of(context)!.add_another_purchase_type),
           ),
         ],
       ),
@@ -385,16 +381,16 @@ class _CreateExpenseListUiState extends State<CreateExpenseListUi> {
         return rpSumError;
       }
       if (rpNameControllers[i].text.trim().isEmpty) {
-        return 'A reocurring payment can\'t have an empty name';
+        return AppLocalizations.of(context)!.error_reocurring_payment_empty_name;
       }
     }
 
     if (ptControllers.isEmpty) {
-      return 'You must have at least a purchase type';
+      return AppLocalizations.of(context)!.error_no_purchase_type;
     }
     for (int i = 0; i < ptControllers.length; i++) {
       if (ptControllers[i].text.trim().isEmpty) {
-        return 'A purchase type cannot have an empty name';
+        return AppLocalizations.of(context)!.error_purchase_type_empty_name;
       }
     }
 
@@ -451,7 +447,7 @@ class _CreateExpenseListUiState extends State<CreateExpenseListUi> {
   String isMonthlyBudgetValid() {
     int? monthlyBudget = int.tryParse(budgetController.text.trim());
     if (monthlyBudget == null || monthlyBudget <= 0 || monthlyBudget > 900_000_000_000) {
-      return 'This field should contain only positive numbers';
+      return AppLocalizations.of(context)!.error_field_must_have_positive_numbers;
     }
     return '';
   }
@@ -459,7 +455,7 @@ class _CreateExpenseListUiState extends State<CreateExpenseListUi> {
   String isReocurringPaymentSumValid(TextEditingController controller) {
     double? sum = double.tryParse(controller.text.trim());
     if (sum == null || sum <= 0) {
-      return 'Last monthly payment has a mistake regarding the sum';
+      AppLocalizations.of(context)!.error_reocurring_payment_sum;
     }
     return '';
   }

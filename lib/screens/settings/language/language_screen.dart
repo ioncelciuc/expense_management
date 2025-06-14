@@ -39,11 +39,6 @@ class _LanguageScreenState extends State<LanguageScreen> {
         padding: kPagePadding,
         child: Column(
           children: [
-            Text(
-              'Choose your preffered language:',
-              style: Theme.of(context).textTheme.bodyLarge,
-            ),
-            const SizedBox(height: 16),
             DropdownButtonFormField<String>(
               decoration: InputDecoration(
                 label: Text(AppLocalizations.of(context)!.language),

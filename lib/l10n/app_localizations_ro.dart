@@ -152,4 +152,97 @@ class AppLocalizationsRo extends AppLocalizations {
   @override
   String get expense_list_complete_all_fields_to_create =>
       'Completează toate câmpurile pentru a crea o listă de cheltuieli';
+
+  @override
+  String get add => 'Adaugă';
+
+  @override
+  String get expense_list_budget_explanation =>
+      'Adaugă un buget lunar estimativ pentru această listă și moneda preferată. Poți adăuga și plăți lunare recurente!';
+
+  @override
+  String get monthly_budget => 'Buget lunar';
+
+  @override
+  String get add_monthly_reocurring_payment => 'Adaugă plată lunară recurentă';
+
+  @override
+  String get expense_list_reocurring_payment_explanation => '';
+
+  @override
+  String get expense_list_purchase_type_explanation =>
+      'Creează tipuri personalizate de cheltuieli. Ai câteva exemple mai jos. Poți adăuga altele ulterior sau edita pe cele existente:';
+
+  @override
+  String get error_purchase_type_empty_name =>
+      'Un tip de cheltuială nu poate avea un nume gol';
+
+  @override
+  String get add_another_purchase_type => 'Adaugă un alt tip de cheltuială';
+
+  @override
+  String get error_reocurring_payment_empty_name =>
+      'O plată recurentă nu poate avea un nume gol';
+
+  @override
+  String get error_no_purchase_type =>
+      'Trebuie să existe cel puțin un tip de cheltuială';
+
+  @override
+  String get error_field_must_have_positive_numbers =>
+      'Acest câmp trebuie să conțină doar numere pozitive';
+
+  @override
+  String get error_reocurring_payment_sum =>
+      'O plată recurentă are o eroare în privința sumei';
+
+  @override
+  String get name => 'Nume';
+
+  @override
+  String get icon => 'Pictogramă';
+
+  @override
+  String get price => 'Preț';
+
+  @override
+  String get day => 'Zi';
+
+  @override
+  String get modified => 'Modificat';
+
+  @override
+  String get error_loading => 'Eroare la încărcare';
+
+  @override
+  String get no_items_found => 'Nu există elemente';
+
+  @override
+  String get add_expense => 'Adaugă cheltuială';
+
+  @override
+  String get update_expense => 'Actualizează cheltuiala';
+
+  @override
+  String get quantity => 'Cantitate';
+
+  @override
+  String get purchase_type => 'Tip cheltuială';
+
+  @override
+  String get update => 'Actualizează';
+
+  @override
+  String get deleted => 'Șters';
+
+  @override
+  String get error_all_fields_must_be_completed =>
+      'Toate câmpurile trebuie completate';
+
+  @override
+  String get error_price_not_correct => 'Prețul introdus nu este corect';
+
+  @override
+  String get error_quanity_whole_number =>
+      'Cantitatea trebuie să fie un număr întreg';
 }

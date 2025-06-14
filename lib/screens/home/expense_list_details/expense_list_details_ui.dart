@@ -1,6 +1,7 @@
 import 'package:expense_management/core/constants.dart';
 import 'package:expense_management/cubits/expense_lists/expense_lists_cubit.dart';
 import 'package:expense_management/cubits/expense_lists/expense_lists_state.dart';
+import 'package:expense_management/l10n/app_localizations.dart';
 import 'package:expense_management/models/purchase_type.dart';
 import 'package:expense_management/widgets/expandable_fab.dart';
 import 'package:expense_management/widgets/expense_bottom_sheet_widget.dart';
@@ -28,8 +29,10 @@ class _ExpenseListDetailsUiState extends State<ExpenseListDetailsUi> {
     return BlocBuilder<ExpenseListsCubit, ExpenseListsState>(
       builder: (context, state) {
         if (state is ExpenseListsError) {
-          return const Scaffold(
-            body: Center(child: Text('Error loading list')),
+          return Scaffold(
+            body: Center(
+              child: Text('${AppLocalizations.of(context)!.error_loading}: ${state.message}'),
+            ),
           );
         } else if (state is ExpenseListsLoaded) {
           final list = state.expenseLists.firstWhere(
@@ -77,7 +80,10 @@ class _ExpenseListDetailsUiState extends State<ExpenseListDetailsUi> {
                       context: context,
                       isScrollControlled: true,
                       builder: (context) {
-                        return ExpenseBottomSheetWidget(listId: widget.listId);
+                        return ExpenseBottomSheetWidget(
+                          listId: widget.listId,
+                          currency: list.currency,
+                        );
                       },
                     );
                   },

@@ -373,6 +373,174 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Complete all fields to create an expense list'**
   String get expense_list_complete_all_fields_to_create;
+
+  /// No description provided for @add.
+  ///
+  /// In en, this message translates to:
+  /// **'Add'**
+  String get add;
+
+  /// No description provided for @expense_list_budget_explanation.
+  ///
+  /// In en, this message translates to:
+  /// **'Add an estimated monthly budget for this list and your preffered currency. You can also add some reocurring monthly payments!'**
+  String get expense_list_budget_explanation;
+
+  /// No description provided for @monthly_budget.
+  ///
+  /// In en, this message translates to:
+  /// **'Monthly budget'**
+  String get monthly_budget;
+
+  /// No description provided for @add_monthly_reocurring_payment.
+  ///
+  /// In en, this message translates to:
+  /// **'Add monthly reocurring payment'**
+  String get add_monthly_reocurring_payment;
+
+  /// No description provided for @expense_list_reocurring_payment_explanation.
+  ///
+  /// In en, this message translates to:
+  /// **''**
+  String get expense_list_reocurring_payment_explanation;
+
+  /// No description provided for @expense_list_purchase_type_explanation.
+  ///
+  /// In en, this message translates to:
+  /// **'Create some custom types of expenses. You have some expamples down below. Also, you can add more later or edit the current ones:'**
+  String get expense_list_purchase_type_explanation;
+
+  /// No description provided for @error_purchase_type_empty_name.
+  ///
+  /// In en, this message translates to:
+  /// **'A type of purchase can\'t have an empty name'**
+  String get error_purchase_type_empty_name;
+
+  /// No description provided for @add_another_purchase_type.
+  ///
+  /// In en, this message translates to:
+  /// **'Add another purchase type'**
+  String get add_another_purchase_type;
+
+  /// No description provided for @error_reocurring_payment_empty_name.
+  ///
+  /// In en, this message translates to:
+  /// **'A reocurring payment can\'t have an empty name'**
+  String get error_reocurring_payment_empty_name;
+
+  /// No description provided for @error_no_purchase_type.
+  ///
+  /// In en, this message translates to:
+  /// **'You must have at least a purchase type'**
+  String get error_no_purchase_type;
+
+  /// No description provided for @error_field_must_have_positive_numbers.
+  ///
+  /// In en, this message translates to:
+  /// **'This field should contain only positive numbers'**
+  String get error_field_must_have_positive_numbers;
+
+  /// No description provided for @error_reocurring_payment_sum.
+  ///
+  /// In en, this message translates to:
+  /// **'A reocurring payment has a mistake regarding the sum'**
+  String get error_reocurring_payment_sum;
+
+  /// No description provided for @name.
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get name;
+
+  /// No description provided for @icon.
+  ///
+  /// In en, this message translates to:
+  /// **'Icon'**
+  String get icon;
+
+  /// No description provided for @price.
+  ///
+  /// In en, this message translates to:
+  /// **'Price'**
+  String get price;
+
+  /// No description provided for @day.
+  ///
+  /// In en, this message translates to:
+  /// **'Day'**
+  String get day;
+
+  /// No description provided for @modified.
+  ///
+  /// In en, this message translates to:
+  /// **'Modified'**
+  String get modified;
+
+  /// No description provided for @error_loading.
+  ///
+  /// In en, this message translates to:
+  /// **'Error while loading'**
+  String get error_loading;
+
+  /// No description provided for @no_items_found.
+  ///
+  /// In en, this message translates to:
+  /// **'It\'s empty here'**
+  String get no_items_found;
+
+  /// No description provided for @add_expense.
+  ///
+  /// In en, this message translates to:
+  /// **'Add expense'**
+  String get add_expense;
+
+  /// No description provided for @update_expense.
+  ///
+  /// In en, this message translates to:
+  /// **'Update expense'**
+  String get update_expense;
+
+  /// No description provided for @quantity.
+  ///
+  /// In en, this message translates to:
+  /// **'Quantity'**
+  String get quantity;
+
+  /// No description provided for @purchase_type.
+  ///
+  /// In en, this message translates to:
+  /// **'Purchase Type'**
+  String get purchase_type;
+
+  /// No description provided for @update.
+  ///
+  /// In en, this message translates to:
+  /// **'Update'**
+  String get update;
+
+  /// No description provided for @deleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Deleted'**
+  String get deleted;
+
+  /// No description provided for @error_all_fields_must_be_completed.
+  ///
+  /// In en, this message translates to:
+  /// **'All fields must be completed'**
+  String get error_all_fields_must_be_completed;
+
+  /// No description provided for @error_price_not_correct.
+  ///
+  /// In en, this message translates to:
+  /// **'Inputted price is not correct'**
+  String get error_price_not_correct;
+
+  /// No description provided for @error_quanity_whole_number.
+  ///
+  /// In en, this message translates to:
+  /// **'Quantity should be a whole number'**
+  String get error_quanity_whole_number;
 }
 
 class _AppLocalizationsDelegate

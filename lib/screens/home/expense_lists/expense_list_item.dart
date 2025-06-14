@@ -1,3 +1,4 @@
+import 'package:expense_management/l10n/app_localizations.dart';
 import 'package:expense_management/models/expense_list.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -29,7 +30,7 @@ class ExpenseListItem extends StatelessWidget {
             contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             title: Text(expenseList.name),
             subtitle: Text(
-              'Modified: ${DateFormat.yMMMd().format(expenseList.modifiedAt)}',
+              '${AppLocalizations.of(context)!.modified}: ${DateFormat.yMMMd().format(expenseList.modifiedAt)}',
             ),
             trailing: Text(expenseList.currency),
           ),

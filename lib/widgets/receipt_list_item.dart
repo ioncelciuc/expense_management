@@ -1,5 +1,5 @@
-import 'package:expense_management/core/constants.dart';
 import 'package:expense_management/cubits/expense_lists/expense_lists_cubit.dart';
+import 'package:expense_management/l10n/app_localizations.dart';
 import 'package:expense_management/models/reciept.dart';
 import 'package:expense_management/widgets/expense_bottom_sheet_widget.dart';
 import 'package:flutter/material.dart';
@@ -37,7 +37,7 @@ class ReceiptListItem extends StatelessWidget {
         );
 
         Fluttertoast.showToast(
-          msg: 'Deleted $recieptName',
+          msg: '${AppLocalizations.of(context)!.deleted} $recieptName',
           backgroundColor: Theme.of(context).colorScheme.error,
         );
       },
@@ -72,6 +72,7 @@ class ReceiptListItem extends StatelessWidget {
                 builder: (context) {
                   return ExpenseBottomSheetWidget(
                     listId: listId,
+                    currency: currency,
                     initialReciept: reciept,
                   );
                 },

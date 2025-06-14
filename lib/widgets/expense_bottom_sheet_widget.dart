@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expense_management/core/constants.dart';
 import 'package:expense_management/cubits/expense_lists/expense_lists_cubit.dart';
 import 'package:expense_management/cubits/expense_lists/expense_lists_state.dart';
+import 'package:expense_management/l10n/app_localizations.dart';
 import 'package:expense_management/models/purchase_type.dart';
 import 'package:expense_management/models/reciept.dart';
 import 'package:expense_management/widgets/custom_text_field.dart';
@@ -12,11 +13,13 @@ import 'package:fluttertoast/fluttertoast.dart';
 
 class ExpenseBottomSheetWidget extends StatefulWidget {
   final String listId;
+  final String currency;
   final Reciept? initialReciept;
 
   const ExpenseBottomSheetWidget({
     super.key,
     required this.listId,
+    required this.currency,
     this.initialReciept,
   });
 
@@ -27,7 +30,7 @@ class ExpenseBottomSheetWidget extends StatefulWidget {
 class _ExpenseBottomSheetWidgetState extends State<ExpenseBottomSheetWidget> {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController amountController = TextEditingController();
-  final TextEditingController quantityController = TextEditingController();
+  final TextEditingController quantityController = TextEditingController(text: '1');
   PurchaseType? selectedPurchaseType;
 
   @override
@@ -70,14 +73,14 @@ class _ExpenseBottomSheetWidgetState extends State<ExpenseBottomSheetWidget> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Text(
-                    widget.initialReciept == null ? 'Add an expense' : 'Update expense',
+                    widget.initialReciept == null ? AppLocalizations.of(context)!.add_expense : AppLocalizations.of(context)!.update_expense,
                     style: Theme.of(context).textTheme.headlineSmall,
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: 16),
                   CustomTextField(
                     textEditingController: nameController,
-                    hintText: 'Title',
+                    hintText: AppLocalizations.of(context)!.name,
                     textInputAction: TextInputAction.next,
                   ),
                   const SizedBox(height: 16),
@@ -86,7 +89,7 @@ class _ExpenseBottomSheetWidgetState extends State<ExpenseBottomSheetWidget> {
                       Expanded(
                         child: CustomTextField(
                           textEditingController: amountController,
-                          hintText: 'Price',
+                          hintText: '${AppLocalizations.of(context)!.price} - ${widget.currency}',
                           textInputType: TextInputType.number,
                           textInputAction: TextInputAction.next,
                         ),
@@ -95,7 +98,7 @@ class _ExpenseBottomSheetWidgetState extends State<ExpenseBottomSheetWidget> {
                       Expanded(
                         child: CustomTextField(
                           textEditingController: quantityController,
-                          hintText: 'Quantity',
+                          hintText: AppLocalizations.of(context)!.quantity,
                           textInputType: TextInputType.number,
                         ),
                       ),
@@ -104,7 +107,7 @@ class _ExpenseBottomSheetWidgetState extends State<ExpenseBottomSheetWidget> {
                   const SizedBox(height: 16),
                   DropdownButtonFormField<PurchaseType>(
                     decoration: InputDecoration(
-                      label: Text('PurchaseType'),
+                      label: Text(AppLocalizations.of(context)!.purchase_type),
                     ),
                     value: selectedPurchaseType,
                     isDense: true,
@@ -157,7 +160,7 @@ class _ExpenseBottomSheetWidgetState extends State<ExpenseBottomSheetWidget> {
 
                       Navigator.of(context).pop();
                     },
-                    child: Text(widget.initialReciept == null ? 'Add item' : 'Update item'),
+                    child: Text(widget.initialReciept == null ? AppLocalizations.of(context)!.add : AppLocalizations.of(context)!.update),
                   ),
                   const SizedBox(height: 16),
                 ],
@@ -172,45 +175,16 @@ class _ExpenseBottomSheetWidgetState extends State<ExpenseBottomSheetWidget> {
 
   String isDataValid() {
     if (nameController.text.trim().isEmpty || amountController.text.trim().isEmpty || quantityController.text.trim().isEmpty) {
-      return 'All fields must be completed';
+      return AppLocalizations.of(context)!.error_all_fields_must_be_completed;
     }
     double? price = double.tryParse(amountController.text.trim());
     if (price == null) {
-      return 'Inputted price is not correct';
+      return AppLocalizations.of(context)!.error_price_not_correct;
     }
     int? quantity = int.tryParse(quantityController.text.trim());
     if (quantity == null) {
-      return 'Quantity should be a whole number';
+      return AppLocalizations.of(context)!.error_quanity_whole_number;
     }
     return '';
-  }
-}
-
-class ExpenseQuantity extends StatelessWidget {
-  const ExpenseQuantity({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        OutlinedButton(
-          onPressed: () {},
-          child: Icon(Icons.exposure_minus_1),
-        ),
-        const SizedBox(width: 8),
-        SizedBox(
-          width: 80,
-          child: CustomTextField(
-            textEditingController: TextEditingController(text: '1'),
-            hintText: 'Quantity',
-          ),
-        ),
-        const SizedBox(width: 8),
-        OutlinedButton(
-          onPressed: () {},
-          child: Icon(Icons.exposure_plus_1),
-        ),
-      ],
-    );
   }
 }

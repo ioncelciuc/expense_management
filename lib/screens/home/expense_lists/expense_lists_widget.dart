@@ -1,5 +1,6 @@
 import 'package:expense_management/cubits/expense_lists/expense_lists_cubit.dart';
 import 'package:expense_management/cubits/expense_lists/expense_lists_state.dart';
+import 'package:expense_management/l10n/app_localizations.dart';
 import 'package:expense_management/screens/home/expense_list_details/expense_list_details_screen.dart';
 import 'package:expense_management/screens/home/expense_lists/expense_list_item.dart';
 import 'package:expense_management/widgets/info_text.dart';
@@ -25,11 +26,11 @@ class _ExpenseListsWidgetState extends State<ExpenseListsWidget> {
     return BlocBuilder<ExpenseListsCubit, ExpenseListsState>(
       builder: (context, state) {
         if (state is ExpenseListsError) {
-          return InfoText(text: 'Error loading lists: ${state.message}');
+          return InfoText(text: '${AppLocalizations.of(context)!.error_loading}: ${state.message}');
         } else if (state is ExpenseListsLoaded) {
           final lists = state.expenseLists;
           if (lists.isEmpty) {
-            return InfoText(text: 'No expense list found.');
+            return InfoText(text: AppLocalizations.of(context)!.no_expense_list_found);
           }
           return ListView.builder(
             padding: const EdgeInsets.all(16),

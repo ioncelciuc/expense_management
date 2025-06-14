@@ -1,4 +1,5 @@
 import 'package:expense_management/core/constants.dart';
+import 'package:expense_management/l10n/app_localizations.dart';
 import 'package:expense_management/widgets/custom_text_field.dart';
 import 'package:flutter/material.dart';
 
@@ -27,7 +28,7 @@ class PurchaseTypeWidget extends StatelessWidget {
           Expanded(
             child: CustomTextField(
               textEditingController: nameController,
-              hintText: 'Name',
+              hintText: AppLocalizations.of(context)!.name,
             ),
           ),
           const SizedBox(width: 8),
@@ -35,7 +36,7 @@ class PurchaseTypeWidget extends StatelessWidget {
             width: 90,
             child: DropdownButtonFormField<String>(
               decoration: InputDecoration(
-                label: Text('Icon'),
+                label: Text(AppLocalizations.of(context)!.icon),
               ),
               value: selectedIconKey,
               isDense: true,

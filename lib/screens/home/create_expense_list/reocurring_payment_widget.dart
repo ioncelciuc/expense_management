@@ -1,7 +1,6 @@
 import 'package:expense_management/l10n/app_localizations.dart';
 import 'package:expense_management/widgets/custom_text_field.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 class ReocurringPaymentWidget extends StatelessWidget {
   final TextEditingController nameController;
@@ -30,7 +29,7 @@ class ReocurringPaymentWidget extends StatelessWidget {
           Expanded(
             child: CustomTextField(
               textEditingController: nameController,
-              hintText: 'Name',
+              hintText: AppLocalizations.of(context)!.name,
               textInputAction: TextInputAction.next,
             ),
           ),
@@ -39,7 +38,7 @@ class ReocurringPaymentWidget extends StatelessWidget {
             width: 80,
             child: CustomTextField(
               textEditingController: amountController,
-              hintText: 'Cost',
+              hintText: AppLocalizations.of(context)!.price,
               textInputType: const TextInputType.numberWithOptions(
                 signed: true,
                 decimal: true,
@@ -52,7 +51,7 @@ class ReocurringPaymentWidget extends StatelessWidget {
             width: 90,
             child: DropdownButtonFormField<int>(
               decoration: InputDecoration(
-                label: Text('Day'),
+                label: Text(AppLocalizations.of(context)!.day),
               ),
               value: dayOfMonth,
               isDense: true,
