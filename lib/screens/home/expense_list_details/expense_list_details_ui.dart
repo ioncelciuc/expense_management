@@ -7,8 +7,6 @@ import 'package:expense_management/widgets/expense_bottom_sheet_widget.dart';
 import 'package:expense_management/widgets/receipt_list_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:intl/intl.dart';
 
 class ExpenseListDetailsUi extends StatefulWidget {
   final String listId;
@@ -61,63 +59,6 @@ class _ExpenseListDetailsUiState extends State<ExpenseListDetailsUi> {
                   currency: list.currency,
                   user: list.allowedUsers.firstWhere((u) => u.id == list.reciepts[index].addedByUserId).email,
                 );
-                return Dismissible(
-                  key: ValueKey(list.reciepts[index].id),
-                  direction: DismissDirection.endToStart,
-                  onDismissed: (direction) {
-                    String recieptName = list.reciepts[index].name;
-
-                    BlocProvider.of<ExpenseListsCubit>(context).deleteReciept(
-                      widget.listId,
-                      list.reciepts[index].id,
-                    );
-
-                    Fluttertoast.showToast(
-                      msg: 'Deleted $recieptName',
-                      backgroundColor: Theme.of(context).colorScheme.error,
-                    );
-                  },
-                  background: Container(
-                    color: Theme.of(context).colorScheme.error,
-                    alignment: Alignment.centerRight,
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: const Icon(Icons.delete, color: Colors.white),
-                  ),
-                  child: Column(
-                    children: [
-                      ListTile(
-                        leading: Icon(
-                          kIconRegistry[list.purchaseTypes.firstWhere((pt) => pt.id == list.reciepts[index].purchaseTypeId).iconKey],
-                          size: 36,
-                        ),
-                        title: Text(list.reciepts[index].name),
-                        subtitle: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text('${list.reciepts[index].price} ${list.currency} - ${list.reciepts[index].quantity} pcs'),
-                            Text(
-                              '${DateFormat('dd/MM/yyyy').format(list.reciepts[index].dateTime)} - ${list.allowedUsers.firstWhere((u) => u.id == list.reciepts[index].addedByUserId).email}',
-                              style: Theme.of(context).textTheme.bodySmall,
-                            ),
-                          ],
-                        ),
-                        onTap: () {
-                          showModalBottomSheet(
-                            context: context,
-                            isScrollControlled: true,
-                            builder: (context) {
-                              return ExpenseBottomSheetWidget(
-                                listId: widget.listId,
-                                initialReciept: list.reciepts[index],
-                              );
-                            },
-                          );
-                        },
-                      ),
-                      const Divider(),
-                    ],
-                  ),
-                );
               },
             ),
             floatingActionButton: ExpandableFab(
@@ -146,7 +87,6 @@ class _ExpenseListDetailsUiState extends State<ExpenseListDetailsUi> {
             ),
           );
         }
-
         // While loading
         return const Scaffold(
           body: Center(child: CircularProgressIndicator()),
