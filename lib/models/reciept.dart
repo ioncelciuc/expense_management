@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Reciept {
+  final String id;
   final String name;
   final double price;
   final int quantity;
@@ -9,6 +10,7 @@ class Reciept {
   final String addedByUserId;
 
   const Reciept({
+    required this.id,
     required this.name,
     required this.price,
     required this.quantity,
@@ -19,6 +21,7 @@ class Reciept {
 
   factory Reciept.fromMap(Map<String, dynamic> map) {
     return Reciept(
+      id: map['id'],
       name: map['name'],
       price: map['price'],
       quantity: map['quantity'],
@@ -30,6 +33,7 @@ class Reciept {
 
   Map<String, dynamic> toMap() {
     return {
+      'id': id,
       'name': name,
       'price': price,
       'quantity': quantity,

@@ -132,6 +132,12 @@ class MyAppState extends State<MyApp> {
               borderRadius: borderRadius,
             ),
           ),
+          dividerTheme: const DividerThemeData(
+            thickness: 1,
+            space: 1,
+            indent: 0,
+            endIndent: 0,
+          ),
         ),
         supportedLocales: L10n.all,
         localizationsDelegates: const [

@@ -1,11 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expense_management/core/constants.dart';
 import 'package:expense_management/cubits/expense_lists/expense_lists_cubit.dart';
 import 'package:expense_management/cubits/expense_lists/expense_lists_state.dart';
 import 'package:expense_management/models/purchase_type.dart';
 import 'package:expense_management/models/reciept.dart';
 import 'package:expense_management/widgets/custom_text_field.dart';
-import 'package:expense_management/widgets/info_text.dart';
-import 'package:expense_management/widgets/snackbar_handler.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -13,10 +12,12 @@ import 'package:fluttertoast/fluttertoast.dart';
 
 class ExpenseBottomSheetWidget extends StatefulWidget {
   final String listId;
+  final Reciept? initialReciept;
 
   const ExpenseBottomSheetWidget({
     super.key,
     required this.listId,
+    this.initialReciept,
   });
 
   @override
@@ -28,6 +29,16 @@ class _ExpenseBottomSheetWidgetState extends State<ExpenseBottomSheetWidget> {
   final TextEditingController amountController = TextEditingController();
   final TextEditingController quantityController = TextEditingController();
   PurchaseType? selectedPurchaseType;
+
+  @override
+  void initState() {
+    if (widget.initialReciept != null) {
+      nameController.text = widget.initialReciept!.name;
+      amountController.text = widget.initialReciept!.price.toString();
+      quantityController.text = widget.initialReciept!.quantity.toString();
+    }
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,13 +55,22 @@ class _ExpenseBottomSheetWidgetState extends State<ExpenseBottomSheetWidget> {
           builder: (context, state) {
             if (state is ExpenseListsLoaded) {
               List<PurchaseType> purchaseTypes = state.expenseLists.firstWhere((e) => e.id == widget.listId).purchaseTypes;
-              selectedPurchaseType ??= purchaseTypes.first;
+              if (selectedPurchaseType == null) {
+                if (widget.initialReciept != null) {
+                  selectedPurchaseType = purchaseTypes.firstWhere(
+                    (pt) => pt.id == widget.initialReciept!.purchaseTypeId,
+                    orElse: () => purchaseTypes.first,
+                  );
+                } else {
+                  selectedPurchaseType ??= purchaseTypes.first;
+                }
+              }
               return Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Text(
-                    'Add an expense',
+                    widget.initialReciept == null ? 'Add an expense' : 'Update expense',
                     style: Theme.of(context).textTheme.headlineSmall,
                     textAlign: TextAlign.center,
                   ),
@@ -66,7 +86,7 @@ class _ExpenseBottomSheetWidgetState extends State<ExpenseBottomSheetWidget> {
                       Expanded(
                         child: CustomTextField(
                           textEditingController: amountController,
-                          hintText: 'Price per unit',
+                          hintText: 'Price',
                           textInputType: TextInputType.number,
                           textInputAction: TextInputAction.next,
                         ),
@@ -120,19 +140,24 @@ class _ExpenseBottomSheetWidgetState extends State<ExpenseBottomSheetWidget> {
                       }
 
                       Reciept reciept = Reciept(
+                        id: widget.initialReciept?.id ?? FirebaseFirestore.instance.collection('dummy').doc().id,
                         name: nameController.text.trim(),
                         price: double.parse(amountController.text.trim()),
                         quantity: int.parse(quantityController.text.trim()),
                         purchaseTypeId: selectedPurchaseType!.id,
-                        dateTime: DateTime.now(),
-                        addedByUserId: FirebaseAuth.instance.currentUser!.uid,
+                        dateTime: widget.initialReciept?.dateTime ?? DateTime.now(),
+                        addedByUserId: widget.initialReciept?.addedByUserId ?? FirebaseAuth.instance.currentUser!.uid,
                       );
 
-                      BlocProvider.of<ExpenseListsCubit>(context).addReciept(widget.listId, reciept);
+                      if (widget.initialReciept == null) {
+                        BlocProvider.of<ExpenseListsCubit>(context).addReciept(widget.listId, reciept);
+                      } else {
+                        BlocProvider.of<ExpenseListsCubit>(context).updateReciept(widget.listId, reciept);
+                      }
 
                       Navigator.of(context).pop();
                     },
-                    child: Text('Add item'),
+                    child: Text(widget.initialReciept == null ? 'Add item' : 'Update item'),
                   ),
                   const SizedBox(height: 16),
                 ],
