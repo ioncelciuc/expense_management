@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 const kPagePadding = EdgeInsets.all(16);
 
 final Map<String, IconData> kIconRegistry = {
+  //Empty
+  'question': Icons.question_mark,
+
   // Groceries & Food
   'shopping_cart': Icons.shopping_cart,
   'shopping_basket': Icons.shopping_basket,
@@ -77,5 +80,4 @@ final Map<String, IconData> kIconRegistry = {
   'parking': Icons.local_parking,
   'parking_ticket': Icons.confirmation_number,
   'parking_garage': Icons.garage,
-  'question': Icons.question_mark,
 };

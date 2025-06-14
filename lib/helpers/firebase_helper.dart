@@ -44,7 +44,7 @@ class FirebaseHelper {
 
   static Future<Response> createExpenseList(ExpenseList expenseList) async {
     try {
-      await FirebaseFirestore.instance.collection(expenseListsCollection).doc(expenseList.id).set(expenseList.toMap());
+      FirebaseFirestore.instance.collection(expenseListsCollection).doc(expenseList.id).set(expenseList.toMap());
       return Response(success: true);
     } on FirebaseException catch (e) {
       logger.severe(e.message);

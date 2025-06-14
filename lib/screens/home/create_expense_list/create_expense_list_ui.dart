@@ -388,6 +388,15 @@ class _CreateExpenseListUiState extends State<CreateExpenseListUi> {
       }
     }
 
+    if (ptControllers.isEmpty) {
+      return 'You must have at least a purchase type';
+    }
+    for (int i = 0; i < ptControllers.length; i++) {
+      if (ptControllers[i].text.trim().isEmpty) {
+        return 'A purchase type cannot have an empty name';
+      }
+    }
+
     return '';
   }
 

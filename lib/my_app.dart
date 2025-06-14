@@ -61,7 +61,6 @@ class MyAppState extends State<MyApp> {
             backgroundColor: colorScheme.primary,
             foregroundColor: colorScheme.onPrimary,
             elevation: 0,
-            centerTitle: true,
           ),
           inputDecorationTheme: InputDecorationTheme(
             isDense: true,

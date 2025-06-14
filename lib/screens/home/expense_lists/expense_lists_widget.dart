@@ -4,6 +4,7 @@ import 'package:expense_management/l10n/app_localizations.dart';
 import 'package:expense_management/models/expense_list.dart';
 import 'package:expense_management/screens/home/expense_list_details/expense_list_details_screen.dart';
 import 'package:expense_management/screens/home/expense_lists/expense_list_item.dart';
+import 'package:expense_management/widgets/info_text.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -37,14 +38,14 @@ class _ExpenseListsWidgetState extends State<ExpenseListsWidget> {
         stream: query.snapshots(),
         builder: (context, snapshot) {
           if (snapshot.hasError) {
-            return Center(child: Text('${AppLocalizations.of(context)!.error_loading_expense_list}: ${snapshot.error}'));
+            return InfoText(text: '${AppLocalizations.of(context)!.error_loading_expense_list}: ${snapshot.error}');
           }
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
           }
           final docs = snapshot.data!.docs;
           if (docs.isEmpty) {
-            return Center(child: Text(AppLocalizations.of(context)!.no_expense_list_found));
+            return InfoText(text: AppLocalizations.of(context)!.no_expense_list_found);
           }
           return ListView.builder(
             padding: const EdgeInsets.all(16),
