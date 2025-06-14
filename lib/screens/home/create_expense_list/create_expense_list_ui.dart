@@ -1,5 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expense_management/core/constants.dart';
-import 'package:expense_management/cubits/create_list/create_list_cubit.dart';
+import 'package:expense_management/cubits/expense_lists/expense_lists_cubit.dart';
 import 'package:expense_management/helpers/firebase_helper.dart';
 import 'package:expense_management/l10n/app_localizations.dart';
 import 'package:expense_management/models/expense_list.dart';
@@ -415,6 +416,7 @@ class _CreateExpenseListUiState extends State<CreateExpenseListUi> {
     for (int i = 0; i < rpNameControllers.length; i++) {
       reocurringPayments.add(
         ReocurringPayment(
+          id: FirebaseFirestore.instance.collection('reocurringPayments').doc().id,
           name: rpNameControllers[i].text.trim(),
           sum: double.parse(rpAmountControllers[i].text.trim()),
           dayOfMonth: rpDays[i],
@@ -426,13 +428,14 @@ class _CreateExpenseListUiState extends State<CreateExpenseListUi> {
     for (int i = 0; i < ptControllers.length; i++) {
       purchaseTypes.add(
         PurchaseType(
+          id: FirebaseFirestore.instance.collection('purchaseType').doc().id,
           name: ptControllers[i].text.trim(),
           iconKey: ptIcons[i],
         ),
       );
     }
     ExpenseList expenseList = ExpenseList(
-      id: FirebaseHelper.generateDocId(FirebaseHelper.expenseListsCollection),
+      id: FirebaseFirestore.instance.collection('expense_lists').doc().id,
       name: titleController.text,
       description: descriptionController.text,
       allowedUsers: chips,
@@ -441,7 +444,8 @@ class _CreateExpenseListUiState extends State<CreateExpenseListUi> {
       reocurringPayments: reocurringPayments,
       purchaseTypes: purchaseTypes,
     );
-    BlocProvider.of<CreateListCubit>(context).createList(expenseList);
+    BlocProvider.of<ExpenseListsCubit>(context).addExpenseList(expenseList);
+    Navigator.of(context).pop();
   }
 
   String isMonthlyBudgetValid() {

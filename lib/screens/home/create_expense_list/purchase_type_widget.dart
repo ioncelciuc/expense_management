@@ -46,12 +46,6 @@ class PurchaseTypeWidget extends StatelessWidget {
                   child: Icon(kIconRegistry[iconKey]),
                 );
               }).toList(),
-              // items: List.generate(31, (i) => i + 1).map((day) {
-              //   return DropdownMenuItem(
-              //     value: day,
-              //     child: Text('$day'),
-              //   );
-              // }).toList(),
             ),
           ),
         ],

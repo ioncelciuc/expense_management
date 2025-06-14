@@ -9,7 +9,6 @@ final Map<String, IconData> kIconRegistry = {
   // Groceries & Food
   'shopping_cart': Icons.shopping_cart,
   'shopping_basket': Icons.shopping_basket,
-  'grocery_store': Icons.local_grocery_store,
   'fruits': Icons.emoji_nature,
   'vegetables': Icons.eco,
 

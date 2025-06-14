@@ -1,5 +1,5 @@
 import 'package:expense_management/cubits/auth/auth_cubit.dart';
-import 'package:expense_management/cubits/create_list/create_list_cubit.dart';
+import 'package:expense_management/cubits/expense_lists/expense_lists_cubit.dart';
 import 'package:expense_management/cubits/language/language_cubit.dart';
 import 'package:expense_management/cubits/theme/theme_cubit.dart';
 //import this for translations
@@ -48,7 +48,7 @@ class MyAppState extends State<MyApp> {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => AuthCubit()),
-        BlocProvider(create: (context) => CreateListCubit()),
+        BlocProvider(create: (context) => ExpenseListsCubit()),
       ],
       child: MaterialApp(
         title: 'Expense Management',
@@ -126,6 +126,11 @@ class MyAppState extends State<MyApp> {
             insetPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             backgroundColor: colorScheme.error,
             shape: const RoundedRectangleBorder(borderRadius: borderRadius),
+          ),
+          bottomSheetTheme: const BottomSheetThemeData(
+            shape: RoundedRectangleBorder(
+              borderRadius: borderRadius,
+            ),
           ),
         ),
         supportedLocales: L10n.all,
