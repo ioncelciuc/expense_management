@@ -38,6 +38,10 @@ class ExpenseListsCubit extends Cubit<ExpenseListsState> {
     );
   }
 
+  Stream<List<Reciept>> receiptsStream(String listId) {
+    return FirebaseFirestore.instance.collection(FirebaseHelper.expenseListsCollection).doc(listId).collection('receipts').orderBy('dateTime', descending: true).snapshots().map((snap) => snap.docs.map((doc) => Reciept.fromMap(doc.data())).toList());
+  }
+
   Future<void> addExpenseList(ExpenseList list) async {
     try {
       await FirebaseFirestore.instance.collection(FirebaseHelper.expenseListsCollection).doc(list.id).set(list.toMap());
@@ -90,62 +94,36 @@ class ExpenseListsCubit extends Cubit<ExpenseListsState> {
 
   Future<void> addReciept(String expenseListId, Reciept reciept) async {
     try {
-      await FirebaseFirestore.instance.collection(FirebaseHelper.expenseListsCollection).doc(expenseListId).update({
-        'reciepts': FieldValue.arrayUnion([reciept.toMap()])
-      });
-      _updateExpenseListLastModified(expenseListId);
+      final receiptsCol = FirebaseFirestore.instance.collection(FirebaseHelper.expenseListsCollection).doc(expenseListId).collection('receipts');
+
+      // Use your receipt.id as document ID, or let Firestore generate one:
+      await receiptsCol.doc(reciept.id).set(reciept.toMap());
+
+      await _updateExpenseListLastModified(expenseListId);
     } on FirebaseException catch (e) {
       emit(ExpenseListsError(e.message ?? 'Failed to add receipt'));
-    } catch (e) {
-      emit(ExpenseListsError(e.toString()));
     }
   }
 
   Future<void> updateReciept(String expenseListId, Reciept updatedReciept) async {
     try {
-      final docRef = FirebaseFirestore.instance.collection(FirebaseHelper.expenseListsCollection).doc(expenseListId);
+      final docRef = FirebaseFirestore.instance.collection(FirebaseHelper.expenseListsCollection).doc(expenseListId).collection('receipts').doc(updatedReciept.id);
 
-      final doc = await docRef.get();
-      final data = doc.data();
-      if (data == null) throw Exception("Document does not exist");
-
-      final List<dynamic> existing = data['reciepts'] ?? [];
-      final updatedList = existing.map((e) {
-        final rec = Reciept.fromMap(Map<String, dynamic>.from(e));
-        return rec.id == updatedReciept.id ? updatedReciept.toMap() : e;
-      }).toList();
-
-      await docRef.update({'reciepts': updatedList});
-
-      _updateExpenseListLastModified(expenseListId);
+      await docRef.update(updatedReciept.toMap());
+      await _updateExpenseListLastModified(expenseListId);
     } on FirebaseException catch (e) {
       emit(ExpenseListsError(e.message ?? 'Failed to update receipt'));
-    } catch (e) {
-      emit(ExpenseListsError(e.toString()));
     }
   }
 
   Future<void> deleteReciept(String expenseListId, String recieptId) async {
     try {
-      final docRef = FirebaseFirestore.instance.collection(FirebaseHelper.expenseListsCollection).doc(expenseListId);
+      final docRef = FirebaseFirestore.instance.collection(FirebaseHelper.expenseListsCollection).doc(expenseListId).collection('receipts').doc(recieptId);
 
-      final doc = await docRef.get();
-      final data = doc.data();
-      if (data == null) throw Exception("Document does not exist");
-
-      final List<dynamic> existing = data['reciepts'] ?? [];
-      final updatedList = existing.where((e) {
-        final rec = Reciept.fromMap(Map<String, dynamic>.from(e));
-        return rec.id != recieptId;
-      }).toList();
-
-      await docRef.update({'reciepts': updatedList});
-
-      _updateExpenseListLastModified(expenseListId);
+      await docRef.delete();
+      await _updateExpenseListLastModified(expenseListId);
     } on FirebaseException catch (e) {
       emit(ExpenseListsError(e.message ?? 'Failed to delete receipt'));
-    } catch (e) {
-      emit(ExpenseListsError(e.toString()));
     }
   }
 

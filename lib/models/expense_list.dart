@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expense_management/models/purchase_type.dart';
-import 'package:expense_management/models/reciept.dart';
 import 'package:expense_management/models/reocurring_payment.dart';
 import 'package:expense_management/models/user_model.dart';
 
@@ -13,7 +12,6 @@ class ExpenseList {
   int maxBudgetPerMonth;
   List<ReocurringPayment> reocurringPayments;
   List<PurchaseType> purchaseTypes;
-  List<Reciept> reciepts;
   DateTime createdAt;
   DateTime modifiedAt;
 
@@ -26,12 +24,10 @@ class ExpenseList {
     required this.currency,
     required this.reocurringPayments,
     required this.purchaseTypes,
-    List<Reciept>? reciepts,
     DateTime? createdAt,
     DateTime? modifiedAt,
   })  : createdAt = createdAt ?? DateTime.now(),
-        modifiedAt = modifiedAt ?? (createdAt ?? DateTime.now()),
-        reciepts = reciepts ?? [];
+        modifiedAt = modifiedAt ?? (createdAt ?? DateTime.now());
 
   factory ExpenseList.fromMap(Map<String, dynamic> map) {
     return ExpenseList(
@@ -43,7 +39,6 @@ class ExpenseList {
       currency: map['currency'],
       reocurringPayments: (map['reocurringPayments'] as List).map((rp) => ReocurringPayment.fromMap(rp)).toList(),
       purchaseTypes: (map['purchaseTypes'] as List).map((pt) => PurchaseType.fromMap(pt)).toList(),
-      reciepts: (map['reciepts'] as List).map((r) => Reciept.fromMap(r)).toList(),
       createdAt: (map['createdAt'] as Timestamp).toDate(),
       modifiedAt: map['modifiedAt'] != null ? (map['modifiedAt'] as Timestamp).toDate() : DateTime.now(),
     );
@@ -59,7 +54,6 @@ class ExpenseList {
       'currency': currency,
       'reocurringPayments': reocurringPayments.map((rp) => rp.toMap()).toList(),
       'purchaseTypes': purchaseTypes.map((pt) => pt.toMap()).toList(),
-      'reciepts': reciepts.map((r) => r.toMap()).toList(),
       'createdAt': Timestamp.fromDate(createdAt),
       'modifiedAt': Timestamp.fromDate(modifiedAt),
     };

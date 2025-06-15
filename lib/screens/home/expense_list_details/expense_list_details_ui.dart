@@ -3,6 +3,7 @@ import 'package:expense_management/cubits/expense_lists/expense_lists_cubit.dart
 import 'package:expense_management/cubits/expense_lists/expense_lists_state.dart';
 import 'package:expense_management/l10n/app_localizations.dart';
 import 'package:expense_management/models/purchase_type.dart';
+import 'package:expense_management/models/reciept.dart';
 import 'package:expense_management/screens/home/expense_list_details/reciept_capture/reciept_capture_screen.dart';
 import 'package:expense_management/widgets/expandable_fab.dart';
 import 'package:expense_management/widgets/expense_bottom_sheet_widget.dart';
@@ -40,9 +41,9 @@ class _ExpenseListDetailsUiState extends State<ExpenseListDetailsUi> {
           final list = state.expenseLists.firstWhere(
             (e) => e.id == widget.listId,
           );
-          list.reciepts.sort(
-            (a, b) => b.dateTime.compareTo(a.dateTime),
-          );
+          // list.reciepts.sort(
+          //   (a, b) => b.dateTime.compareTo(a.dateTime),
+          // );
           return Scaffold(
             appBar: AppBar(
               title: Text(list.name),
@@ -57,15 +58,20 @@ class _ExpenseListDetailsUiState extends State<ExpenseListDetailsUi> {
                 ),
               ],
             ),
-            body: ListView.builder(
-              itemCount: list.reciepts.length,
-              itemBuilder: (context, index) {
-                return ReceiptListItem(
-                  listId: list.id,
-                  reciept: list.reciepts[index],
-                  icon: kIconRegistry[list.purchaseTypes.firstWhere((pt) => pt.id == list.reciepts[index].purchaseTypeId).iconKey] ?? Icons.question_mark,
-                  currency: list.currency,
-                  user: list.allowedUsers.firstWhere((u) => u.id == list.reciepts[index].addedByUserId).email,
+            body: StreamBuilder<List<Reciept>>(
+              stream: context.read<ExpenseListsCubit>().receiptsStream(widget.listId),
+              builder: (context, snapshot) {
+                if (!snapshot.hasData) return const CircularProgressIndicator();
+                final receipts = snapshot.data!;
+                return ListView.builder(
+                  itemCount: receipts.length,
+                  itemBuilder: (context, index) => ReceiptListItem(
+                    listId: list.id,
+                    reciept: receipts[index],
+                    icon: kIconRegistry[list.purchaseTypes.firstWhere((pt) => pt.id == receipts[index].purchaseTypeId).iconKey] ?? Icons.question_mark,
+                    currency: list.currency,
+                    user: list.allowedUsers.firstWhere((u) => u.id == receipts[index].addedByUserId).email,
+                  ),
                 );
               },
             ),

@@ -2,7 +2,6 @@ import 'package:expense_management/cubits/auth/auth_cubit.dart';
 import 'package:expense_management/cubits/expense_lists/expense_lists_cubit.dart';
 import 'package:expense_management/cubits/language/language_cubit.dart';
 import 'package:expense_management/cubits/theme/theme_cubit.dart';
-//import this for translations
 import 'package:expense_management/l10n/app_localizations.dart';
 import 'package:expense_management/l10n/l10n.dart';
 import 'package:expense_management/screens/auth/auth_screen.dart';
