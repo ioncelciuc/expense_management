@@ -76,6 +76,18 @@ class ExpenseListsCubit extends Cubit<ExpenseListsState> {
     }
   }
 
+  Future<void> addMultipleReciepts(String expenseListId, List<Reciept> reciepts) async {
+    try {
+      for (Reciept reciept in reciepts) {
+        addReciept(expenseListId, reciept);
+      }
+    } on FirebaseException catch (e) {
+      emit(ExpenseListsError(e.message ?? 'Failed to add receipt'));
+    } catch (e) {
+      emit(ExpenseListsError(e.toString()));
+    }
+  }
+
   Future<void> addReciept(String expenseListId, Reciept reciept) async {
     try {
       await FirebaseFirestore.instance.collection(FirebaseHelper.expenseListsCollection).doc(expenseListId).update({

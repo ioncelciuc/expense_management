@@ -118,7 +118,7 @@ class _ExpenseBottomSheetWidgetState extends State<ExpenseBottomSheetWidget> {
                       }
 
                       Reciept reciept = Reciept(
-                        id: widget.initialReciept?.id ?? FirebaseFirestore.instance.collection('dummy').doc().id,
+                        id: widget.initialReciept?.id ?? FirebaseFirestore.instance.collection('reciepts').doc().id,
                         name: nameController.text.trim(),
                         price: double.parse(amountController.text.trim()),
                         quantity: int.parse(quantityController.text.trim()),
@@ -153,11 +153,11 @@ class _ExpenseBottomSheetWidgetState extends State<ExpenseBottomSheetWidget> {
       return AppLocalizations.of(context)!.error_all_fields_must_be_completed;
     }
     double? price = double.tryParse(amountController.text.trim());
-    if (price == null) {
+    if (price == null || price < 0) {
       return AppLocalizations.of(context)!.error_price_not_correct;
     }
     int? quantity = int.tryParse(quantityController.text.trim());
-    if (quantity == null) {
+    if (quantity == null || quantity < 0) {
       return AppLocalizations.of(context)!.error_quanity_whole_number;
     }
     return '';
