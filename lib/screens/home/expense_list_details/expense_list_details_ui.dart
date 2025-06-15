@@ -2,8 +2,8 @@ import 'package:expense_management/core/constants.dart';
 import 'package:expense_management/cubits/expense_lists/expense_lists_cubit.dart';
 import 'package:expense_management/cubits/expense_lists/expense_lists_state.dart';
 import 'package:expense_management/l10n/app_localizations.dart';
-import 'package:expense_management/models/purchase_type.dart';
 import 'package:expense_management/models/receipt.dart';
+import 'package:expense_management/screens/home/expense_list_details/expense_list_statistics/expense_list_statistics_screen.dart';
 import 'package:expense_management/screens/home/expense_list_details/receipt_capture/reciept_capture_screen.dart';
 import 'package:expense_management/screens/home/expense_list_details/update_expense_list/update_expense_list_screen.dart';
 import 'package:expense_management/widgets/expandable_fab.dart';
@@ -26,7 +26,7 @@ class ExpenseListDetailsUi extends StatefulWidget {
 }
 
 class _ExpenseListDetailsUiState extends State<ExpenseListDetailsUi> {
-  List<PurchaseType> purchaseTypes = [];
+  List<Receipt> reciepts = [];
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +47,16 @@ class _ExpenseListDetailsUiState extends State<ExpenseListDetailsUi> {
               title: Text(list.name),
               actions: [
                 IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => ExpenseListStatisticsScreen(
+                          expenseList: list,
+                          receipts: reciepts,
+                        ),
+                      ),
+                    );
+                  },
                   icon: const Icon(Icons.bar_chart),
                 ),
                 IconButton(
@@ -68,15 +77,15 @@ class _ExpenseListDetailsUiState extends State<ExpenseListDetailsUi> {
               stream: context.read<ExpenseListsCubit>().receiptsStream(widget.listId),
               builder: (context, snapshot) {
                 if (!snapshot.hasData) return const Center(child: CircularProgressIndicator());
-                final receipts = snapshot.data!;
+                reciepts = snapshot.data!;
                 return ListView.builder(
-                  itemCount: receipts.length,
+                  itemCount: reciepts.length,
                   itemBuilder: (context, index) => ReceiptListItem(
                     listId: list.id,
-                    reciept: receipts[index],
-                    icon: kIconRegistry[list.purchaseTypes.firstWhere((pt) => pt.id == receipts[index].purchaseTypeId).iconKey] ?? Icons.question_mark,
+                    reciept: reciepts[index],
+                    icon: kIconRegistry[list.purchaseTypes.firstWhere((pt) => pt.id == reciepts[index].purchaseTypeId).iconKey] ?? Icons.question_mark,
                     currency: list.currency,
-                    user: list.allowedUsers.firstWhere((u) => u.id == receipts[index].addedByUserId).email,
+                    user: list.allowedUsers.firstWhere((u) => u.id == reciepts[index].addedByUserId).email,
                   ),
                 );
               },
