@@ -6,6 +6,7 @@ import 'package:expense_management/l10n/app_localizations.dart';
 import 'package:expense_management/models/purchase_type.dart';
 import 'package:expense_management/models/reciept.dart';
 import 'package:expense_management/widgets/custom_text_field.dart';
+import 'package:expense_management/widgets/reciept_input_editor.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -78,57 +79,19 @@ class _ExpenseBottomSheetWidgetState extends State<ExpenseBottomSheetWidget> {
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: 16),
-                  CustomTextField(
-                    textEditingController: nameController,
-                    hintText: AppLocalizations.of(context)!.name,
-                    textInputAction: TextInputAction.next,
-                  ),
-                  const SizedBox(height: 16),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: CustomTextField(
-                          textEditingController: amountController,
-                          hintText: '${AppLocalizations.of(context)!.price} - ${widget.currency}',
-                          textInputType: TextInputType.number,
-                          textInputAction: TextInputAction.next,
-                        ),
-                      ),
-                      const SizedBox(width: 16),
-                      Expanded(
-                        child: CustomTextField(
-                          textEditingController: quantityController,
-                          hintText: AppLocalizations.of(context)!.quantity,
-                          textInputType: TextInputType.number,
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 16),
-                  DropdownButtonFormField<PurchaseType>(
-                    decoration: InputDecoration(
-                      label: Text(AppLocalizations.of(context)!.purchase_type),
-                    ),
-                    value: selectedPurchaseType,
-                    isDense: true,
-                    onChanged: (PurchaseType? purchaseType) {
+                  RecieptInputEditor(
+                    nameController: nameController,
+                    amountController: amountController,
+                    currency: widget.currency,
+                    quantityController: quantityController,
+                    selectedPurchaseType: selectedPurchaseType!,
+                    onChangedPurchaseType: (PurchaseType? purchaseType) {
                       if (purchaseType != null) {
                         selectedPurchaseType = purchaseType;
                         setState(() {});
                       }
                     },
-                    items: purchaseTypes.map((pt) {
-                      return DropdownMenuItem(
-                        value: pt,
-                        child: Row(
-                          children: [
-                            Icon(kIconRegistry[pt.iconKey]),
-                            const SizedBox(width: 16),
-                            Text(pt.name),
-                          ],
-                        ),
-                      );
-                    }).toList(),
+                    purchaseTypes: purchaseTypes,
                   ),
                   const SizedBox(height: 16),
                   ElevatedButton(
