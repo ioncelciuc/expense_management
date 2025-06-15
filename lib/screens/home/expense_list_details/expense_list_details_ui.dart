@@ -3,8 +3,8 @@ import 'package:expense_management/cubits/expense_lists/expense_lists_cubit.dart
 import 'package:expense_management/cubits/expense_lists/expense_lists_state.dart';
 import 'package:expense_management/l10n/app_localizations.dart';
 import 'package:expense_management/models/purchase_type.dart';
-import 'package:expense_management/models/reciept.dart';
-import 'package:expense_management/screens/home/expense_list_details/reciept_capture/reciept_capture_screen.dart';
+import 'package:expense_management/models/receipt.dart';
+import 'package:expense_management/screens/home/expense_list_details/receipt_capture/reciept_capture_screen.dart';
 import 'package:expense_management/widgets/expandable_fab.dart';
 import 'package:expense_management/widgets/expense_bottom_sheet_widget.dart';
 import 'package:expense_management/widgets/receipt_list_item.dart';
@@ -41,9 +41,6 @@ class _ExpenseListDetailsUiState extends State<ExpenseListDetailsUi> {
           final list = state.expenseLists.firstWhere(
             (e) => e.id == widget.listId,
           );
-          // list.reciepts.sort(
-          //   (a, b) => b.dateTime.compareTo(a.dateTime),
-          // );
           return Scaffold(
             appBar: AppBar(
               title: Text(list.name),
@@ -58,10 +55,10 @@ class _ExpenseListDetailsUiState extends State<ExpenseListDetailsUi> {
                 ),
               ],
             ),
-            body: StreamBuilder<List<Reciept>>(
+            body: StreamBuilder<List<Receipt>>(
               stream: context.read<ExpenseListsCubit>().receiptsStream(widget.listId),
               builder: (context, snapshot) {
-                if (!snapshot.hasData) return const CircularProgressIndicator();
+                if (!snapshot.hasData) return const Center(child: CircularProgressIndicator());
                 final receipts = snapshot.data!;
                 return ListView.builder(
                   itemCount: receipts.length,
@@ -81,7 +78,7 @@ class _ExpenseListDetailsUiState extends State<ExpenseListDetailsUi> {
                   onPressed: () async {
                     Navigator.of(context).push(
                       MaterialPageRoute(
-                        builder: (context) => RecieptCaptureScreen(
+                        builder: (context) => ReceiptCaptureScreen(
                           imageSource: ImageSource.gallery,
                           expenseListId: list.id,
                           currency: list.currency,
@@ -96,7 +93,7 @@ class _ExpenseListDetailsUiState extends State<ExpenseListDetailsUi> {
                   onPressed: () async {
                     Navigator.of(context).push(
                       MaterialPageRoute(
-                        builder: (context) => RecieptCaptureScreen(
+                        builder: (context) => ReceiptCaptureScreen(
                           imageSource: ImageSource.camera,
                           expenseListId: list.id,
                           currency: list.currency,

@@ -4,7 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expense_management/cubits/expense_lists/expense_lists_state.dart';
 import 'package:expense_management/helpers/firebase_helper.dart';
 import 'package:expense_management/models/expense_list.dart';
-import 'package:expense_management/models/reciept.dart';
+import 'package:expense_management/models/receipt.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -38,8 +38,8 @@ class ExpenseListsCubit extends Cubit<ExpenseListsState> {
     );
   }
 
-  Stream<List<Reciept>> receiptsStream(String listId) {
-    return FirebaseFirestore.instance.collection(FirebaseHelper.expenseListsCollection).doc(listId).collection('receipts').orderBy('dateTime', descending: true).snapshots().map((snap) => snap.docs.map((doc) => Reciept.fromMap(doc.data())).toList());
+  Stream<List<Receipt>> receiptsStream(String listId) {
+    return FirebaseFirestore.instance.collection(FirebaseHelper.expenseListsCollection).doc(listId).collection('receipts').orderBy('dateTime', descending: true).snapshots().map((snap) => snap.docs.map((doc) => Receipt.fromMap(doc.data())).toList());
   }
 
   Future<void> addExpenseList(ExpenseList list) async {
@@ -80,9 +80,9 @@ class ExpenseListsCubit extends Cubit<ExpenseListsState> {
     }
   }
 
-  Future<void> addMultipleReciepts(String expenseListId, List<Reciept> reciepts) async {
+  Future<void> addMultipleReciepts(String expenseListId, List<Receipt> reciepts) async {
     try {
-      for (Reciept reciept in reciepts) {
+      for (Receipt reciept in reciepts) {
         addReciept(expenseListId, reciept);
       }
     } on FirebaseException catch (e) {
@@ -92,7 +92,7 @@ class ExpenseListsCubit extends Cubit<ExpenseListsState> {
     }
   }
 
-  Future<void> addReciept(String expenseListId, Reciept reciept) async {
+  Future<void> addReciept(String expenseListId, Receipt reciept) async {
     try {
       final receiptsCol = FirebaseFirestore.instance.collection(FirebaseHelper.expenseListsCollection).doc(expenseListId).collection('receipts');
 
@@ -105,7 +105,7 @@ class ExpenseListsCubit extends Cubit<ExpenseListsState> {
     }
   }
 
-  Future<void> updateReciept(String expenseListId, Reciept updatedReciept) async {
+  Future<void> updateReciept(String expenseListId, Receipt updatedReciept) async {
     try {
       final docRef = FirebaseFirestore.instance.collection(FirebaseHelper.expenseListsCollection).doc(expenseListId).collection('receipts').doc(updatedReciept.id);
 

@@ -5,7 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expense_management/cubits/expense_lists/expense_lists_cubit.dart';
 import 'package:expense_management/l10n/app_localizations.dart';
 import 'package:expense_management/models/purchase_type.dart';
-import 'package:expense_management/models/reciept.dart';
+import 'package:expense_management/models/receipt.dart';
 import 'package:expense_management/widgets/reciept_input_editor.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -16,13 +16,13 @@ import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
-class RecieptCaptureScreen extends StatefulWidget {
+class ReceiptCaptureScreen extends StatefulWidget {
   final ImageSource imageSource;
   final String expenseListId;
   final String currency;
   final List<PurchaseType> purchaseTypes;
 
-  const RecieptCaptureScreen({
+  const ReceiptCaptureScreen({
     super.key,
     required this.imageSource,
     required this.expenseListId,
@@ -31,10 +31,10 @@ class RecieptCaptureScreen extends StatefulWidget {
   });
 
   @override
-  State<RecieptCaptureScreen> createState() => _RecieptCaptureScreenState();
+  State<ReceiptCaptureScreen> createState() => _ReceiptCaptureScreenState();
 }
 
-class _RecieptCaptureScreenState extends State<RecieptCaptureScreen> {
+class _ReceiptCaptureScreenState extends State<ReceiptCaptureScreen> {
   bool loadingApiCall = false;
   List<TextEditingController> nameControllers = [];
   List<TextEditingController> amountControllers = [];
@@ -81,10 +81,10 @@ class _RecieptCaptureScreenState extends State<RecieptCaptureScreen> {
                   );
                   return;
                 }
-                List<Reciept> reciepts = [];
+                List<Receipt> reciepts = [];
                 for (int i = 0; i < nameControllers.length; i++) {
                   reciepts.add(
-                    Reciept(
+                    Receipt(
                       id: FirebaseFirestore.instance.collection('reciepts').doc().id,
                       name: nameControllers[i].text,
                       price: double.parse(amountControllers[i].text),

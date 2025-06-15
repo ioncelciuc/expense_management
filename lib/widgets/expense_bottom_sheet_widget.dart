@@ -3,7 +3,7 @@ import 'package:expense_management/cubits/expense_lists/expense_lists_cubit.dart
 import 'package:expense_management/cubits/expense_lists/expense_lists_state.dart';
 import 'package:expense_management/l10n/app_localizations.dart';
 import 'package:expense_management/models/purchase_type.dart';
-import 'package:expense_management/models/reciept.dart';
+import 'package:expense_management/models/receipt.dart';
 import 'package:expense_management/widgets/reciept_input_editor.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +13,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 class ExpenseBottomSheetWidget extends StatefulWidget {
   final String listId;
   final String currency;
-  final Reciept? initialReciept;
+  final Receipt? initialReciept;
 
   const ExpenseBottomSheetWidget({
     super.key,
@@ -117,7 +117,7 @@ class _ExpenseBottomSheetWidgetState extends State<ExpenseBottomSheetWidget> {
                         return;
                       }
 
-                      Reciept reciept = Reciept(
+                      Receipt reciept = Receipt(
                         id: widget.initialReciept?.id ?? FirebaseFirestore.instance.collection('reciepts').doc().id,
                         name: nameController.text.trim(),
                         price: double.parse(amountController.text.trim()),

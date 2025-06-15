@@ -1,6 +1,6 @@
 import 'package:expense_management/cubits/expense_lists/expense_lists_cubit.dart';
 import 'package:expense_management/l10n/app_localizations.dart';
-import 'package:expense_management/models/reciept.dart';
+import 'package:expense_management/models/receipt.dart';
 import 'package:expense_management/widgets/expense_bottom_sheet_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,7 +9,7 @@ import 'package:intl/intl.dart';
 
 class ReceiptListItem extends StatelessWidget {
   final String listId;
-  final Reciept reciept;
+  final Receipt reciept;
   final IconData icon;
   final String currency;
   final String user;
