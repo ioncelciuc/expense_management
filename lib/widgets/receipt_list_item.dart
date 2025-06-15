@@ -30,6 +30,8 @@ class ReceiptListItem extends StatelessWidget {
       direction: DismissDirection.endToStart,
       onDismissed: (direction) {
         String recieptName = reciept.name;
+        double recieptPrice = reciept.price;
+        int recieptQuantity = reciept.quantity;
 
         BlocProvider.of<ExpenseListsCubit>(context).deleteReciept(
           listId,
@@ -37,7 +39,7 @@ class ReceiptListItem extends StatelessWidget {
         );
 
         Fluttertoast.showToast(
-          msg: '${AppLocalizations.of(context)!.deleted} $recieptName',
+          msg: '${AppLocalizations.of(context)!.deleted}: $recieptName - $recieptPrice $currency - $recieptQuantity pcs',
           backgroundColor: Theme.of(context).colorScheme.error,
         );
       },

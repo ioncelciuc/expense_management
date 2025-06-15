@@ -240,4 +240,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get error_quanity_whole_number => 'Quantity should be a whole number';
+
+  @override
+  String get date => 'Date';
 }

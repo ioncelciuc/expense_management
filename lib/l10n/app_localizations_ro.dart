@@ -245,4 +245,7 @@ class AppLocalizationsRo extends AppLocalizations {
   @override
   String get error_quanity_whole_number =>
       'Cantitatea trebuie să fie un număr întreg';
+
+  @override
+  String get date => 'Data';
 }

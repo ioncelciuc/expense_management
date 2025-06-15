@@ -1,11 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:expense_management/core/constants.dart';
 import 'package:expense_management/cubits/expense_lists/expense_lists_cubit.dart';
 import 'package:expense_management/cubits/expense_lists/expense_lists_state.dart';
 import 'package:expense_management/l10n/app_localizations.dart';
 import 'package:expense_management/models/purchase_type.dart';
 import 'package:expense_management/models/reciept.dart';
-import 'package:expense_management/widgets/custom_text_field.dart';
 import 'package:expense_management/widgets/reciept_input_editor.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -33,6 +31,7 @@ class _ExpenseBottomSheetWidgetState extends State<ExpenseBottomSheetWidget> {
   final TextEditingController amountController = TextEditingController();
   final TextEditingController quantityController = TextEditingController(text: '1');
   PurchaseType? selectedPurchaseType;
+  DateTime selectedDate = DateTime.now();
 
   @override
   void initState() {
@@ -40,6 +39,7 @@ class _ExpenseBottomSheetWidgetState extends State<ExpenseBottomSheetWidget> {
       nameController.text = widget.initialReciept!.name;
       amountController.text = widget.initialReciept!.price.toString();
       quantityController.text = widget.initialReciept!.quantity.toString();
+      selectedDate = widget.initialReciept!.dateTime;
     }
     super.initState();
   }
@@ -92,6 +92,18 @@ class _ExpenseBottomSheetWidgetState extends State<ExpenseBottomSheetWidget> {
                       }
                     },
                     purchaseTypes: purchaseTypes,
+                    selectedDate: selectedDate,
+                    onSelectDate: () async {
+                      DateTime? newDate = await showDatePicker(
+                        context: context,
+                        firstDate: DateTime.now().subtract(const Duration(days: 365)),
+                        lastDate: DateTime.now(),
+                      );
+                      if (newDate != null) {
+                        selectedDate = newDate;
+                        setState(() {});
+                      }
+                    },
                   ),
                   const SizedBox(height: 16),
                   ElevatedButton(
@@ -111,7 +123,7 @@ class _ExpenseBottomSheetWidgetState extends State<ExpenseBottomSheetWidget> {
                         price: double.parse(amountController.text.trim()),
                         quantity: int.parse(quantityController.text.trim()),
                         purchaseTypeId: selectedPurchaseType!.id,
-                        dateTime: widget.initialReciept?.dateTime ?? DateTime.now(),
+                        dateTime: selectedDate,
                         addedByUserId: widget.initialReciept?.addedByUserId ?? FirebaseAuth.instance.currentUser!.uid,
                       );
 

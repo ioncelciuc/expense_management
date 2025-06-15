@@ -3,6 +3,7 @@ import 'package:expense_management/l10n/app_localizations.dart';
 import 'package:expense_management/models/purchase_type.dart';
 import 'package:expense_management/widgets/custom_text_field.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class RecieptInputEditor extends StatelessWidget {
   final TextEditingController nameController;
@@ -12,6 +13,8 @@ class RecieptInputEditor extends StatelessWidget {
   final PurchaseType selectedPurchaseType;
   final void Function(PurchaseType?)? onChangedPurchaseType;
   final List<PurchaseType> purchaseTypes;
+  final DateTime selectedDate;
+  final void Function()? onSelectDate;
 
   const RecieptInputEditor({
     super.key,
@@ -22,6 +25,8 @@ class RecieptInputEditor extends StatelessWidget {
     required this.selectedPurchaseType,
     required this.onChangedPurchaseType,
     required this.purchaseTypes,
+    required this.selectedDate,
+    required this.onSelectDate,
   });
 
   @override
@@ -57,6 +62,7 @@ class RecieptInputEditor extends StatelessWidget {
         ),
         const SizedBox(height: 16),
         DropdownButtonFormField<PurchaseType>(
+          isExpanded: true,
           decoration: InputDecoration(
             label: Text(AppLocalizations.of(context)!.purchase_type),
           ),
@@ -70,11 +76,30 @@ class RecieptInputEditor extends StatelessWidget {
                 children: [
                   Icon(kIconRegistry[pt.iconKey]),
                   const SizedBox(width: 16),
-                  Text(pt.name),
+                  Flexible(
+                    fit: FlexFit.loose,
+                    child: Text(
+                      pt.name,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
                 ],
               ),
             );
           }).toList(),
+        ),
+        const SizedBox(height: 16),
+        Row(
+          children: [
+            Expanded(
+              child: OutlinedButton(
+                onPressed: onSelectDate,
+                child: Text(
+                  '${AppLocalizations.of(context)!.date}: ${DateFormat('dd/MM/yyyy').format(selectedDate)}',
+                ),
+              ),
+            ),
+          ],
         ),
       ],
     );

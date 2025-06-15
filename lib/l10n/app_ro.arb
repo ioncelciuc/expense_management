@@ -72,5 +72,6 @@
     "deleted": "Șters",
     "error_all_fields_must_be_completed": "Toate câmpurile trebuie completate",
     "error_price_not_correct": "Prețul introdus nu este corect",
-    "error_quanity_whole_number": "Cantitatea trebuie să fie un număr întreg"
+    "error_quanity_whole_number": "Cantitatea trebuie să fie un număr întreg",
+    "date": "Data"
 }
