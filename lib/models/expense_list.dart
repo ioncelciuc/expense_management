@@ -45,7 +45,7 @@ class ExpenseList {
       purchaseTypes: (map['purchaseTypes'] as List).map((pt) => PurchaseType.fromMap(pt)).toList(),
       reciepts: (map['reciepts'] as List).map((r) => Reciept.fromMap(r)).toList(),
       createdAt: (map['createdAt'] as Timestamp).toDate(),
-      modifiedAt: (map['modifiedAt'] as Timestamp).toDate(),
+      modifiedAt: map['modifiedAt'] != null ? (map['modifiedAt'] as Timestamp).toDate() : DateTime.now(),
     );
   }
 
