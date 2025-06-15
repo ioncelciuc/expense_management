@@ -46,8 +46,14 @@ class _SettingsUiState extends State<SettingsUi> {
             },
           ),
           ListTile(
-            leading: const Icon(Icons.logout),
-            title: Text(AppLocalizations.of(context)!.sign_out),
+            leading: Icon(
+              Icons.logout,
+              color: Theme.of(context).colorScheme.error,
+            ),
+            title: Text(
+              AppLocalizations.of(context)!.sign_out,
+              style: TextStyle(color: Theme.of(context).colorScheme.error),
+            ),
             onTap: () {
               BlocProvider.of<AuthCubit>(context).signOut();
               Navigator.of(context).pop();
