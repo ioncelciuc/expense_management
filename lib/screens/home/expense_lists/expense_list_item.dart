@@ -21,7 +21,10 @@ class ExpenseListItem extends StatelessWidget {
     String autors = '';
     for (UserModel allowedUser in expenseList.allowedUsers) {
       autors += allowedUser.email.split('@').first;
-      autors += '  ';
+      autors += ', ';
+    }
+    if (autors.length >= 2) {
+      autors = autors.substring(0, autors.length - 2);
     }
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),
