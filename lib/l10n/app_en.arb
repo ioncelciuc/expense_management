@@ -73,5 +73,6 @@
     "error_all_fields_must_be_completed": "All fields must be completed",
     "error_price_not_correct": "Inputted price is not correct",
     "error_quanity_whole_number": "Quantity should be a whole number",
-    "date": "Date"
+    "date": "Date",
+    "receipt_scanning": "Reciept scanning"
 }

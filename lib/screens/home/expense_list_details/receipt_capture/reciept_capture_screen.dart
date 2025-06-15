@@ -52,7 +52,7 @@ class _ReceiptCaptureScreenState extends State<ReceiptCaptureScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Reciept scanning'),
+        title: Text(AppLocalizations.of(context)!.receipt_scanning),
         actions: [
           IconButton(
             onPressed: () {

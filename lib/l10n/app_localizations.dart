@@ -547,6 +547,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Date'**
   String get date;
+
+  /// No description provided for @receipt_scanning.
+  ///
+  /// In en, this message translates to:
+  /// **'Reciept scanning'**
+  String get receipt_scanning;
 }
 
 class _AppLocalizationsDelegate

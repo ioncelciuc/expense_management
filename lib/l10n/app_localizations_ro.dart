@@ -248,4 +248,7 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get date => 'Data';
+
+  @override
+  String get receipt_scanning => 'Scanare bon';
 }
