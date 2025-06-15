@@ -246,4 +246,23 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get receipt_scanning => 'Reciept scanning';
+
+  @override
+  String get autors => 'Autors';
+
+  @override
+  String get month => 'Month';
+
+  @override
+  String get delete_expense_list_title => 'Do you want to delete';
+
+  @override
+  String get delete_expense_list_content =>
+      'Once deleted, there\'s no going back!';
+
+  @override
+  String get cancel => 'Cancel';
+
+  @override
+  String get delete => 'Delete';
 }

@@ -553,6 +553,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Reciept scanning'**
   String get receipt_scanning;
+
+  /// No description provided for @autors.
+  ///
+  /// In en, this message translates to:
+  /// **'Autors'**
+  String get autors;
+
+  /// No description provided for @month.
+  ///
+  /// In en, this message translates to:
+  /// **'Month'**
+  String get month;
+
+  /// No description provided for @delete_expense_list_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Do you want to delete'**
+  String get delete_expense_list_title;
+
+  /// No description provided for @delete_expense_list_content.
+  ///
+  /// In en, this message translates to:
+  /// **'Once deleted, there\'s no going back!'**
+  String get delete_expense_list_content;
+
+  /// No description provided for @cancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get cancel;
+
+  /// No description provided for @delete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get delete;
 }
 
 class _AppLocalizationsDelegate

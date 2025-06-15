@@ -74,5 +74,11 @@
     "error_price_not_correct": "Prețul introdus nu este corect",
     "error_quanity_whole_number": "Cantitatea trebuie să fie un număr întreg",
     "date": "Data",
-    "receipt_scanning": "Scanare bon"
+    "receipt_scanning": "Scanare bon",
+    "autors": "Autori",
+    "month": "Lună",
+    "delete_expense_list_title": "Vrei să ștergi",
+    "delete_expense_list_content": "Odată ștearsă lista, acțiunea e permanentă!",
+    "cancel": "Anulează",
+    "delete": "Șterge"
 }

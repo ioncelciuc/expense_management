@@ -251,4 +251,23 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get receipt_scanning => 'Scanare bon';
+
+  @override
+  String get autors => 'Autori';
+
+  @override
+  String get month => 'Lună';
+
+  @override
+  String get delete_expense_list_title => 'Vrei să ștergi';
+
+  @override
+  String get delete_expense_list_content =>
+      'Odată ștearsă lista, acțiunea e permanentă!';
+
+  @override
+  String get cancel => 'Anulează';
+
+  @override
+  String get delete => 'Șterge';
 }
