@@ -54,7 +54,6 @@ class ExpenseListsCubit extends Cubit<ExpenseListsState> {
   Future<void> updateExpenseList(ExpenseList updatedList) async {
     try {
       await FirebaseFirestore.instance.collection(FirebaseHelper.expenseListsCollection).doc(updatedList.id).update(updatedList.toMap());
-      _updateExpenseListLastModified(updatedList.id);
     } catch (e) {
       emit(ExpenseListsError(e.toString()));
     }

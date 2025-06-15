@@ -8,6 +8,7 @@ class PurchaseTypeWidget extends StatelessWidget {
   final String selectedIconKey;
   final void Function(String?)? onSelectIcon;
   final void Function(DismissDirection)? onDismissed;
+  final DismissDirection dismissDirection;
 
   const PurchaseTypeWidget({
     super.key,
@@ -15,13 +16,14 @@ class PurchaseTypeWidget extends StatelessWidget {
     required this.selectedIconKey,
     this.onSelectIcon,
     this.onDismissed,
+    this.dismissDirection = DismissDirection.endToStart,
   });
 
   @override
   Widget build(BuildContext context) {
     return Dismissible(
       key: ValueKey(nameController),
-      direction: DismissDirection.endToStart,
+      direction: dismissDirection,
       onDismissed: onDismissed,
       child: Row(
         children: [

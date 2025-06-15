@@ -8,6 +8,7 @@ class ReocurringPaymentWidget extends StatelessWidget {
   final int dayOfMonth;
   final void Function(int?)? onSelectDayOfMonth;
   final void Function(DismissDirection)? onDismissed;
+  final DismissDirection dismissDirection;
 
   const ReocurringPaymentWidget({
     super.key,
@@ -16,13 +17,14 @@ class ReocurringPaymentWidget extends StatelessWidget {
     required this.dayOfMonth,
     this.onDismissed,
     this.onSelectDayOfMonth,
+    this.dismissDirection = DismissDirection.endToStart,
   });
 
   @override
   Widget build(BuildContext context) {
     return Dismissible(
-      key: ValueKey(nameController),
-      direction: DismissDirection.endToStart,
+      key: UniqueKey(),
+      direction: dismissDirection,
       onDismissed: onDismissed,
       child: Row(
         children: [

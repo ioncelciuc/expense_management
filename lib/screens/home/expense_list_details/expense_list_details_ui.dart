@@ -5,6 +5,7 @@ import 'package:expense_management/l10n/app_localizations.dart';
 import 'package:expense_management/models/purchase_type.dart';
 import 'package:expense_management/models/receipt.dart';
 import 'package:expense_management/screens/home/expense_list_details/receipt_capture/reciept_capture_screen.dart';
+import 'package:expense_management/screens/home/expense_list_details/update_expense_list/update_expense_list_screen.dart';
 import 'package:expense_management/widgets/expandable_fab.dart';
 import 'package:expense_management/widgets/expense_bottom_sheet_widget.dart';
 import 'package:expense_management/widgets/receipt_list_item.dart';
@@ -50,7 +51,15 @@ class _ExpenseListDetailsUiState extends State<ExpenseListDetailsUi> {
                   icon: const Icon(Icons.bar_chart),
                 ),
                 IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => UpdateExpenseListScreen(
+                          expenseList: list,
+                        ),
+                      ),
+                    );
+                  },
                   icon: const Icon(Icons.edit),
                 ),
               ],
