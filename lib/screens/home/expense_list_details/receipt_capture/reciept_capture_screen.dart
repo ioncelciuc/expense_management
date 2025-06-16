@@ -208,12 +208,12 @@ Each item from the array should include:
 - date (String, format should be dd/MM/yyyy)
 - purchaseType
 
-The purchase type should be the most suitable purchase type from the following: ${widget.purchaseTypes.map((e) => e.toMap()).toList()}.It should always NOT be empty, just choose the most suitable purchase type.
+The purchase type should be the most suitable one for that specific product from the following: ${widget.purchaseTypes.map((e) => e.toMap()['name']).toList()}.
 
-Return only a valid JSON array, no explanation. If the image is not containing a receipt, return an empty array.
+Return only a valid JSON array, no explanation. Consider the list of products can be in Romanian or English. If the image is not containing a receipt, return an empty array.
 ''';
 
-    print('PROMT READY');
+    print('PROMT READY. PurchaseTypes: ${widget.purchaseTypes.map((e) => e.toMap()).toList()}');
     final uri = Uri.parse('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${dotenv.env['GEMINI_KEY']!}');
 
     final body = jsonEncode({
@@ -264,8 +264,8 @@ Return only a valid JSON array, no explanation. If the image is not containing a
             selectedDates.add(DateTime.now());
           }
           try {
-            PurchaseType pt = PurchaseType.fromMap(map['purchaseType']);
-            PurchaseType selectedPt = widget.purchaseTypes.firstWhere((p) => p.id == pt.id);
+            String purchaseTypeName = map['purchaseType'];
+            PurchaseType selectedPt = widget.purchaseTypes.firstWhere((p) => p.name == purchaseTypeName);
             selectedPurchaseTypes.add(selectedPt);
           } catch (e) {
             print('Error on gen api call on purchase type: $e');
