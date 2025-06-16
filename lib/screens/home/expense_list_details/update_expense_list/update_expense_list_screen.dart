@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expense_management/core/constants.dart';
+import 'package:expense_management/core/shared_functions.dart';
 import 'package:expense_management/cubits/expense_lists/expense_lists_cubit.dart';
 import 'package:expense_management/helpers/firebase_helper.dart';
 import 'package:expense_management/l10n/app_localizations.dart';
@@ -349,6 +350,10 @@ class _UpdateExpenseListScreenState extends State<UpdateExpenseListScreen> {
       if (ptControllers[i].text.trim().isEmpty) {
         return AppLocalizations.of(context)!.error_purchase_type_empty_name;
       }
+    }
+    final ptControllerValues = ptControllers.map((c) => c.text.trim()).toList();
+    if (hasDuplicateValues(ptControllerValues)) {
+      return AppLocalizations.of(context)!.error_purchase_type_name_duplicate;
     }
 
     return '';

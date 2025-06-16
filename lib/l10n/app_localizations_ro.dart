@@ -189,6 +189,10 @@ class AppLocalizationsRo extends AppLocalizations {
       'Trebuie să existe cel puțin un tip de cheltuială';
 
   @override
+  String get error_purchase_type_name_duplicate =>
+      'Tipurile de cheltuieli nu pot avea acelasi nume';
+
+  @override
   String get error_field_must_have_positive_numbers =>
       'Acest câmp trebuie să conțină doar numere pozitive';
 
@@ -270,4 +274,48 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get delete => 'Șterge';
+
+  @override
+  String get ok => 'Ok';
+
+  @override
+  String get yes => 'Da';
+
+  @override
+  String get no => 'Nu';
+
+  @override
+  String get filter => 'Filtru';
+
+  @override
+  String get time_period => 'Perioadă timp';
+
+  @override
+  String get time_period_from_month_start => 'Începutul lunii';
+
+  @override
+  String get time_period_last_month => 'Luna trecută';
+
+  @override
+  String get time_period_last_three_months => 'Ultimele trei luni';
+
+  @override
+  String get time_period_last_six_months => 'Ultimele șase luni';
+
+  @override
+  String get time_period_last_year => 'Ultimul an';
+
+  @override
+  String get custom => 'Personalizat';
+
+  @override
+  String get all => 'Toate';
+
+  @override
+  String get filter_no_elements =>
+      'Nu s-a găsit nicio cheltuială folosind filtrul';
+
+  @override
+  String get no_expenses =>
+      'Nu ai nicio cheltuială încă. Poți adăuga una folosind butonul PLUS. O poți adăuga manual sau folosind o poză a unui bon fiscal.';
 }

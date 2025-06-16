@@ -55,6 +55,7 @@
     "add_another_purchase_type": "Adaugă un alt tip de cheltuială",
     "error_reocurring_payment_empty_name": "O plată recurentă nu poate avea un nume gol",
     "error_no_purchase_type": "Trebuie să existe cel puțin un tip de cheltuială",
+    "error_purchase_type_name_duplicate": "Tipurile de cheltuieli nu pot avea acelasi nume",
     "error_field_must_have_positive_numbers": "Acest câmp trebuie să conțină doar numere pozitive",
     "error_reocurring_payment_sum": "O plată recurentă are o eroare în privința sumei",
     "name": "Nume",
@@ -80,5 +81,19 @@
     "delete_expense_list_title": "Vrei să ștergi",
     "delete_expense_list_content": "Odată ștearsă lista, acțiunea e permanentă!",
     "cancel": "Anulează",
-    "delete": "Șterge"
+    "delete": "Șterge",
+    "ok": "Ok",
+    "yes": "Da",
+    "no": "Nu",
+    "filter": "Filtru",
+    "time_period": "Perioadă timp",
+    "time_period_from_month_start": "Începutul lunii",
+    "time_period_last_month": "Luna trecută",
+    "time_period_last_three_months": "Ultimele trei luni",
+    "time_period_last_six_months": "Ultimele șase luni",
+    "time_period_last_year": "Ultimul an",
+    "custom": "Personalizat",
+    "all": "Toate",
+    "filter_no_elements": "Nu s-a găsit nicio cheltuială folosind filtrul",
+    "no_expenses": "Nu ai nicio cheltuială încă. Poți adăuga una folosind butonul PLUS. O poți adăuga manual sau folosind o poză a unui bon fiscal."
 }

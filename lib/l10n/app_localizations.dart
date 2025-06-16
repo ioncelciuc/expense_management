@@ -434,6 +434,12 @@ abstract class AppLocalizations {
   /// **'You must have at least a purchase type'**
   String get error_no_purchase_type;
 
+  /// No description provided for @error_purchase_type_name_duplicate.
+  ///
+  /// In en, this message translates to:
+  /// **'Purchase types cannot have the same name'**
+  String get error_purchase_type_name_duplicate;
+
   /// No description provided for @error_field_must_have_positive_numbers.
   ///
   /// In en, this message translates to:
@@ -589,6 +595,90 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Delete'**
   String get delete;
+
+  /// No description provided for @ok.
+  ///
+  /// In en, this message translates to:
+  /// **'Ok'**
+  String get ok;
+
+  /// No description provided for @yes.
+  ///
+  /// In en, this message translates to:
+  /// **'Yes'**
+  String get yes;
+
+  /// No description provided for @no.
+  ///
+  /// In en, this message translates to:
+  /// **'No'**
+  String get no;
+
+  /// No description provided for @filter.
+  ///
+  /// In en, this message translates to:
+  /// **'Filter'**
+  String get filter;
+
+  /// No description provided for @time_period.
+  ///
+  /// In en, this message translates to:
+  /// **'Time period'**
+  String get time_period;
+
+  /// No description provided for @time_period_from_month_start.
+  ///
+  /// In en, this message translates to:
+  /// **'Month start'**
+  String get time_period_from_month_start;
+
+  /// No description provided for @time_period_last_month.
+  ///
+  /// In en, this message translates to:
+  /// **'Last month'**
+  String get time_period_last_month;
+
+  /// No description provided for @time_period_last_three_months.
+  ///
+  /// In en, this message translates to:
+  /// **'Last three months'**
+  String get time_period_last_three_months;
+
+  /// No description provided for @time_period_last_six_months.
+  ///
+  /// In en, this message translates to:
+  /// **'Last six months'**
+  String get time_period_last_six_months;
+
+  /// No description provided for @time_period_last_year.
+  ///
+  /// In en, this message translates to:
+  /// **'Last year'**
+  String get time_period_last_year;
+
+  /// No description provided for @custom.
+  ///
+  /// In en, this message translates to:
+  /// **'Custom'**
+  String get custom;
+
+  /// No description provided for @all.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get all;
+
+  /// No description provided for @filter_no_elements.
+  ///
+  /// In en, this message translates to:
+  /// **'No expenses found using the filter'**
+  String get filter_no_elements;
+
+  /// No description provided for @no_expenses.
+  ///
+  /// In en, this message translates to:
+  /// **'No expenses yet. Add one using the plus button. You can add it manually, or using a picture of a reciept.'**
+  String get no_expenses;
 }
 
 class _AppLocalizationsDelegate

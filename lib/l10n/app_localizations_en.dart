@@ -185,6 +185,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get error_no_purchase_type => 'You must have at least a purchase type';
 
   @override
+  String get error_purchase_type_name_duplicate =>
+      'Purchase types cannot have the same name';
+
+  @override
   String get error_field_must_have_positive_numbers =>
       'This field should contain only positive numbers';
 
@@ -265,4 +269,47 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get delete => 'Delete';
+
+  @override
+  String get ok => 'Ok';
+
+  @override
+  String get yes => 'Yes';
+
+  @override
+  String get no => 'No';
+
+  @override
+  String get filter => 'Filter';
+
+  @override
+  String get time_period => 'Time period';
+
+  @override
+  String get time_period_from_month_start => 'Month start';
+
+  @override
+  String get time_period_last_month => 'Last month';
+
+  @override
+  String get time_period_last_three_months => 'Last three months';
+
+  @override
+  String get time_period_last_six_months => 'Last six months';
+
+  @override
+  String get time_period_last_year => 'Last year';
+
+  @override
+  String get custom => 'Custom';
+
+  @override
+  String get all => 'All';
+
+  @override
+  String get filter_no_elements => 'No expenses found using the filter';
+
+  @override
+  String get no_expenses =>
+      'No expenses yet. Add one using the plus button. You can add it manually, or using a picture of a reciept.';
 }

@@ -55,6 +55,7 @@
     "add_another_purchase_type": "Add another purchase type",
     "error_reocurring_payment_empty_name": "A reocurring payment can't have an empty name",
     "error_no_purchase_type": "You must have at least a purchase type",
+    "error_purchase_type_name_duplicate": "Purchase types cannot have the same name",
     "error_field_must_have_positive_numbers": "This field should contain only positive numbers",
     "error_reocurring_payment_sum": "A reocurring payment has a mistake regarding the sum",
     "name": "Name",
@@ -80,5 +81,19 @@
     "delete_expense_list_title": "Do you want to delete",
     "delete_expense_list_content": "Once deleted, there's no going back!",
     "cancel": "Cancel",
-    "delete": "Delete"
+    "delete": "Delete",
+    "ok": "Ok",
+    "yes": "Yes",
+    "no": "No",
+    "filter": "Filter",
+    "time_period": "Time period",
+    "time_period_from_month_start": "Month start",
+    "time_period_last_month": "Last month",
+    "time_period_last_three_months": "Last three months",
+    "time_period_last_six_months": "Last six months",
+    "time_period_last_year": "Last year",
+    "custom": "Custom",
+    "all": "All",
+    "filter_no_elements": "No expenses found using the filter",
+    "no_expenses": "No expenses yet. Add one using the plus button. You can add it manually, or using a picture of a reciept."
 }

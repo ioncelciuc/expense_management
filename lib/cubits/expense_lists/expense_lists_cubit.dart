@@ -38,8 +38,15 @@ class ExpenseListsCubit extends Cubit<ExpenseListsState> {
     );
   }
 
-  Stream<List<Receipt>> receiptsStream(String listId) {
-    return FirebaseFirestore.instance.collection(FirebaseHelper.expenseListsCollection).doc(listId).collection('receipts').orderBy('dateTime', descending: true).snapshots().map((snap) => snap.docs.map((doc) => Receipt.fromMap(doc.data())).toList());
+  Stream<List<Receipt>> receiptsStream(String listId, DateTime fromDate, [String? purchaseTypeId]) {
+    Query<Map<String, dynamic>> query = FirebaseFirestore.instance.collection(FirebaseHelper.expenseListsCollection).doc(listId).collection('receipts').where('dateTime', isGreaterThanOrEqualTo: Timestamp.fromDate(fromDate));
+    if (purchaseTypeId != null && purchaseTypeId.isNotEmpty) {
+      query = query.where('purchaseTypeId', isEqualTo: purchaseTypeId);
+    }
+    query = query.orderBy('dateTime', descending: true);
+    return query.snapshots().map(
+          (snap) => snap.docs.map((doc) => Receipt.fromMap(doc.data())).toList(),
+        );
   }
 
   Future<void> addExpenseList(ExpenseList list) async {
