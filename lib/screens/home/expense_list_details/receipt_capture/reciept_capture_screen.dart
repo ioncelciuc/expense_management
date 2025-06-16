@@ -250,6 +250,7 @@ Return only a valid JSON array, no explanation. Consider the list of products ca
 
         setState(() => extractedJson = textPart.trim());
         List<Map<String, dynamic>> jsonList = parseReceiptJson(extractedJson!);
+        print('JSONLIST');
         print(jsonList.length);
         for (Map<String, dynamic> map in jsonList) {
           print('$map');

@@ -33,6 +33,8 @@ class ExpenseListDetailsUi extends StatefulWidget {
 }
 
 class _ExpenseListDetailsUiState extends State<ExpenseListDetailsUi> {
+  bool _didCheckRecurring = false;
+
   List<Receipt> receipts = [];
 
   String? selectedPeriod;
@@ -117,12 +119,15 @@ class _ExpenseListDetailsUiState extends State<ExpenseListDetailsUi> {
               builder: (context, snapshot) {
                 if (!snapshot.hasData) return const Center(child: CircularProgressIndicator());
                 receipts = snapshot.data!;
-                checkForReocurringPayments(
-                  list.id,
-                  list.reocurringPayments,
-                  receipts,
-                  list.purchaseTypes[0],
-                );
+                if (!_didCheckRecurring) {
+                  checkForReocurringPayments(
+                    list.id,
+                    list.reocurringPayments,
+                    receipts,
+                    list.purchaseTypes[0],
+                  );
+                  _didCheckRecurring = true;
+                }
                 if (receipts.isEmpty && selectedPurchaseType != AppLocalizations.of(context)!.all) {
                   return Padding(
                     padding: kPagePadding,
@@ -303,6 +308,15 @@ class _ExpenseListDetailsUiState extends State<ExpenseListDetailsUi> {
     );
   }
 
+  /*
+  checkForReocurringPayments(
+                  list.id,
+                  list.reocurringPayments,
+                  receipts,
+                  list.purchaseTypes[0],
+                );
+   */
+
   checkForReocurringPayments(
     String listId,
     List<ReocurringPayment> reocurringPayments,
@@ -314,11 +328,12 @@ class _ExpenseListDetailsUiState extends State<ExpenseListDetailsUi> {
     for (ReocurringPayment reocurringPayment in reocurringPayments) {
       List<Receipt> receiptForPayment = thisMonthReceipts
           .where(
-            (r) => reocurringPayment.dayOfMonth == r.dateTime.day && reocurringPayment.name == r.name,
+            (r) => reocurringPayment.dayOfMonth == r.dateTime.day && reocurringPayment.name == r.name && reocurringPayment.sum == r.price,
           )
           .toList();
+      print('RECEIPT FOR PAYMENT');
+      print(receiptForPayment.length);
       if (reocurringPayment.dayOfMonth <= DateTime.now().day && receiptForPayment.isEmpty) {
-        //add to firebase
         Receipt receipt = Receipt(
           id: FirebaseFirestore.instance.collection('reocurringPayment').doc().id,
           name: reocurringPayment.name,
