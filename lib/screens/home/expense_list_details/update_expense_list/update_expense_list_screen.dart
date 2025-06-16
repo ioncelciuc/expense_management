@@ -312,7 +312,13 @@ class _UpdateExpenseListScreenState extends State<UpdateExpenseListScreen> {
     }
 
     setState(() {
-      chips.add(userToAdd);
+      chips.add(
+        UserModel(
+          id: userToAdd.id,
+          email: userToAdd.email,
+          status: 'pending',
+        ),
+      );
     });
     WidgetsBinding.instance.addPostFrameCallback((_) {
       chipScrollController.animateTo(

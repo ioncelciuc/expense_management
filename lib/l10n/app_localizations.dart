@@ -739,6 +739,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Creating financial advice suited for you'**
   String get financial_advice_loading;
+
+  /// No description provided for @exit_shared_list_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Leave this shared list?'**
+  String get exit_shared_list_title;
+
+  /// No description provided for @exit_shared_list_content.
+  ///
+  /// In en, this message translates to:
+  /// **'You’ll lose access to this list and its contents. This action cannot be undone.'**
+  String get exit_shared_list_content;
+
+  /// No description provided for @confirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm'**
+  String get confirm;
+
+  /// No description provided for @deny.
+  ///
+  /// In en, this message translates to:
+  /// **'Deny'**
+  String get deny;
+
+  /// No description provided for @exit.
+  ///
+  /// In en, this message translates to:
+  /// **'Exit'**
+  String get exit;
+
+  /// No description provided for @no_receipts_to_display.
+  ///
+  /// In en, this message translates to:
+  /// **'No receipts to display'**
+  String get no_receipts_to_display;
+
+  /// No description provided for @expense_list_emails_explanation.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter the email addresses of people you’d like to share this expense list with:'**
+  String get expense_list_emails_explanation;
 }
 
 class _AppLocalizationsDelegate

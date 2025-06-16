@@ -105,5 +105,12 @@
     "spent": "Cheltuiți",
     "statistics_for": "Statistici pentru",
     "financial_advice": "Sfaturi financiare",
-    "financial_advice_loading": "Se încarcă sfaturi financiare potrivite pentru tine"
+    "financial_advice_loading": "Se încarcă sfaturi financiare potrivite pentru tine",
+    "exit_shared_list_title": "Vrei să părăsești această listă partajată?",
+    "exit_shared_list_content": "Vei pierde accesul la această listă și la conținutul ei. Această acțiune nu poate fi anulată.",
+    "confirm": "Confirmă",
+    "deny": "Anulează",
+    "exit": "Ieșire",
+    "no_receipts_to_display": "Nu există cheltuieli de afișat",
+    "expense_list_emails_explanation": "Introduceți adresele de email ale persoanelor cu care doriți să partajați această listă de cheltuieli:"
 }

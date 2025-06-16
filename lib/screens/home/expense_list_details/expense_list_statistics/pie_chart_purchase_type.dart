@@ -41,7 +41,7 @@ class _PieChartPurchaseTypeState extends State<PieChartPurchaseType> {
     ];
 
     if (widget.receipts.isEmpty) {
-      return const Center(child: Text('No receipts to display.'));
+      return Center(child: Text(AppLocalizations.of(context)!.no_receipts_to_display));
     }
 
     // Compute date threshold and filtered receipts

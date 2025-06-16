@@ -345,4 +345,27 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get financial_advice_loading =>
       'Creating financial advice suited for you';
+
+  @override
+  String get exit_shared_list_title => 'Leave this shared list?';
+
+  @override
+  String get exit_shared_list_content =>
+      'You’ll lose access to this list and its contents. This action cannot be undone.';
+
+  @override
+  String get confirm => 'Confirm';
+
+  @override
+  String get deny => 'Deny';
+
+  @override
+  String get exit => 'Exit';
+
+  @override
+  String get no_receipts_to_display => 'No receipts to display';
+
+  @override
+  String get expense_list_emails_explanation =>
+      'Enter the email addresses of people you’d like to share this expense list with:';
 }

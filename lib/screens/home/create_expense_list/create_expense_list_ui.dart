@@ -58,6 +58,7 @@ class _CreateExpenseListUiState extends State<CreateExpenseListUi> {
       UserModel(
         id: FirebaseAuth.instance.currentUser!.uid,
         email: FirebaseAuth.instance.currentUser!.email!,
+        status: 'creator',
       ),
     );
     ptControllers.add(TextEditingController(text: 'Reocurring'));
@@ -107,7 +108,7 @@ class _CreateExpenseListUiState extends State<CreateExpenseListUi> {
           const SizedBox(height: 8),
           //EMAILS THAT CAN ACCESS THIS LIST
           Text(
-            'Add people\'s email who can access this expense list:',
+            AppLocalizations.of(context)!.expense_list_emails_explanation,
             style: Theme.of(context).textTheme.bodyLarge,
           ),
           // const SizedBox(height: 8),
@@ -342,7 +343,13 @@ class _CreateExpenseListUiState extends State<CreateExpenseListUi> {
     }
 
     setState(() {
-      chips.add(userToAdd);
+      chips.add(
+        UserModel(
+          id: userToAdd.id,
+          email: userToAdd.email,
+          status: 'pending',
+        ),
+      );
     });
     WidgetsBinding.instance.addPostFrameCallback((_) {
       chipScrollController.animateTo(

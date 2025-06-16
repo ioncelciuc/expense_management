@@ -16,13 +16,22 @@ class ExpenseListsCubit extends Cubit<ExpenseListsState> {
   void listenToExpenseLists() {
     _subscription?.cancel();
 
-    final query = FirebaseFirestore.instance.collection(FirebaseHelper.expenseListsCollection).where(
-      'allowedUsers',
-      arrayContains: {
-        'id': FirebaseAuth.instance.currentUser!.uid,
-        'email': FirebaseAuth.instance.currentUser!.email,
-      },
-    ).orderBy('modifiedAt', descending: true);
+    final uid = FirebaseAuth.instance.currentUser!.uid;
+    final email = FirebaseAuth.instance.currentUser!.email!;
+
+    final userVariants = [
+      {'id': uid, 'email': email, 'status': 'creator'},
+      {'id': uid, 'email': email, 'status': 'pending'},
+      {'id': uid, 'email': email, 'status': 'editor'},
+    ];
+
+    final query = FirebaseFirestore.instance
+        .collection(FirebaseHelper.expenseListsCollection)
+        .where(
+          'allowedUsers',
+          arrayContainsAny: userVariants,
+        )
+        .orderBy('modifiedAt', descending: true);
 
     _subscription = query.snapshots().listen(
       (snapshot) {
@@ -47,6 +56,62 @@ class ExpenseListsCubit extends Cubit<ExpenseListsState> {
     return query.snapshots().map(
           (snap) => snap.docs.map((doc) => Receipt.fromMap(doc.data())).toList(),
         );
+  }
+
+  Future<void> confirmExpenseListParticipation(String id) async {
+    try {
+      final docRef = FirebaseFirestore.instance.collection(FirebaseHelper.expenseListsCollection).doc(id);
+      final snap = await docRef.get();
+      final users = (snap.data()!['allowedUsers'] as List<dynamic>).cast<Map<String, dynamic>>();
+      final oldEntry = users.firstWhere((u) => u['id'] == FirebaseAuth.instance.currentUser!.uid);
+      final newEntry = {
+        ...oldEntry,
+        'status': 'editor',
+      };
+      await docRef.update({
+        'allowedUsers': FieldValue.arrayRemove([oldEntry]),
+      });
+      await docRef.update({
+        'allowedUsers': FieldValue.arrayUnion([newEntry]),
+      });
+    } catch (e) {
+      emit(ExpenseListsError(e.toString()));
+    }
+  }
+
+  Future<void> denyExpenseListParticipation(String id) async {
+    try {
+      final docRef = FirebaseFirestore.instance.collection(FirebaseHelper.expenseListsCollection).doc(id);
+      final snap = await docRef.get();
+      final users = (snap.data()!['allowedUsers'] as List<dynamic>).cast<Map<String, dynamic>>();
+      final oldEntry = users.firstWhere((u) => u['id'] == FirebaseAuth.instance.currentUser!.uid);
+      await docRef.update({
+        'allowedUsers': FieldValue.arrayRemove([oldEntry]),
+      });
+    } catch (e) {
+      emit(ExpenseListsError(e.toString()));
+    }
+  }
+
+  Future<void> exitExpenseListParticipation(String id) async {
+    try {
+      final docRef = FirebaseFirestore.instance.collection(FirebaseHelper.expenseListsCollection).doc(id);
+      final snap = await docRef.get();
+      final users = (snap.data()!['allowedUsers'] as List<dynamic>).cast<Map<String, dynamic>>();
+      final oldEntry = users.firstWhere((u) => u['id'] == FirebaseAuth.instance.currentUser!.uid);
+      final newEntry = {
+        ...oldEntry,
+        'status': 'exit',
+      };
+      await docRef.update({
+        'allowedUsers': FieldValue.arrayRemove([oldEntry]),
+      });
+      await docRef.update({
+        'allowedUsers': FieldValue.arrayUnion([newEntry]),
+      });
+    } catch (e) {
+      emit(ExpenseListsError(e.toString()));
+    }
   }
 
   Future<void> addExpenseList(ExpenseList list) async {

@@ -105,5 +105,12 @@
     "spent": "Spent",
     "statistics_for": "Statistics for",
     "financial_advice": "Financial Advice",
-    "financial_advice_loading": "Creating financial advice suited for you"
+    "financial_advice_loading": "Creating financial advice suited for you",
+    "exit_shared_list_title": "Leave this shared list?",
+    "exit_shared_list_content": "You’ll lose access to this list and its contents. This action cannot be undone.",
+    "confirm": "Confirm",
+    "deny": "Deny",
+    "exit": "Exit",
+    "no_receipts_to_display": "No receipts to display",
+    "expense_list_emails_explanation": "Enter the email addresses of people you’d like to share this expense list with:"
 }

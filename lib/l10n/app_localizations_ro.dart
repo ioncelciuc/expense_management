@@ -351,4 +351,28 @@ class AppLocalizationsRo extends AppLocalizations {
   @override
   String get financial_advice_loading =>
       'Se încarcă sfaturi financiare potrivite pentru tine';
+
+  @override
+  String get exit_shared_list_title =>
+      'Vrei să părăsești această listă partajată?';
+
+  @override
+  String get exit_shared_list_content =>
+      'Vei pierde accesul la această listă și la conținutul ei. Această acțiune nu poate fi anulată.';
+
+  @override
+  String get confirm => 'Confirmă';
+
+  @override
+  String get deny => 'Anulează';
+
+  @override
+  String get exit => 'Ieșire';
+
+  @override
+  String get no_receipts_to_display => 'Nu există cheltuieli de afișat';
+
+  @override
+  String get expense_list_emails_explanation =>
+      'Introduceți adresele de email ale persoanelor cu care doriți să partajați această listă de cheltuieli:';
 }
