@@ -79,4 +79,5 @@ final Map<String, IconData> kIconRegistry = {
   'parking': Icons.local_parking,
   'parking_ticket': Icons.confirmation_number,
   'parking_garage': Icons.garage,
+  'reocurring': Icons.history
 };

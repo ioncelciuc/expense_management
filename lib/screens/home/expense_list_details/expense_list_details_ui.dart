@@ -1,16 +1,20 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expense_management/core/constants.dart';
 import 'package:expense_management/core/shared_functions.dart';
 import 'package:expense_management/cubits/expense_lists/expense_lists_cubit.dart';
 import 'package:expense_management/cubits/expense_lists/expense_lists_state.dart';
 import 'package:expense_management/cubits/language/language_cubit.dart';
 import 'package:expense_management/l10n/app_localizations.dart';
+import 'package:expense_management/models/purchase_type.dart';
 import 'package:expense_management/models/receipt.dart';
+import 'package:expense_management/models/reocurring_payment.dart';
 import 'package:expense_management/screens/home/expense_list_details/expense_list_statistics/expense_list_statistics_screen.dart';
 import 'package:expense_management/screens/home/expense_list_details/receipt_capture/reciept_capture_screen.dart';
 import 'package:expense_management/screens/home/expense_list_details/update_expense_list/update_expense_list_screen.dart';
 import 'package:expense_management/widgets/expandable_fab.dart';
 import 'package:expense_management/widgets/expense_bottom_sheet_widget.dart';
 import 'package:expense_management/widgets/receipt_list_item.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
@@ -29,7 +33,7 @@ class ExpenseListDetailsUi extends StatefulWidget {
 }
 
 class _ExpenseListDetailsUiState extends State<ExpenseListDetailsUi> {
-  List<Receipt> reciepts = [];
+  List<Receipt> receipts = [];
 
   String? selectedPeriod;
   List<String> periods = [];
@@ -112,8 +116,14 @@ class _ExpenseListDetailsUiState extends State<ExpenseListDetailsUi> {
                   ),
               builder: (context, snapshot) {
                 if (!snapshot.hasData) return const Center(child: CircularProgressIndicator());
-                reciepts = snapshot.data!;
-                if (reciepts.isEmpty && selectedPurchaseType != AppLocalizations.of(context)!.all) {
+                receipts = snapshot.data!;
+                checkForReocurringPayments(
+                  list.id,
+                  list.reocurringPayments,
+                  receipts,
+                  list.purchaseTypes[0],
+                );
+                if (receipts.isEmpty && selectedPurchaseType != AppLocalizations.of(context)!.all) {
                   return Padding(
                     padding: kPagePadding,
                     child: Center(
@@ -125,7 +135,7 @@ class _ExpenseListDetailsUiState extends State<ExpenseListDetailsUi> {
                     ),
                   );
                 }
-                if (reciepts.isEmpty) {
+                if (receipts.isEmpty) {
                   return Padding(
                     padding: kPagePadding,
                     child: Center(
@@ -138,12 +148,12 @@ class _ExpenseListDetailsUiState extends State<ExpenseListDetailsUi> {
                   );
                 }
                 return ListView.builder(
-                    itemCount: reciepts.length,
+                    itemCount: receipts.length,
                     itemBuilder: (context, index) {
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          index > 0 && sfIsTheSameDay(reciepts[index].dateTime, reciepts[index - 1].dateTime)
+                          index > 0 && sfIsTheSameDay(receipts[index].dateTime, receipts[index - 1].dateTime)
                               ? const SizedBox()
                               : Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -151,7 +161,7 @@ class _ExpenseListDetailsUiState extends State<ExpenseListDetailsUi> {
                                     Padding(
                                       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                                       child: Text(
-                                        DateFormat(index > 0 && !sfIsTheSameYear(reciepts[index].dateTime, reciepts[index - 1].dateTime) ? 'dd MMM yyyy' : 'dd MMM', BlocProvider.of<LanguageCubit>(context).language.languageCode).format(reciepts[index].dateTime),
+                                        DateFormat(index > 0 && !sfIsTheSameYear(receipts[index].dateTime, receipts[index - 1].dateTime) ? 'dd MMM yyyy' : 'dd MMM', BlocProvider.of<LanguageCubit>(context).language.languageCode).format(receipts[index].dateTime),
                                         style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.bold),
                                       ),
                                     ),
@@ -160,10 +170,10 @@ class _ExpenseListDetailsUiState extends State<ExpenseListDetailsUi> {
                                 ),
                           ReceiptListItem(
                             listId: list.id,
-                            reciept: reciepts[index],
-                            icon: kIconRegistry[list.purchaseTypes.firstWhere((pt) => pt.id == reciepts[index].purchaseTypeId).iconKey] ?? Icons.question_mark,
+                            reciept: receipts[index],
+                            icon: kIconRegistry[list.purchaseTypes.firstWhere((pt) => pt.id == receipts[index].purchaseTypeId).iconKey] ?? Icons.question_mark,
                             currency: list.currency,
-                            user: list.allowedUsers.firstWhere((u) => u.id == reciepts[index].addedByUserId).email,
+                            user: list.allowedUsers.firstWhere((u) => u.id == receipts[index].addedByUserId).email,
                           ),
                         ],
                       );
@@ -291,5 +301,35 @@ class _ExpenseListDetailsUiState extends State<ExpenseListDetailsUi> {
         ),
       ),
     );
+  }
+
+  checkForReocurringPayments(
+    String listId,
+    List<ReocurringPayment> reocurringPayments,
+    List<Receipt> receipts,
+    PurchaseType purchaseType,
+  ) {
+    DateTime firstOfMonth = DateTime(DateTime.now().year, DateTime.now().month, 1);
+    List<Receipt> thisMonthReceipts = receipts.where((r) => r.dateTime.isAfter(firstOfMonth) || r.dateTime.isAtSameMomentAs(firstOfMonth)).toList();
+    for (ReocurringPayment reocurringPayment in reocurringPayments) {
+      List<Receipt> receiptForPayment = thisMonthReceipts
+          .where(
+            (r) => reocurringPayment.dayOfMonth == r.dateTime.day && reocurringPayment.name == r.name,
+          )
+          .toList();
+      if (reocurringPayment.dayOfMonth <= DateTime.now().day && receiptForPayment.isEmpty) {
+        //add to firebase
+        Receipt receipt = Receipt(
+          id: FirebaseFirestore.instance.collection('reocurringPayment').doc().id,
+          name: reocurringPayment.name,
+          price: reocurringPayment.sum,
+          quantity: 1,
+          purchaseTypeId: purchaseType.id,
+          dateTime: DateTime(firstOfMonth.year, firstOfMonth.month, reocurringPayment.dayOfMonth),
+          addedByUserId: FirebaseAuth.instance.currentUser!.uid,
+        );
+        BlocProvider.of<ExpenseListsCubit>(context).addReciept(listId, receipt);
+      }
+    }
   }
 }

@@ -60,12 +60,8 @@ class _CreateExpenseListUiState extends State<CreateExpenseListUi> {
         email: FirebaseAuth.instance.currentUser!.email!,
       ),
     );
-    ptControllers.add(TextEditingController(text: 'Factura curent'));
-    ptControllers.add(TextEditingController(text: 'Carburant'));
-    ptControllers.add(TextEditingController(text: 'Haine'));
-    ptIcons.add('electricity');
-    ptIcons.add('gas');
-    ptIcons.add('clothing');
+    ptControllers.add(TextEditingController(text: 'Reocurring'));
+    ptIcons.add('reocurring');
     setState(() {});
     super.initState();
   }
@@ -280,6 +276,7 @@ class _CreateExpenseListUiState extends State<CreateExpenseListUi> {
                   }
                   setState(() {});
                 },
+                dismissDirection: index == 0 ? DismissDirection.none : DismissDirection.endToStart,
                 onDismissed: (dir) {
                   ptControllers.removeAt(index);
                   ptIcons.removeAt(index);
