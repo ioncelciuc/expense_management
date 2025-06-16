@@ -4,7 +4,6 @@ import 'package:expense_management/cubits/expense_lists/expense_lists_cubit.dart
 import 'package:expense_management/cubits/expense_lists/expense_lists_state.dart';
 import 'package:expense_management/cubits/language/language_cubit.dart';
 import 'package:expense_management/l10n/app_localizations.dart';
-import 'package:expense_management/models/purchase_type.dart';
 import 'package:expense_management/models/receipt.dart';
 import 'package:expense_management/screens/home/expense_list_details/expense_list_statistics/expense_list_statistics_screen.dart';
 import 'package:expense_management/screens/home/expense_list_details/receipt_capture/reciept_capture_screen.dart';
@@ -75,67 +74,7 @@ class _ExpenseListDetailsUiState extends State<ExpenseListDetailsUi> {
               actions: [
                 IconButton(
                   onPressed: () {
-                    showModalBottomSheet(
-                      context: context,
-                      builder: (context) => BottomSheet(
-                        onClosing: () {},
-                        builder: (context) => Padding(
-                          padding: const EdgeInsets.only(top: 16, left: 16, right: 16, bottom: 64),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Text(
-                                AppLocalizations.of(context)!.filter,
-                                style: Theme.of(context).textTheme.headlineSmall,
-                              ),
-                              const SizedBox(height: 32),
-                              DropdownButtonFormField<String>(
-                                isExpanded: true,
-                                decoration: InputDecoration(
-                                  label: Text(AppLocalizations.of(context)!.time_period),
-                                ),
-                                value: selectedPeriod,
-                                isDense: true,
-                                onChanged: (newPeriod) {
-                                  if (newPeriod != null) {
-                                    selectedPeriod = newPeriod;
-                                    setState(() {});
-                                  }
-                                },
-                                items: periods.map((period) {
-                                  return DropdownMenuItem(
-                                    value: period,
-                                    child: Text(period),
-                                  );
-                                }).toList(),
-                              ),
-                              const SizedBox(height: 32),
-                              DropdownButtonFormField<String>(
-                                isExpanded: true,
-                                decoration: InputDecoration(
-                                  label: Text(AppLocalizations.of(context)!.purchase_type),
-                                ),
-                                value: selectedPurchaseType,
-                                isDense: true,
-                                onChanged: (newPurchaseType) {
-                                  if (newPurchaseType != null) {
-                                    selectedPurchaseType = newPurchaseType;
-                                    setState(() {});
-                                  }
-                                },
-                                items: purchaseTypes.map((pt) {
-                                  return DropdownMenuItem(
-                                    value: pt,
-                                    child: Text(pt),
-                                  );
-                                }).toList(),
-                              ),
-                              const SizedBox(height: 16),
-                            ],
-                          ),
-                        ),
-                      ),
-                    );
+                    showFilterModal(context);
                   },
                   icon: const Icon(Icons.filter_alt),
                 ),
@@ -169,7 +108,7 @@ class _ExpenseListDetailsUiState extends State<ExpenseListDetailsUi> {
             body: StreamBuilder<List<Receipt>>(
               stream: context.read<ExpenseListsCubit>().receiptsStream(
                     widget.listId,
-                    getFilteredDate(selectedPeriod ?? AppLocalizations.of(context)!.all, context),
+                    sfGetFilteredDate(selectedPeriod ?? AppLocalizations.of(context)!.all, context),
                     selectedPurchaseType == AppLocalizations.of(context)!.all ? null : list.purchaseTypes.firstWhere((pt) => pt.name == selectedPurchaseType).id,
                   ),
               builder: (context, snapshot) {
@@ -205,7 +144,7 @@ class _ExpenseListDetailsUiState extends State<ExpenseListDetailsUi> {
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          index > 0 && isTheSameDay(reciepts[index].dateTime, reciepts[index - 1].dateTime)
+                          index > 0 && sfIsTheSameDay(reciepts[index].dateTime, reciepts[index - 1].dateTime)
                               ? const SizedBox()
                               : Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -213,7 +152,7 @@ class _ExpenseListDetailsUiState extends State<ExpenseListDetailsUi> {
                                     Padding(
                                       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                                       child: Text(
-                                        DateFormat(index > 0 && !isTheSameYear(reciepts[index].dateTime, reciepts[index - 1].dateTime) ? 'dd MMM yyyy' : 'dd MMM', BlocProvider.of<LanguageCubit>(context).language.languageCode).format(reciepts[index].dateTime),
+                                        DateFormat(index > 0 && !sfIsTheSameYear(reciepts[index].dateTime, reciepts[index - 1].dateTime) ? 'dd MMM yyyy' : 'dd MMM', BlocProvider.of<LanguageCubit>(context).language.languageCode).format(reciepts[index].dateTime),
                                         style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.bold),
                                       ),
                                     ),
@@ -291,11 +230,67 @@ class _ExpenseListDetailsUiState extends State<ExpenseListDetailsUi> {
     );
   }
 
-  bool isTheSameYear(DateTime dateTime1, DateTime dateTime2) {
-    return dateTime1.year == dateTime2.year;
-  }
-
-  bool isTheSameDay(DateTime dateTime1, DateTime dateTime2) {
-    return dateTime1.year == dateTime2.year && dateTime1.month == dateTime2.month && dateTime1.day == dateTime2.day;
+  Future<dynamic> showFilterModal(BuildContext context) {
+    return showModalBottomSheet(
+      context: context,
+      builder: (context) => BottomSheet(
+        onClosing: () {},
+        builder: (context) => Padding(
+          padding: const EdgeInsets.only(top: 16, left: 16, right: 16, bottom: 64),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                AppLocalizations.of(context)!.filter,
+                style: Theme.of(context).textTheme.headlineSmall,
+              ),
+              const SizedBox(height: 32),
+              DropdownButtonFormField<String>(
+                isExpanded: true,
+                decoration: InputDecoration(
+                  label: Text(AppLocalizations.of(context)!.time_period),
+                ),
+                value: selectedPeriod,
+                isDense: true,
+                onChanged: (newPeriod) {
+                  if (newPeriod != null) {
+                    selectedPeriod = newPeriod;
+                    setState(() {});
+                  }
+                },
+                items: periods.map((period) {
+                  return DropdownMenuItem(
+                    value: period,
+                    child: Text(period),
+                  );
+                }).toList(),
+              ),
+              const SizedBox(height: 32),
+              DropdownButtonFormField<String>(
+                isExpanded: true,
+                decoration: InputDecoration(
+                  label: Text(AppLocalizations.of(context)!.purchase_type),
+                ),
+                value: selectedPurchaseType,
+                isDense: true,
+                onChanged: (newPurchaseType) {
+                  if (newPurchaseType != null) {
+                    selectedPurchaseType = newPurchaseType;
+                    setState(() {});
+                  }
+                },
+                items: purchaseTypes.map((pt) {
+                  return DropdownMenuItem(
+                    value: pt,
+                    child: Text(pt),
+                  );
+                }).toList(),
+              ),
+              const SizedBox(height: 16),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }

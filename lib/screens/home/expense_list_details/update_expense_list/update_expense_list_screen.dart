@@ -328,15 +328,13 @@ class _UpdateExpenseListScreenState extends State<UpdateExpenseListScreen> {
       return AppLocalizations.of(context)!.expense_list_complete_all_fields_to_create;
     }
 
-    String monthlyBudgetError = isMonthlyBudgetValid();
-    if (monthlyBudgetError.isNotEmpty) {
-      return monthlyBudgetError;
+    if (!sfIsPositiveInteger(budgetController.text.trim())) {
+      return AppLocalizations.of(context)!.error_field_must_have_positive_numbers;
     }
 
     for (int i = 0; i < rpNameControllers.length; i++) {
-      String rpSumError = isReocurringPaymentSumValid(rpAmountControllers[i]);
-      if (rpSumError.isNotEmpty) {
-        return rpSumError;
+      if (!sfIsPositiveDouble(rpAmountControllers[i].text.trim())) {
+        return AppLocalizations.of(context)!.error_reocurring_payment_sum;
       }
       if (rpNameControllers[i].text.trim().isEmpty) {
         return AppLocalizations.of(context)!.error_reocurring_payment_empty_name;
@@ -352,26 +350,10 @@ class _UpdateExpenseListScreenState extends State<UpdateExpenseListScreen> {
       }
     }
     final ptControllerValues = ptControllers.map((c) => c.text.trim()).toList();
-    if (hasDuplicateValues(ptControllerValues)) {
+    if (sfHasDuplicateValues(ptControllerValues)) {
       return AppLocalizations.of(context)!.error_purchase_type_name_duplicate;
     }
 
-    return '';
-  }
-
-  String isMonthlyBudgetValid() {
-    int? monthlyBudget = int.tryParse(budgetController.text.trim());
-    if (monthlyBudget == null || monthlyBudget <= 0 || monthlyBudget > 900_000_000_000) {
-      return AppLocalizations.of(context)!.error_field_must_have_positive_numbers;
-    }
-    return '';
-  }
-
-  String isReocurringPaymentSumValid(TextEditingController controller) {
-    double? sum = double.tryParse(controller.text.trim());
-    if (sum == null || sum <= 0) {
-      AppLocalizations.of(context)!.error_reocurring_payment_sum;
-    }
     return '';
   }
 
