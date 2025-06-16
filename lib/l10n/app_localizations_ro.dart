@@ -318,4 +318,30 @@ class AppLocalizationsRo extends AppLocalizations {
   @override
   String get no_expenses =>
       'Nu ai nicio cheltuială încă. Poți adăuga una folosind butonul PLUS. O poți adăuga manual sau folosind o poză a unui bon fiscal.';
+
+  @override
+  String get pie_chart_tutorial =>
+      'Diagramă de tip plăcintă care arată procentul din buget ocupat de fiecare tip de achiziție';
+
+  @override
+  String get bar_chart_tutorial =>
+      'Diagramă cu bare care reprezintă suma cheltuită lunar';
+
+  @override
+  String get expenses => 'Cheltuieli';
+
+  @override
+  String get you_are_over_budget_by => 'Ai depășit bugetul cu';
+
+  @override
+  String get more_than_last_month => 'mai mult decât luna trecută';
+
+  @override
+  String get less_than_last_month => 'mai puțin decât luna trecută';
+
+  @override
+  String get spent => 'Cheltuiți';
+
+  @override
+  String get statistics_for => 'Statistici pentru';
 }

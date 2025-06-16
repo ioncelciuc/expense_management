@@ -95,5 +95,13 @@
     "custom": "Custom",
     "all": "All",
     "filter_no_elements": "No expenses found using the filter",
-    "no_expenses": "No expenses yet. Add one using the plus button. You can add it manually, or using a picture of a reciept."
+    "no_expenses": "No expenses yet. Add one using the plus button. You can add it manually, or using a picture of a reciept.",
+    "pie_chart_tutorial": "Pie chart representing the percent of budget taken by each purchase type",
+    "bar_chart_tutorial": "Bar chart representing the monthly amount of money spent",
+    "expenses": "Expenses",
+    "you_are_over_budget_by": "You are over budget by",
+    "more_than_last_month": "more than last month",
+    "less_than_last_month": "less than last month",
+    "spent": "Spent",
+    "statistics_for": "Statistics for"
 }

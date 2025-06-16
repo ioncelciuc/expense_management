@@ -1,4 +1,5 @@
 import 'package:expense_management/core/constants.dart';
+import 'package:expense_management/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 
 class MonthlyBudgetProgess extends StatelessWidget {
@@ -38,7 +39,7 @@ class MonthlyBudgetProgess extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Text(
-              'Budget used: ${usedBudget.toStringAsFixed(2)} / ${totalBudget.toStringAsFixed(0)}',
+              '${AppLocalizations.of(context)!.expenses}: ${usedBudget.toStringAsFixed(2)} / ${totalBudget.toStringAsFixed(0)} $currency',
               style: Theme.of(context).textTheme.bodyMedium,
             ),
             const SizedBox(height: 8),
@@ -55,7 +56,7 @@ class MonthlyBudgetProgess extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(top: 4),
                 child: Text(
-                  'You are over budget by ${(usedBudget - totalBudget).toStringAsFixed(2)} $currency',
+                  '${AppLocalizations.of(context)!.you_are_over_budget_by} ${(usedBudget - totalBudget).toStringAsFixed(2)} $currency',
                   style: TextStyle(
                     color: Colors.red.shade700,
                     fontWeight: FontWeight.bold,

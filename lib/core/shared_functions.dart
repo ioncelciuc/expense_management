@@ -7,11 +7,25 @@ bool sfHasDuplicateValues(List<String> values) {
   return uniqueValues.length != trimmedValues.length;
 }
 
+/// Returns a new [DateTime] corresponding to the first day of the month
+/// that is [monthsToSubtract] before [date].
 DateTime sfSubtractMonths(DateTime date, int monthsToSubtract) {
-  final int newYear = date.year - ((monthsToSubtract - (date.month - 1)) ~/ 12);
-  final int newMonth = ((date.month - monthsToSubtract - 1) % 12 + 12) % 12 + 1;
+  // Convert current year/month into a zero-based total month count
+  final int currentTotal = date.year * 12 + (date.month - 1);
+  // Subtract the desired number of months
+  final int newTotal = currentTotal - monthsToSubtract;
+  // Convert back into year/month
+  final int newYear = newTotal ~/ 12;
+  final int newMonth = (newTotal % 12) + 1;
+  // Return the first day of that month
   return DateTime(newYear, newMonth, 1);
 }
+
+// DateTime sfSubtractMonths(DateTime date, int monthsToSubtract) {
+//   final int newYear = date.year - ((monthsToSubtract - (date.month - 1)) ~/ 12);
+//   final int newMonth = ((date.month - monthsToSubtract - 1) % 12 + 12) % 12 + 1;
+//   return DateTime(newYear, newMonth, 1);
+// }
 
 DateTime sfGetFilteredDate(String filterSelection, BuildContext context) {
   final loc = AppLocalizations.of(context)!;

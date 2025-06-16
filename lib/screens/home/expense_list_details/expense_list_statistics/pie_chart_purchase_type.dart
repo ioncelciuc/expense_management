@@ -87,7 +87,7 @@ class _PieChartPurchaseTypeState extends State<PieChartPurchaseType> {
         child: Column(
           children: [
             Text(
-              'Pie chart representing the percent of budget taken by each purchase type',
+              AppLocalizations.of(context)!.pie_chart_tutorial,
               style: Theme.of(context).textTheme.bodyLarge,
             ),
             const SizedBox(height: 24),
@@ -148,7 +148,7 @@ class _PieChartPurchaseTypeState extends State<PieChartPurchaseType> {
                     style: Theme.of(context).textTheme.titleMedium,
                   ),
                   Text(
-                    '${entries[touchedIndex!].value.toStringAsFixed(2)} ${widget.currency} spent',
+                    '${entries[touchedIndex!].value.toStringAsFixed(2)} ${widget.currency} ${AppLocalizations.of(context)!.spent}',
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
                   const SizedBox(height: 16),

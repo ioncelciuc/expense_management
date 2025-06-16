@@ -5,7 +5,6 @@ import 'package:expense_management/widgets/expense_bottom_sheet_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:intl/intl.dart';
 
 class ReceiptListItem extends StatelessWidget {
   final String listId;
@@ -62,7 +61,7 @@ class ReceiptListItem extends StatelessWidget {
               children: [
                 Text('${reciept.price} $currency - ${reciept.quantity} pcs'),
                 Text(
-                  '${DateFormat('dd/MM/yyyy').format(reciept.dateTime)} - $user',
+                  user,
                   style: Theme.of(context).textTheme.bodySmall,
                 ),
               ],

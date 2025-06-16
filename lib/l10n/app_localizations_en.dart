@@ -312,4 +312,30 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get no_expenses =>
       'No expenses yet. Add one using the plus button. You can add it manually, or using a picture of a reciept.';
+
+  @override
+  String get pie_chart_tutorial =>
+      'Pie chart representing the percent of budget taken by each purchase type';
+
+  @override
+  String get bar_chart_tutorial =>
+      'Bar chart representing the monthly amount of money spent';
+
+  @override
+  String get expenses => 'Expenses';
+
+  @override
+  String get you_are_over_budget_by => 'You are over budget by';
+
+  @override
+  String get more_than_last_month => 'more than last month';
+
+  @override
+  String get less_than_last_month => 'less than last month';
+
+  @override
+  String get spent => 'Spent';
+
+  @override
+  String get statistics_for => 'Statistics for';
 }

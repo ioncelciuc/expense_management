@@ -679,6 +679,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No expenses yet. Add one using the plus button. You can add it manually, or using a picture of a reciept.'**
   String get no_expenses;
+
+  /// No description provided for @pie_chart_tutorial.
+  ///
+  /// In en, this message translates to:
+  /// **'Pie chart representing the percent of budget taken by each purchase type'**
+  String get pie_chart_tutorial;
+
+  /// No description provided for @bar_chart_tutorial.
+  ///
+  /// In en, this message translates to:
+  /// **'Bar chart representing the monthly amount of money spent'**
+  String get bar_chart_tutorial;
+
+  /// No description provided for @expenses.
+  ///
+  /// In en, this message translates to:
+  /// **'Expenses'**
+  String get expenses;
+
+  /// No description provided for @you_are_over_budget_by.
+  ///
+  /// In en, this message translates to:
+  /// **'You are over budget by'**
+  String get you_are_over_budget_by;
+
+  /// No description provided for @more_than_last_month.
+  ///
+  /// In en, this message translates to:
+  /// **'more than last month'**
+  String get more_than_last_month;
+
+  /// No description provided for @less_than_last_month.
+  ///
+  /// In en, this message translates to:
+  /// **'less than last month'**
+  String get less_than_last_month;
+
+  /// No description provided for @spent.
+  ///
+  /// In en, this message translates to:
+  /// **'Spent'**
+  String get spent;
+
+  /// No description provided for @statistics_for.
+  ///
+  /// In en, this message translates to:
+  /// **'Statistics for'**
+  String get statistics_for;
 }
 
 class _AppLocalizationsDelegate

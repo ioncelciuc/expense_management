@@ -4,6 +4,7 @@ import 'package:expense_management/cubits/expense_lists/expense_lists_cubit.dart
 import 'package:expense_management/l10n/app_localizations.dart';
 import 'package:expense_management/models/expense_list.dart';
 import 'package:expense_management/models/receipt.dart';
+import 'package:expense_management/screens/home/expense_list_details/expense_list_statistics/bar_chart_expenses_per_month.dart';
 import 'package:expense_management/screens/home/expense_list_details/expense_list_statistics/monthly_budget_progess.dart';
 import 'package:expense_management/screens/home/expense_list_details/expense_list_statistics/pie_chart_purchase_type.dart';
 import 'package:flutter/material.dart';
@@ -42,7 +43,7 @@ class _ExpenseListStatisticsScreenState extends State<ExpenseListStatisticsScree
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Statistics for ${widget.expenseList.name}'),
+        title: Text('${AppLocalizations.of(context)!.statistics_for} ${widget.expenseList.name}'),
       ),
       body: StreamBuilder(
           stream: context.read<ExpenseListsCubit>().receiptsStream(
@@ -69,6 +70,11 @@ class _ExpenseListStatisticsScreenState extends State<ExpenseListStatisticsScree
                   purchaseTypeColors: {
                     for (var pt in widget.expenseList.purchaseTypes) pt.id: Colors.primaries[widget.expenseList.purchaseTypes.indexOf(pt) % Colors.primaries.length],
                   },
+                  currency: widget.expenseList.currency,
+                ),
+                const SizedBox(height: 16),
+                BarChartExpensesPerMonth(
+                  receipts: receipts,
                   currency: widget.expenseList.currency,
                 ),
               ],

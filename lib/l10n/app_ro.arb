@@ -95,5 +95,13 @@
     "custom": "Personalizat",
     "all": "Toate",
     "filter_no_elements": "Nu s-a găsit nicio cheltuială folosind filtrul",
-    "no_expenses": "Nu ai nicio cheltuială încă. Poți adăuga una folosind butonul PLUS. O poți adăuga manual sau folosind o poză a unui bon fiscal."
+    "no_expenses": "Nu ai nicio cheltuială încă. Poți adăuga una folosind butonul PLUS. O poți adăuga manual sau folosind o poză a unui bon fiscal.",
+    "pie_chart_tutorial": "Diagramă de tip plăcintă care arată procentul din buget ocupat de fiecare tip de achiziție",
+    "bar_chart_tutorial": "Diagramă cu bare care reprezintă suma cheltuită lunar",
+    "expenses": "Cheltuieli",
+    "you_are_over_budget_by": "Ai depășit bugetul cu",
+    "more_than_last_month": "mai mult decât luna trecută",
+    "less_than_last_month": "mai puțin decât luna trecută",
+    "spent": "Cheltuiți",
+    "statistics_for": "Statistici pentru"
 }
