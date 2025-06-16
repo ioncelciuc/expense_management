@@ -74,6 +74,7 @@ class ExpenseListsCubit extends Cubit<ExpenseListsState> {
       await docRef.update({
         'allowedUsers': FieldValue.arrayUnion([newEntry]),
       });
+      _updateExpenseListLastModified(id);
     } catch (e) {
       emit(ExpenseListsError(e.toString()));
     }
@@ -88,6 +89,7 @@ class ExpenseListsCubit extends Cubit<ExpenseListsState> {
       await docRef.update({
         'allowedUsers': FieldValue.arrayRemove([oldEntry]),
       });
+      _updateExpenseListLastModified(id);
     } catch (e) {
       emit(ExpenseListsError(e.toString()));
     }
