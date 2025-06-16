@@ -103,5 +103,7 @@
     "more_than_last_month": "more than last month",
     "less_than_last_month": "less than last month",
     "spent": "Spent",
-    "statistics_for": "Statistics for"
+    "statistics_for": "Statistics for",
+    "financial_advice": "Financial Advice",
+    "financial_advice_loading": "Creating financial advice suited for you"
 }

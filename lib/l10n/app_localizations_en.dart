@@ -338,4 +338,11 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get statistics_for => 'Statistics for';
+
+  @override
+  String get financial_advice => 'Financial Advice';
+
+  @override
+  String get financial_advice_loading =>
+      'Creating financial advice suited for you';
 }

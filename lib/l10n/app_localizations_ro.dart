@@ -344,4 +344,11 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get statistics_for => 'Statistici pentru';
+
+  @override
+  String get financial_advice => 'Sfaturi financiare';
+
+  @override
+  String get financial_advice_loading =>
+      'Se încarcă sfaturi financiare potrivite pentru tine';
 }

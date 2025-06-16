@@ -103,5 +103,7 @@
     "more_than_last_month": "mai mult decât luna trecută",
     "less_than_last_month": "mai puțin decât luna trecută",
     "spent": "Cheltuiți",
-    "statistics_for": "Statistici pentru"
+    "statistics_for": "Statistici pentru",
+    "financial_advice": "Sfaturi financiare",
+    "financial_advice_loading": "Se încarcă sfaturi financiare potrivite pentru tine"
 }

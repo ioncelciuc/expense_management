@@ -727,6 +727,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Statistics for'**
   String get statistics_for;
+
+  /// No description provided for @financial_advice.
+  ///
+  /// In en, this message translates to:
+  /// **'Financial Advice'**
+  String get financial_advice;
+
+  /// No description provided for @financial_advice_loading.
+  ///
+  /// In en, this message translates to:
+  /// **'Creating financial advice suited for you'**
+  String get financial_advice_loading;
 }
 
 class _AppLocalizationsDelegate

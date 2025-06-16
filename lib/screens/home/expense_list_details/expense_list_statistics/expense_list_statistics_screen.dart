@@ -5,6 +5,7 @@ import 'package:expense_management/l10n/app_localizations.dart';
 import 'package:expense_management/models/expense_list.dart';
 import 'package:expense_management/models/receipt.dart';
 import 'package:expense_management/screens/home/expense_list_details/expense_list_statistics/bar_chart_expenses_per_month.dart';
+import 'package:expense_management/screens/home/expense_list_details/expense_list_statistics/financial_advice_screen.dart';
 import 'package:expense_management/screens/home/expense_list_details/expense_list_statistics/monthly_budget_progess.dart';
 import 'package:expense_management/screens/home/expense_list_details/expense_list_statistics/pie_chart_purchase_type.dart';
 import 'package:flutter/material.dart';
@@ -44,6 +45,24 @@ class _ExpenseListStatisticsScreenState extends State<ExpenseListStatisticsScree
     return Scaffold(
       appBar: AppBar(
         title: Text('${AppLocalizations.of(context)!.statistics_for} ${widget.expenseList.name}'),
+        actions: [
+          IconButton(
+            onPressed: () {
+              DateTime monthStart = DateTime(DateTime.now().year, DateTime.now().month, 1);
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => FinancialAdviceScreen(
+                    lastMonthReceipts: receipts.where((r) => r.dateTime.isAfter(monthStart) || r.dateTime.isAtSameMomentAs(monthStart)).toList(),
+                    maxBudget: widget.expenseList.maxBudgetPerMonth,
+                    currency: widget.expenseList.currency,
+                    purchaseTypes: widget.expenseList.purchaseTypes,
+                  ),
+                ),
+              );
+            },
+            icon: const Icon(Icons.lightbulb),
+          ),
+        ],
       ),
       body: StreamBuilder(
           stream: context.read<ExpenseListsCubit>().receiptsStream(
