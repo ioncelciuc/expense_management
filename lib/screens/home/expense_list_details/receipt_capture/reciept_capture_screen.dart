@@ -254,7 +254,7 @@ Return only a valid JSON array, no explanation. If the image is not containing a
         for (Map<String, dynamic> map in jsonList) {
           print('$map');
           nameControllers.add(TextEditingController(text: map.containsKey('name') ? map['name'].toString() : ''));
-          amountControllers.add(TextEditingController(text: map.containsKey('price') ? map['price'].toString() : ''));
+          amountControllers.add(TextEditingController(text: map.containsKey('price') ? map['price'].toString().replaceAll(',', '.') : ''));
           quantityControllers.add(TextEditingController(text: map.containsKey('quantity') ? map['quantity'].toString() : ''));
           try {
             String date = map.containsKey('date') ? map['date'] : DateFormat('dd/MM/yyyy').format(DateTime.now());
