@@ -1,4 +1,5 @@
 import 'package:expense_management/cubits/expense_lists/expense_lists_cubit.dart';
+import 'package:expense_management/cubits/language/language_cubit.dart';
 import 'package:expense_management/l10n/app_localizations.dart';
 import 'package:expense_management/models/expense_list.dart';
 import 'package:expense_management/models/user_model.dart';
@@ -44,7 +45,7 @@ class ExpenseListItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  '${AppLocalizations.of(context)!.modified}: ${DateFormat.yMMMd().format(expenseList.modifiedAt)}',
+                  '${AppLocalizations.of(context)!.modified}: ${DateFormat('dd MMM yyyy', BlocProvider.of<LanguageCubit>(context).language.languageCode).format(expenseList.modifiedAt)}',
                 ),
                 Text('${AppLocalizations.of(context)!.autors}: $autors'),
                 Text('${expenseList.maxBudgetPerMonth} ${expenseList.currency}/${AppLocalizations.of(context)!.month.toLowerCase()}'),
