@@ -69,6 +69,7 @@ class _ExpenseListStatisticsScreenState extends State<ExpenseListStatisticsScree
                   purchaseTypeColors: {
                     for (var pt in widget.expenseList.purchaseTypes) pt.id: Colors.primaries[widget.expenseList.purchaseTypes.indexOf(pt) % Colors.primaries.length],
                   },
+                  currency: widget.expenseList.currency,
                 ),
               ],
             );

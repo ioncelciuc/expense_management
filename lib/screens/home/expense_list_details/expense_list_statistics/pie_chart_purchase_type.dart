@@ -4,18 +4,19 @@ import 'package:expense_management/l10n/app_localizations.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:expense_management/models/receipt.dart';
-import 'dart:math';
 
 class PieChartPurchaseType extends StatefulWidget {
   final List<Receipt> receipts;
-  final Map<String, String> purchaseTypeLabels; // purchaseTypeId → label
-  final Map<String, Color> purchaseTypeColors; // purchaseTypeId → color
+  final Map<String, String> purchaseTypeLabels;
+  final Map<String, Color> purchaseTypeColors;
+  final String currency;
 
   const PieChartPurchaseType({
     super.key,
     required this.receipts,
     required this.purchaseTypeLabels,
     required this.purchaseTypeColors,
+    required this.currency,
   });
 
   @override
@@ -25,6 +26,7 @@ class PieChartPurchaseType extends StatefulWidget {
 class _PieChartPurchaseTypeState extends State<PieChartPurchaseType> {
   String? selectedPeriod;
   List<String> periods = [];
+  int? touchedIndex;
 
   @override
   Widget build(BuildContext context) {
@@ -42,38 +44,41 @@ class _PieChartPurchaseTypeState extends State<PieChartPurchaseType> {
       return const Center(child: Text('No receipts to display.'));
     }
 
-    // Aggregate total price by purchaseTypeId
-    final Map<String, double> totalsByType = {};
-    DateTime date = sfGetFilteredDate(selectedPeriod ?? AppLocalizations.of(context)!.time_period_from_month_start, context);
-    for (var receipt in widget.receipts.where((r) => r.dateTime.isAfter(date) || r.dateTime.isAtSameMomentAs(date))) {
-      totalsByType.update(
-        receipt.purchaseTypeId,
-        (value) => value + receipt.price,
-        ifAbsent: () => receipt.price,
-      );
+    // Compute date threshold and filtered receipts
+    final threshold = sfGetFilteredDate(selectedPeriod ?? AppLocalizations.of(context)!.time_period_from_month_start, context);
+    final filtered = widget.receipts.where((r) => r.dateTime.isAfter(threshold) || r.dateTime.isAtSameMomentAs(threshold));
+
+    // Aggregate totals by type
+    final totalsByType = <String, double>{};
+    for (var r in filtered) {
+      totalsByType.update(r.purchaseTypeId, (v) => v + r.price, ifAbsent: () => r.price);
     }
 
-    final double total = totalsByType.values.fold(0, (sum, val) => sum + val);
+    // Convert to list and sort by descending total
+    final entries = totalsByType.entries.toList()..sort((a, b) => b.value.compareTo(a.value));
 
-    final sections = totalsByType.entries.map((entry) {
-      final typeId = entry.key;
-      final value = entry.value;
-      final percent = (value / total) * 100;
-      final label = widget.purchaseTypeLabels[typeId] ?? 'Unknown';
+    final totalAll = entries.fold<double>(0.0, (sum, e) => sum + e.value);
+
+    // Build pie sections with touch response
+    final sections = List.generate(entries.length, (i) {
+      final typeId = entries[i].key;
+      final value = entries[i].value;
+      final percent = (value / totalAll) * 100;
+      final isTouched = i == touchedIndex;
       final color = widget.purchaseTypeColors[typeId] ?? Colors.grey;
 
       return PieChartSectionData(
         color: color,
         value: value,
         title: '${percent.toStringAsFixed(1)}%',
-        radius: 60,
-        titleStyle: const TextStyle(
-          fontSize: 14,
+        radius: isTouched ? 100 : 90,
+        titleStyle: TextStyle(
+          fontSize: isTouched ? 16 : 14,
           fontWeight: FontWeight.bold,
           color: Colors.white,
         ),
       );
-    }).toList();
+    });
 
     return Card(
       margin: EdgeInsets.zero,
@@ -81,42 +86,81 @@ class _PieChartPurchaseTypeState extends State<PieChartPurchaseType> {
         padding: kPagePadding,
         child: Column(
           children: [
+            Text(
+              'Pie chart representing the percent of budget taken by each purchase type',
+              style: Theme.of(context).textTheme.bodyLarge,
+            ),
+            const SizedBox(height: 24),
+            // Period selector
             DropdownButtonFormField<String>(
               isExpanded: true,
               decoration: InputDecoration(
-                label: Text('Period for statistic'),
+                label: Text(AppLocalizations.of(context)!.time_period),
               ),
               value: selectedPeriod,
               isDense: true,
               onChanged: (newPeriod) {
                 if (newPeriod != null) {
-                  selectedPeriod = newPeriod;
-                  setState(() {});
+                  setState(() {
+                    selectedPeriod = newPeriod;
+                    touchedIndex = null; // reset selection on period change
+                  });
                 }
               },
-              items: periods.map((p) {
-                return DropdownMenuItem(
-                  value: p,
-                  child: Text(p),
-                );
-              }).toList(),
+              items: periods.map((p) => DropdownMenuItem(value: p, child: Text(p))).toList(),
             ),
+
+            const SizedBox(height: 32),
+
+            // Pie chart
             SizedBox(
               height: 250,
               child: PieChart(
                 PieChartData(
                   sections: sections,
-                  centerSpaceRadius: 40,
-                  sectionsSpace: 2,
+                  centerSpaceRadius: 35,
+                  sectionsSpace: 0,
                   borderData: FlBorderData(show: false),
+                  pieTouchData: PieTouchData(
+                    touchCallback: (event, response) {
+                      final idx = response?.touchedSection?.touchedSectionIndex;
+                      setState(() {
+                        if (idx == null || idx < 0 || idx >= entries.length) {
+                          touchedIndex = null;
+                        } else {
+                          touchedIndex = idx;
+                        }
+                      });
+                    },
+                  ),
                 ),
               ),
             ),
-            const SizedBox(height: 16),
+
+            const SizedBox(height: 32),
+
+            // Display tapped slice info
+            if (touchedIndex != null)
+              Column(
+                children: [
+                  Text(
+                    widget.purchaseTypeLabels[entries[touchedIndex!].key]!,
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
+                  Text(
+                    '${entries[touchedIndex!].value.toStringAsFixed(2)} ${widget.currency} spent',
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  ),
+                  const SizedBox(height: 16),
+                ],
+              ),
+
+            // Legend (sorted by descending total)
             Wrap(
               spacing: 16,
               runSpacing: 8,
-              children: totalsByType.keys.map((typeId) {
+              children: entries.map((e) {
+                final typeId = e.key;
                 return Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
