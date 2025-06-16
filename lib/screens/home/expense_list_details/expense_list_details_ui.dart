@@ -84,7 +84,6 @@ class _ExpenseListDetailsUiState extends State<ExpenseListDetailsUi> {
                       MaterialPageRoute(
                         builder: (context) => ExpenseListStatisticsScreen(
                           expenseList: list,
-                          receipts: reciepts,
                         ),
                       ),
                     );

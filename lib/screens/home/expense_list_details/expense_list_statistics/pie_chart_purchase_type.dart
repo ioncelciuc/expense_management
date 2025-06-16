@@ -1,4 +1,6 @@
 import 'package:expense_management/core/constants.dart';
+import 'package:expense_management/core/shared_functions.dart';
+import 'package:expense_management/l10n/app_localizations.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:expense_management/models/receipt.dart';
@@ -21,23 +23,29 @@ class PieChartPurchaseType extends StatefulWidget {
 }
 
 class _PieChartPurchaseTypeState extends State<PieChartPurchaseType> {
-  String selectedPeriod = 'Month start';
-  List<String> periods = [
-    'Month start',
-    'Past month',
-    'Past 3 months',
-    'Custom',
-  ];
+  String? selectedPeriod;
+  List<String> periods = [];
 
   @override
   Widget build(BuildContext context) {
+    selectedPeriod ??= AppLocalizations.of(context)!.time_period_from_month_start;
+    periods = [
+      AppLocalizations.of(context)!.time_period_from_month_start,
+      AppLocalizations.of(context)!.time_period_last_month,
+      AppLocalizations.of(context)!.time_period_last_three_months,
+      AppLocalizations.of(context)!.time_period_last_six_months,
+      AppLocalizations.of(context)!.time_period_last_year,
+      AppLocalizations.of(context)!.all,
+    ];
+
     if (widget.receipts.isEmpty) {
       return const Center(child: Text('No receipts to display.'));
     }
 
     // Aggregate total price by purchaseTypeId
     final Map<String, double> totalsByType = {};
-    for (var receipt in widget.receipts) {
+    DateTime date = sfGetFilteredDate(selectedPeriod ?? AppLocalizations.of(context)!.time_period_from_month_start, context);
+    for (var receipt in widget.receipts.where((r) => r.dateTime.isAfter(date) || r.dateTime.isAtSameMomentAs(date))) {
       totalsByType.update(
         receipt.purchaseTypeId,
         (value) => value + receipt.price,
@@ -73,41 +81,25 @@ class _PieChartPurchaseTypeState extends State<PieChartPurchaseType> {
         padding: kPagePadding,
         child: Column(
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  flex: 2,
-                  child: DropdownButtonFormField<String>(
-                    isExpanded: true,
-                    decoration: InputDecoration(
-                      label: Text('Period for statistic'),
-                    ),
-                    value: selectedPeriod,
-                    isDense: true,
-                    onChanged: (newPeriod) {
-                      if (newPeriod != null) {
-                        selectedPeriod = newPeriod;
-                        setState(() {});
-                      }
-                    },
-                    items: periods.map((p) {
-                      return DropdownMenuItem(
-                        value: p,
-                        child: Text(p),
-                      );
-                    }).toList(),
-                  ),
-                ),
-                const SizedBox(width: 16),
-                Expanded(
-                  flex: 1,
-                  child: ElevatedButton(
-                    onPressed: () {},
-                    child: Text('Date'),
-                  ),
-                ),
-              ],
+            DropdownButtonFormField<String>(
+              isExpanded: true,
+              decoration: InputDecoration(
+                label: Text('Period for statistic'),
+              ),
+              value: selectedPeriod,
+              isDense: true,
+              onChanged: (newPeriod) {
+                if (newPeriod != null) {
+                  selectedPeriod = newPeriod;
+                  setState(() {});
+                }
+              },
+              items: periods.map((p) {
+                return DropdownMenuItem(
+                  value: p,
+                  child: Text(p),
+                );
+              }).toList(),
             ),
             SizedBox(
               height: 250,
