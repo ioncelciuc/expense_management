@@ -209,7 +209,7 @@ Each item from the array should include:
 - purchaseType
 
 The purchase type should be the most suitable one for that specific product from the following: ${widget.purchaseTypes.map((e) => e.toMap()['name']).toList()}.
-
+If there are discounts in the reciept for a specific product, apply them to the price, DON'T CREATE A JSON FOR DISCOUNTS.
 Return only a valid JSON array, no explanation. Consider the list of products can be in Romanian or English. If the image is not containing a receipt, return an empty array.
 ''';
 

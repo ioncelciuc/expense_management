@@ -52,6 +52,7 @@ class _ExpenseListStatisticsScreenState extends State<ExpenseListStatisticsScree
               Navigator.of(context).push(
                 MaterialPageRoute(
                   builder: (context) => FinancialAdviceScreen(
+                    listName: widget.expenseList.name,
                     lastMonthReceipts: receipts.where((r) => r.dateTime.isAfter(monthStart) || r.dateTime.isAtSameMomentAs(monthStart)).toList(),
                     maxBudget: widget.expenseList.maxBudgetPerMonth,
                     currency: widget.expenseList.currency,

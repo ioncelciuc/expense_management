@@ -331,8 +331,6 @@ class _ExpenseListDetailsUiState extends State<ExpenseListDetailsUi> {
             (r) => reocurringPayment.dayOfMonth == r.dateTime.day && reocurringPayment.name == r.name && reocurringPayment.sum == r.price,
           )
           .toList();
-      print('RECEIPT FOR PAYMENT');
-      print(receiptForPayment.length);
       if (reocurringPayment.dayOfMonth <= DateTime.now().day && receiptForPayment.isEmpty) {
         Receipt receipt = Receipt(
           id: FirebaseFirestore.instance.collection('reocurringPayment').doc().id,
