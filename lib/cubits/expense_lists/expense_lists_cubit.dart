@@ -134,8 +134,17 @@ class ExpenseListsCubit extends Cubit<ExpenseListsState> {
   }
 
   Future<void> deleteExpenseList(String id) async {
+    final docRef = FirebaseFirestore.instance.collection(FirebaseHelper.expenseListsCollection).doc(id);
+
     try {
-      await FirebaseFirestore.instance.collection(FirebaseHelper.expenseListsCollection).doc(id).delete();
+      //delete all receipts
+      final receiptsSnap = await docRef.collection('receipts').get();
+      for (final receipt in receiptsSnap.docs) {
+        await receipt.reference.delete();
+      }
+
+      //delete the expense‐list document
+      await docRef.delete();
     } catch (e) {
       emit(ExpenseListsError(e.toString()));
     }
