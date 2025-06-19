@@ -116,5 +116,9 @@
     "reset_password": "Resetează parola",
     "reset_password_explanation": "Introdu adresa de email și vei primi un mesaj cu instrucțiuni pentru resetarea parolei. Dacă nu îl găsești în inbox, verifică și folderul de spam.",
     "send_email": "Trimite email",
-    "email_sent_at": "Email trimis la"
+    "email_sent_at": "Email trimis la",
+    "verify_your_account": "Verifică-ți contul!",
+    "we_sent_an_email_for_verification_at": "Ți-am trimis un email de verificare la",
+    "verify_it_and_come_back_into_the_app": "Accesează linkul din email pentru verificare și revino în aplicație.",
+    "resend_verification_email": "Retrimite email de verificare"
 }

@@ -22,4 +22,6 @@ final class AuthShowSignUpScreenError extends AuthState {
   AuthShowSignUpScreenError(this.response);
 }
 
+final class AuthShowVerifyAccountScreen extends AuthState {}
+
 final class AuthShowHomeScreen extends AuthState {}

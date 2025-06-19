@@ -2,6 +2,7 @@ import 'package:expense_management/cubits/auth/auth_cubit.dart';
 import 'package:expense_management/cubits/auth/auth_state.dart';
 import 'package:expense_management/screens/auth/sign_in_ui.dart';
 import 'package:expense_management/screens/auth/sign_up_ui.dart';
+import 'package:expense_management/screens/auth/verify_account_screen.dart';
 import 'package:expense_management/screens/home/home_screen.dart';
 import 'package:expense_management/widgets/snackbar_handler.dart';
 import 'package:flutter/material.dart';
@@ -50,6 +51,9 @@ class AuthScreen extends StatelessWidget {
         }
         if (state is AuthShowSignUpScreen || state is AuthShowSignUpScreenError) {
           return const SignUpUi();
+        }
+        if (state is AuthShowVerifyAccountScreen) {
+          return const VerifyAccountScreen();
         }
         return const HomeScreen();
       },

@@ -14,8 +14,11 @@ class AuthCubit extends Cubit<AuthState> {
   }
 
   checkIfUserIsSignedIn() {
-    if (FirebaseAuth.instance.currentUser == null) {
+    User? currentUser = FirebaseAuth.instance.currentUser;
+    if (currentUser == null) {
       emit(AuthShowSignInScreen());
+    } else if (!FirebaseAuth.instance.currentUser!.emailVerified) {
+      emit(AuthShowVerifyAccountScreen());
     } else {
       emit(AuthShowHomeScreen());
     }
@@ -27,6 +30,10 @@ class AuthCubit extends Cubit<AuthState> {
 
   showSignInScreen() {
     emit(AuthShowSignInScreen());
+  }
+
+  showVerifyAccountScreen() {
+    emit(AuthShowVerifyAccountScreen());
   }
 
   signUp(String email, String password) async {
@@ -43,13 +50,16 @@ class AuthCubit extends Cubit<AuthState> {
           email: firebaseUser.email!,
         );
         await FirebaseHelper.addUser(userModel);
-        emit(AuthShowHomeScreen());
+        checkIfUserIsSignedIn();
+        // emit(AuthShowHomeScreen());
         return;
       }
       emit(AuthShowSignUpScreenError(Response(success: false, message: 'Unknown error occured')));
     } on FirebaseAuthException catch (e) {
+      logger.severe(e.message);
       emit(AuthShowSignUpScreenError(Response(success: false, message: e.message)));
     } catch (e) {
+      logger.severe(e.toString());
       emit(AuthShowSignUpScreenError(Response(success: false, message: e.toString())));
     }
   }
@@ -58,14 +68,14 @@ class AuthCubit extends Cubit<AuthState> {
     try {
       emit(AuthLoading());
       await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password);
-      emit(AuthShowHomeScreen());
+      checkIfUserIsSignedIn();
+      // emit(AuthShowHomeScreen());
     } on FirebaseAuthException catch (e) {
-      logger.warning('CAUGHT A FIREBASE LOGIN ERROR!');
+      logger.severe(e.message);
       emit(AuthShowSignInScreenError(Response(success: false, message: e.message)));
     } catch (e) {
-      logger.warning('CAUGHT A GENERAL LOGIN ERROR!');
+      logger.severe(e);
       emit(AuthShowSignInScreenError(Response(success: false, message: e.toString())));
-      logger.warning(e);
     }
   }
 
@@ -78,7 +88,7 @@ class AuthCubit extends Cubit<AuthState> {
         return;
       }
     } catch (e) {
-      //
+      logger.severe(e.toString());
     }
   }
 
@@ -86,9 +96,17 @@ class AuthCubit extends Cubit<AuthState> {
     try {
       FirebaseAuth.instance.sendPasswordResetEmail(email: email);
     } on FirebaseAuthException catch (e) {
-      print(e);
+      logger.severe(e.message);
     } catch (e) {
-      print(e);
+      logger.severe(e.toString());
+    }
+  }
+
+  sendVerifyAccountEmail() {
+    try {
+      FirebaseAuth.instance.currentUser?.sendEmailVerification();
+    } catch (e) {
+      logger.severe(e.toString());
     }
   }
 }

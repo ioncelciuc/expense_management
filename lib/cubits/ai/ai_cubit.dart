@@ -17,7 +17,6 @@ class AiCubit extends Cubit<AiState> {
     try {
       Response response = await NetworkHelper.geminiApiCall(prompt);
       if (response.success) {
-        print(response.obj);
         final Map<String, dynamic> decoded = jsonDecode(response.obj as String);
         final parts = (decoded['candidates'][0]['content']['parts'] as List);
         String advice = parts.firstWhere((p) => p.containsKey('text'), orElse: () => {'text': ''})['text'] as String;

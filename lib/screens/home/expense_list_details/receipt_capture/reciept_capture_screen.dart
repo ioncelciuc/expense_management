@@ -15,6 +15,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:logging/logging.dart';
 
 class ReceiptCaptureScreen extends StatefulWidget {
   final ImageSource imageSource;
@@ -35,6 +36,7 @@ class ReceiptCaptureScreen extends StatefulWidget {
 }
 
 class _ReceiptCaptureScreenState extends State<ReceiptCaptureScreen> {
+  final logger = Logger('RecieptCaptureScreen');
   bool loadingApiCall = false;
   List<TextEditingController> nameControllers = [];
   List<TextEditingController> amountControllers = [];
@@ -213,7 +215,7 @@ If there are discounts in the reciept for a specific product, apply them to the 
 Return only a valid JSON array, no explanation. Consider the list of products can be in Romanian or English. If the image is not containing a receipt, return an empty array.
 ''';
 
-    print('PROMT READY. PurchaseTypes: ${widget.purchaseTypes.map((e) => e.toMap()).toList()}');
+    logger.info('PROMT READY. PurchaseTypes: ${widget.purchaseTypes.map((e) => e.toMap()).toList()}');
     final uri = Uri.parse('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${dotenv.env['GEMINI_KEY']!}');
 
     final body = jsonEncode({
@@ -250,10 +252,10 @@ Return only a valid JSON array, no explanation. Consider the list of products ca
 
         setState(() => extractedJson = textPart.trim());
         List<Map<String, dynamic>> jsonList = parseReceiptJson(extractedJson!);
-        print('JSONLIST');
-        print(jsonList.length);
+        logger.info('JSONLIST');
+        logger.info(jsonList.length);
         for (Map<String, dynamic> map in jsonList) {
-          print('$map');
+          logger.info('$map');
           nameControllers.add(TextEditingController(text: map.containsKey('name') ? map['name'].toString() : ''));
           amountControllers.add(TextEditingController(text: map.containsKey('price') ? map['price'].toString().replaceAll(',', '.') : ''));
           quantityControllers.add(TextEditingController(text: map.containsKey('quantity') ? map['quantity'].toString() : ''));
@@ -261,7 +263,7 @@ Return only a valid JSON array, no explanation. Consider the list of products ca
             String date = map.containsKey('date') ? map['date'] : DateFormat('dd/MM/yyyy').format(DateTime.now());
             selectedDates.add(DateFormat('dd/MM/yyyy').parse(date));
           } catch (e) {
-            print('Error on gen api call on date format: $e');
+            logger.severe('Error on gen api call on date format: $e');
             selectedDates.add(DateTime.now());
           }
           try {
@@ -269,7 +271,7 @@ Return only a valid JSON array, no explanation. Consider the list of products ca
             PurchaseType selectedPt = widget.purchaseTypes.firstWhere((p) => p.name == purchaseTypeName);
             selectedPurchaseTypes.add(selectedPt);
           } catch (e) {
-            print('Error on gen api call on purchase type: $e');
+            logger.severe('Error on gen api call on purchase type: $e');
             selectedPurchaseTypes.add(widget.purchaseTypes.first);
           }
         }

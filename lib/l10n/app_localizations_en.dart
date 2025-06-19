@@ -381,4 +381,18 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get email_sent_at => 'Email sent at';
+
+  @override
+  String get verify_your_account => 'Verify your account!';
+
+  @override
+  String get we_sent_an_email_for_verification_at =>
+      'We sent you an email for verification at';
+
+  @override
+  String get verify_it_and_come_back_into_the_app =>
+      'Verifiy it and come back into the app.';
+
+  @override
+  String get resend_verification_email => 'Resend verification email';
 }

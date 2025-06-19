@@ -388,4 +388,18 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get email_sent_at => 'Email trimis la';
+
+  @override
+  String get verify_your_account => 'Verifică-ți contul!';
+
+  @override
+  String get we_sent_an_email_for_verification_at =>
+      'Ți-am trimis un email de verificare la';
+
+  @override
+  String get verify_it_and_come_back_into_the_app =>
+      'Accesează linkul din email pentru verificare și revino în aplicație.';
+
+  @override
+  String get resend_verification_email => 'Retrimite email de verificare';
 }

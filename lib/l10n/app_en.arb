@@ -116,5 +116,9 @@
     "reset_password": "Reset password",
     "reset_password_explanation": "Please enter your email address, and we’ll send you an email with a link to reset your password. If you don’t see it within a few minutes, please check your spam folder.",
     "send_email": "Send email",
-    "email_sent_at": "Email sent at"
+    "email_sent_at": "Email sent at",
+    "verify_your_account": "Verify your account!",
+    "we_sent_an_email_for_verification_at": "We sent you an email for verification at",
+    "verify_it_and_come_back_into_the_app": "Verifiy it and come back into the app.",
+    "resend_verification_email": "Resend verification email"
 }

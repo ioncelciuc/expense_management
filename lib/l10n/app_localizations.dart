@@ -805,6 +805,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Email sent at'**
   String get email_sent_at;
+
+  /// No description provided for @verify_your_account.
+  ///
+  /// In en, this message translates to:
+  /// **'Verify your account!'**
+  String get verify_your_account;
+
+  /// No description provided for @we_sent_an_email_for_verification_at.
+  ///
+  /// In en, this message translates to:
+  /// **'We sent you an email for verification at'**
+  String get we_sent_an_email_for_verification_at;
+
+  /// No description provided for @verify_it_and_come_back_into_the_app.
+  ///
+  /// In en, this message translates to:
+  /// **'Verifiy it and come back into the app.'**
+  String get verify_it_and_come_back_into_the_app;
+
+  /// No description provided for @resend_verification_email.
+  ///
+  /// In en, this message translates to:
+  /// **'Resend verification email'**
+  String get resend_verification_email;
 }
 
 class _AppLocalizationsDelegate
