@@ -112,5 +112,9 @@
     "deny": "Deny",
     "exit": "Exit",
     "no_receipts_to_display": "No receipts to display",
-    "expense_list_emails_explanation": "Enter the email addresses of people you’d like to share this expense list with:"
+    "expense_list_emails_explanation": "Enter the email addresses of people you’d like to share this expense list with:",
+    "reset_password": "Reset password",
+    "reset_password_explanation": "Please enter your email address, and we’ll send you an email with a link to reset your password. If you don’t see it within a few minutes, please check your spam folder.",
+    "send_email": "Send email",
+    "email_sent_at": "Email sent at"
 }

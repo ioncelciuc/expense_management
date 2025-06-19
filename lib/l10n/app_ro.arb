@@ -112,5 +112,9 @@
     "deny": "Anulează",
     "exit": "Ieșire",
     "no_receipts_to_display": "Nu există cheltuieli de afișat",
-    "expense_list_emails_explanation": "Introduceți adresele de email ale persoanelor cu care doriți să partajați această listă de cheltuieli:"
+    "expense_list_emails_explanation": "Introduceți adresele de email ale persoanelor cu care doriți să partajați această listă de cheltuieli:",
+    "reset_password": "Resetează parola",
+    "reset_password_explanation": "Introdu adresa de email și vei primi un mesaj cu instrucțiuni pentru resetarea parolei. Dacă nu îl găsești în inbox, verifică și folderul de spam.",
+    "send_email": "Trimite email",
+    "email_sent_at": "Email trimis la"
 }

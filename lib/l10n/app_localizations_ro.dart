@@ -375,4 +375,17 @@ class AppLocalizationsRo extends AppLocalizations {
   @override
   String get expense_list_emails_explanation =>
       'Introduceți adresele de email ale persoanelor cu care doriți să partajați această listă de cheltuieli:';
+
+  @override
+  String get reset_password => 'Resetează parola';
+
+  @override
+  String get reset_password_explanation =>
+      'Introdu adresa de email și vei primi un mesaj cu instrucțiuni pentru resetarea parolei. Dacă nu îl găsești în inbox, verifică și folderul de spam.';
+
+  @override
+  String get send_email => 'Trimite email';
+
+  @override
+  String get email_sent_at => 'Email trimis la';
 }

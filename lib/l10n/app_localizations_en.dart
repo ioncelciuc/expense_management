@@ -368,4 +368,17 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get expense_list_emails_explanation =>
       'Enter the email addresses of people you’d like to share this expense list with:';
+
+  @override
+  String get reset_password => 'Reset password';
+
+  @override
+  String get reset_password_explanation =>
+      'Please enter your email address, and we’ll send you an email with a link to reset your password. If you don’t see it within a few minutes, please check your spam folder.';
+
+  @override
+  String get send_email => 'Send email';
+
+  @override
+  String get email_sent_at => 'Email sent at';
 }

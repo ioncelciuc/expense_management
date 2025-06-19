@@ -1,6 +1,7 @@
 import 'package:expense_management/core/constants.dart';
 import 'package:expense_management/cubits/auth/auth_cubit.dart';
 import 'package:expense_management/l10n/app_localizations.dart';
+import 'package:expense_management/screens/auth/reset_password_screen.dart';
 import 'package:expense_management/widgets/custom_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -57,7 +58,11 @@ class _SignInUiState extends State<SignInUi> {
               children: [
                 InkWell(
                   onTap: () {
-                    //
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => const ResetPasswordScreen(),
+                      ),
+                    );
                   },
                   child: Text(
                     AppLocalizations.of(context)!.forgot_password,

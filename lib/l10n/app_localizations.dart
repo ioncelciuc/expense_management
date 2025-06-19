@@ -781,6 +781,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Enter the email addresses of people you’d like to share this expense list with:'**
   String get expense_list_emails_explanation;
+
+  /// No description provided for @reset_password.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset password'**
+  String get reset_password;
+
+  /// No description provided for @reset_password_explanation.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter your email address, and we’ll send you an email with a link to reset your password. If you don’t see it within a few minutes, please check your spam folder.'**
+  String get reset_password_explanation;
+
+  /// No description provided for @send_email.
+  ///
+  /// In en, this message translates to:
+  /// **'Send email'**
+  String get send_email;
+
+  /// No description provided for @email_sent_at.
+  ///
+  /// In en, this message translates to:
+  /// **'Email sent at'**
+  String get email_sent_at;
 }
 
 class _AppLocalizationsDelegate
