@@ -7,7 +7,7 @@ import 'package:http/http.dart' as http;
 class NetworkHelper {
   static Future<Response> geminiApiCall(String prompt) async {
     try {
-      final uri = Uri.parse('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${dotenv.env['GEMINI_KEY']!}');
+      final uri = Uri.parse('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${dotenv.env['GEMINI_KEY']!}');
       final body = jsonEncode({
         'contents': [
           {

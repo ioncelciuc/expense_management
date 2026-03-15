@@ -216,7 +216,7 @@ Return only a valid JSON array, no explanation. Consider the list of products ca
 ''';
 
     logger.info('PROMT READY. PurchaseTypes: ${widget.purchaseTypes.map((e) => e.toMap()).toList()}');
-    final uri = Uri.parse('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${dotenv.env['GEMINI_KEY']!}');
+    final uri = Uri.parse('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${dotenv.env['GEMINI_KEY']!}');
 
     final body = jsonEncode({
       'contents': [
@@ -278,6 +278,8 @@ Return only a valid JSON array, no explanation. Consider the list of products ca
         setState(() {});
       } else {
         extractedJson = 'Error ${resp.statusCode}: ${resp.body}';
+        logger.severe('Error encountered with status code ${resp.statusCode}');
+        logger.severe('Error message: ${resp.body}');
       }
     } catch (e) {
       extractedJson = 'Error: $e';
