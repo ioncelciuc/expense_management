@@ -184,6 +184,8 @@ class ExpenseListsCubit extends Cubit<ExpenseListsState> {
       await _updateExpenseListLastModified(expenseListId);
     } on FirebaseException catch (e) {
       emit(ExpenseListsError(e.message ?? 'Failed to add receipt'));
+    } catch (e) {
+      emit(ExpenseListsError(e.toString()));
     }
   }
 

@@ -4,6 +4,7 @@ import 'package:expense_management/core/shared_functions.dart';
 import 'package:expense_management/cubits/expense_lists/expense_lists_cubit.dart';
 import 'package:expense_management/cubits/expense_lists/expense_lists_state.dart';
 import 'package:expense_management/cubits/language/language_cubit.dart';
+import 'package:expense_management/cubits/receipt_capture/receipt_capture_cubit.dart';
 import 'package:expense_management/l10n/app_localizations.dart';
 import 'package:expense_management/models/purchase_type.dart';
 import 'package:expense_management/models/receipt.dart';
@@ -117,6 +118,18 @@ class _ExpenseListDetailsUiState extends State<ExpenseListDetailsUi> {
                     selectedPurchaseType == AppLocalizations.of(context)!.all ? null : list.purchaseTypes.firstWhere((pt) => pt.name == selectedPurchaseType).id,
                   ),
               builder: (context, snapshot) {
+                if (snapshot.hasError) {
+                  return Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Text(
+                        'Error loading receipts: ${snapshot.error}',
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(color: Colors.red),
+                      ),
+                    ),
+                  );
+                }
                 if (!snapshot.hasData) return const Center(child: CircularProgressIndicator());
                 receipts = snapshot.data!;
                 if (!_didCheckRecurring) {
@@ -191,11 +204,14 @@ class _ExpenseListDetailsUiState extends State<ExpenseListDetailsUi> {
                   onPressed: () async {
                     Navigator.of(context).push(
                       MaterialPageRoute(
-                        builder: (context) => ReceiptCaptureScreen(
-                          imageSource: ImageSource.gallery,
-                          expenseListId: list.id,
-                          currency: list.currency,
-                          purchaseTypes: list.purchaseTypes,
+                        builder: (context) => BlocProvider(
+                          create: (context) => ReceiptCaptureCubit(),
+                          child: ReceiptCaptureScreen(
+                            imageSource: ImageSource.gallery,
+                            expenseListId: list.id,
+                            currency: list.currency,
+                            purchaseTypes: list.purchaseTypes,
+                          ),
                         ),
                       ),
                     );
@@ -206,11 +222,14 @@ class _ExpenseListDetailsUiState extends State<ExpenseListDetailsUi> {
                   onPressed: () async {
                     Navigator.of(context).push(
                       MaterialPageRoute(
-                        builder: (context) => ReceiptCaptureScreen(
-                          imageSource: ImageSource.camera,
-                          expenseListId: list.id,
-                          currency: list.currency,
-                          purchaseTypes: list.purchaseTypes,
+                        builder: (context) => BlocProvider(
+                          create: (context) => ReceiptCaptureCubit(),
+                          child: ReceiptCaptureScreen(
+                            imageSource: ImageSource.camera,
+                            expenseListId: list.id,
+                            currency: list.currency,
+                            purchaseTypes: list.purchaseTypes,
+                          ),
                         ),
                       ),
                     );
